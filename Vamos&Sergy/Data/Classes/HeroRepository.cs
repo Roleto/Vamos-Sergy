@@ -1,7 +1,8 @@
-﻿using PracticeModul.Data.Interfaces;
-using PracticeModul.Models;
+﻿using Vamos_Sergy.Data.Interfaces;
+using Vamos_Sergy.Models;
 using Vamos_Sergy.Data;
-namespace PracticeModul.Data.Classes
+using System.Xml.Linq;
+namespace Vamos_Sergy.Data.Classes
 {
     public class HeroRepository : IRepository<Hero>
     {
@@ -37,6 +38,11 @@ namespace PracticeModul.Data.Classes
             return context.Heroes.FirstOrDefault(t => t.Name == name);
         }
 
+        public Hero? ReadFromOwner(string id)
+        {
+            return context.Heroes.FirstOrDefault(t => t.OwnerId == id);
+        }
+
         public void Update(Hero item)
         {
             var old = Read(item.Id);
@@ -58,5 +64,7 @@ namespace PracticeModul.Data.Classes
             context.Heroes.Remove(hero);
             context.SaveChanges();
         }
+
+      
     }
 }

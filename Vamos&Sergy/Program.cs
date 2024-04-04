@@ -1,6 +1,9 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Vamos_Sergy.Data;
+using Vamos_Sergy.Data.Classes;
+using Vamos_Sergy.Data.Interfaces;
+using Vamos_Sergy.Helpers;
 using Vamos_Sergy.Models;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -25,6 +28,8 @@ builder.Services.AddDefaultIdentity<SiteUser>(options =>
 })
     .AddEntityFrameworkStores<ApplicationDbContext>();
 builder.Services.AddControllersWithViews();
+builder.Services.AddTransient<IRepository<Hero>, HeroRepository>();
+builder.Services.AddTransient<TableBuilder>();
 
 var app = builder.Build();
 

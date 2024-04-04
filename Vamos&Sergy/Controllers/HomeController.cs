@@ -1,5 +1,8 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
+using Vamos_Sergy.Data;
 using Vamos_Sergy.Models;
 
 namespace Vamos_Sergy.Controllers
@@ -7,16 +10,44 @@ namespace Vamos_Sergy.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
+        private readonly UserManager<SiteUser> _userManager;
+        private readonly ApplicationDbContext _db;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(ILogger<HomeController> logger, UserManager<SiteUser> userManager, ApplicationDbContext db)
         {
             _logger = logger;
+            _userManager = userManager;
+            _db = db;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            return View();
+            var principal = this.User;
+            var user = await _userManager.GetUserAsync(principal);
+            if (user == null)
+            {
+                return View();
+            }
+            else
+            {
+                //var hero = _db.Heroes.FirstOrDefault(x => x.OwnerId == user.Id);
+                //return RedirectToAction(nameof(CreateHero));
+                return RedirectToAction("Index", "Main");
+                //return RedirectToAction("Index","Main");
+            }
         }
+        //[HttpGet]
+        //public IActionResult CreateHero()
+        //{
+        //    return View();
+        //}
+        //[HttpPost]
+        //[Authorize]
+        //public IActionResult CreateHero(Hero hero)
+        //{
+        //    return RedirectToAction("CreateHero", "Main", hero);
+        //    //return RedirectToAction(nameof(Index));
+        //}
 
         public IActionResult Privacy()
         {

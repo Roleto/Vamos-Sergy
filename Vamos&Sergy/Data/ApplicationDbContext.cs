@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using PracticeModul.Models;
 using Vamos_Sergy.Models;
 
 namespace Vamos_Sergy.Data

@@ -1,7 +1,7 @@
-﻿using PracticeModul.Models;
+﻿using Vamos_Sergy.Models;
 using System.Data;
 
-namespace PracticeModul.Data.Interfaces
+namespace Vamos_Sergy.Data.Interfaces
 {
     public interface IRepository<T> where T : class
     {
@@ -9,6 +9,7 @@ namespace PracticeModul.Data.Interfaces
         IEnumerable<T> Read();
         T? Read(string id);
         T? ReadFromName(string name);
+        T? ReadFromOwner(string id);
         void Update(T item);
         void Delete(string id);
     }

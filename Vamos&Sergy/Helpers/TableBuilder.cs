@@ -1,6 +1,6 @@
 ﻿using System.Reflection;
 
-namespace PracticeModul.Helpers
+namespace Vamos_Sergy.Helpers
 {
     public class ShowTableAttribute : Attribute
     {

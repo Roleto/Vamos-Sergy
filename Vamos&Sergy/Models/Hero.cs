@@ -1,12 +1,8 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using PracticeModul.Helpers;
+﻿using Vamos_Sergy.Helpers;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Diagnostics.CodeAnalysis;
-using System.Runtime.InteropServices;
-using Vamos_Sergy.Models;
 
-namespace PracticeModul.Models
+namespace Vamos_Sergy.Models
 {
     public class Hero
     {
@@ -31,6 +27,10 @@ namespace PracticeModul.Models
         [Required]
         [ShowTable]
         public ClassEnum Kast { get; set; }
+        
+        [Required]
+        [ShowTable]
+        public RaceEnum Race { get; set; }
 
         [ShowTable]
         public bool HasMount { get; set; }
@@ -96,14 +96,27 @@ namespace PracticeModul.Models
         public Hero()
         {
             Id = Guid.NewGuid().ToString();
+            Level = 1;
+            HasMount = false;
+            SetStats(RaceEnum.Human);
+            
         }
-        public Hero(string? id)
+
+        private void SetStats(RaceEnum race)
         {
-            if(id == null)
-                Id = Guid.NewGuid().ToString();
-            else 
-                Id = id;
+            Str = 1;
+            Dex = 1;
+            Inte = 1;
+            Vit = 1;
+            Luck = 1;
         }
+        //public Hero(string? id)
+        //{
+        //    if(id == null)
+        //        Id = Guid.NewGuid().ToString();
+        //    else 
+        //        Id = id;
+        //}
 
     }
 }

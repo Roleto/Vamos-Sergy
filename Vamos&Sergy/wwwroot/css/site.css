@@ -16,3 +16,22 @@ html {
 body {
   margin-bottom: 60px;
 }
+
+.hero{
+    max-width : 40%;
+    border:none;
+}
+.heroImg{
+    height :60%;
+    background-color:red;
+}
+.heroWeapon{
+    height : 20%;
+    background-color:blue;
+}
+.gridRow1{
+    max-height:60%;
+}
+.gridRow2 {
+    max-height: 40%;
+}

@@ -1,0 +1,28 @@
+﻿@using Vamos_Sergy.Helpers
+@using Vamos_Sergy.Models
+@model Hero
+@* @inject TableBuilder tb *@
+
+<form asp-action="CreateHero" method="post" enctype="multipart/form-data">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <input type="hidden" name="Id" value="01" />
+    <div class="form-group">
+        <label asp-for="Name" class="control-label"></label>
+        <input asp-for="Name" class="form-control" />
+        <span asp-validation-for="Name" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Kast" class="control-label"></label>
+        @Html.DropDownListFor(t => t.Kast, Html.GetEnumSelectList(typeof(ClassEnum)))
+        <span asp-validation-for="Kast" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Race" class="control-label"></label>
+        @Html.DropDownListFor(t => t.Race, Html.GetEnumSelectList(typeof(RaceEnum)))
+        <span asp-validation-for="Race" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <input type="submit" value="Create" class="btn btn-primary" />
+    </div>
+
+</form> 
