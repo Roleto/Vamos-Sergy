@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Vamos_Sergy.Data.Classes;
 using Vamos_Sergy.Data.Interfaces;
 using Vamos_Sergy.Models;
 
@@ -50,6 +51,21 @@ namespace Vamos_Sergy.Controllers
             var userId = _userManager.GetUserId(this.User);
             var hero = _repo.ReadFromOwner(userId);
             return View(hero);
+        }
+
+        public async Task<IActionResult> GetImage()
+        {
+            var principal = this.User;
+            var user = await _userManager.GetUserAsync(principal);
+            if (user.ContentType?.Length > 3)
+            {
+                return new FileContentResult(user.Data, user.ContentType);
+            }
+            else
+            {
+                return BadRequest();
+            }
+
         }
 
     }

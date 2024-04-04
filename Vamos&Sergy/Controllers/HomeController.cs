@@ -30,25 +30,9 @@ namespace Vamos_Sergy.Controllers
             }
             else
             {
-                //var hero = _db.Heroes.FirstOrDefault(x => x.OwnerId == user.Id);
-                //return RedirectToAction(nameof(CreateHero));
                 return RedirectToAction("Index", "Main");
-                //return RedirectToAction("Index","Main");
             }
         }
-        //[HttpGet]
-        //public IActionResult CreateHero()
-        //{
-        //    return View();
-        //}
-        //[HttpPost]
-        //[Authorize]
-        //public IActionResult CreateHero(Hero hero)
-        //{
-        //    return RedirectToAction("CreateHero", "Main", hero);
-        //    //return RedirectToAction(nameof(Index));
-        //}
-
         public IActionResult Privacy()
         {
             return View();

@@ -5,23 +5,33 @@
             <table class="hero table table-borderless">
                 <tbody>
                     <tr>
-                        <td colspan="2">Bal1</td>
-                        <td rowspan="3" colspan="2">kép</td>
-                        <td>Jobb1</td>
+                        <td colspan="1"><img class="icon" src="/NullImages\helmet.png" /></td>
+                        <td rowspan="3" colspan="2">
+                            <div class="card">
+                                <img src="@Url.Action("GetImage", "Main")" class="card-img heroImg" alt="...">
+                                <div class="card-footer">
+                                    <div class="progress" role="progressbar" aria-label="Basic example" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">
+                                        <div class="progress-bar bg-success text-center" style="width: @Model.GetCurrentXpPercentage%"></div>
+                                        <small class="justify-content-center d-flex position-absolute w-100">@Model.Level&period;level</small>
+                                    </div>
+                                </div>
+                            </div>
+                        </td>
+                        <td><img class="icon" src="/NullImages\necklace.png" /></td>
                     </tr>
                     <tr>
-                        <td colspan="2">Bal2</td>
-                        <td>Jobb2</td>
+                        <td colspan="1"><img class="icon" src="/NullImages\armor.png" /></td>
+                        <td><img class="icon" src="/NullImages\blank.png" /></td>
                     </tr>
                     <tr>
-                        <td colspan="2">Bal2</td>
-                        <td>Jobb3</td>
+                        <td colspan="1"><img class="icon" src="/NullImages\hand.png" /></td>
+                        <td><img class="icon" src="/NullImages\ring.png" /></td>
                     </tr>
                     <tr>
-                        <td colspan="2">Bal4</td>
-                        <td>fegyver1</td>
-                        <td>fegyver2</td>
-                        <td>Jobb4</td>
+                        <td><img class="icon" src="/NullImages\leg.png" /></td>
+                        <td><img class="icon" src="/NullImages\weapon.png" /></td>
+                        <td><img class="icon" src="/NullImages\shield.png" /></td>
+                        <td><img class="icon" src="/NullImages\misc.png" /></td>
                     </tr>
                 </tbody>
             </table>

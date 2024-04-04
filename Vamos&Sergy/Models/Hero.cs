@@ -93,6 +93,12 @@ namespace Vamos_Sergy.Models
         [NotMapped]
         public virtual SiteUser Owner { get; set; }
 
+        [NotMapped]
+        public string ContentType { get; set; }
+
+        [NotMapped]
+        public byte[] Data { get; set; }
+
         public Hero()
         {
             Id = Guid.NewGuid().ToString();

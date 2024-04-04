@@ -18,12 +18,16 @@ body {
 }
 
 .hero{
-    max-width : 40%;
+    max-width : 60%;
     border:none;
+    /*background-color:cornflowerblue;*/
 }
-.heroImg{
-    height :60%;
-    background-color:red;
+.icon{
+    height:100px;
+}
+.heroImg {
+    margin-top:10px;
+    height:300px;
 }
 .heroWeapon{
     height : 20%;
