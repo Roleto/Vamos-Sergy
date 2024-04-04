@@ -7,7 +7,7 @@ namespace Vamos_Sergy.Data
 {
     public class ApplicationDbContext : IdentityDbContext
     {
-        DbSet<Hero> Heroes {  get; set; }
+        public DbSet<Hero> Heroes {  get; set; }
         DbSet<SiteUser> Users {  get; set; }
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
