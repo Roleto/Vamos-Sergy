@@ -1,7 +1,9 @@
 ﻿@model Hero;
-<div container class="container ">
-    <div class="row gridRow1">
-        <div class="col col-sm-6">
+<div class="container">
+    <div class="row">
+        <div class="col col-sm-2 sidebar">
+        </div>
+        <div class="col col-sm-4">
             <table class="hero table table-borderless">
                 <tbody>
                     <tr>
@@ -33,16 +35,196 @@
                         <td><img class="icon" src="/NullImages\shield.png" /></td>
                         <td><img class="icon" src="/NullImages\misc.png" /></td>
                     </tr>
+                    <tr>
+                        <td colspan="2" class="statRow">
+                            <div class="container">
+                                <div class="row">
+                                    <div class="col col-sm-7">
+                                        <div class="statBlock col-sm-1" style="padding-right:0;">
+                                            <p>Erő</p>
+                                            @if (Model.Kast == ClassEnum.Warrior)
+                                            {
+                                                <p>Damage</p>
+                                            }
+                                            else
+                                            {
+                                                <p>Defense</p>
+                                            }
+                                        </div>
+                                    </div>
+                                    <div class="col col-sm-3">
+                                        <div class="statBlock">
+                                            <p>@Model.Str</p>
+                                            @if (Model.Kast == ClassEnum.Warrior)
+                                            {
+                                                @* <p>@Model.Damage</p> *@
+                                                <p>23</p>
+                                            }
+                                            else
+                                            {
+                                                <p>@Model.Defence</p>
+                                            }
+                                        </div>
+                                    </div>
+                                    <div class="col col-sm-1">
+                                        <button type="button" class="btn btn-info statButton"><i class="fa-solid fa-plus"></i></button>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col">
+                                        <div class="statBlock col-sm-2">
+                                            <p>Dexterity</p>
+                                            @if (Model.Kast == ClassEnum.Ranger)
+                                            {
+                                                <p>Damage</p>
+                                            }
+                                            else
+                                            {
+                                                <p>Evasion</p>
+                                            }
+                                        </div>
+                                    </div>
+                                    <div class="col col-sm-2">
+                                        <div class="statBlock">
+                                            <p>@Model.Dex</p>
+                                            @if (Model.Kast == ClassEnum.Ranger)
+                                            {
+                                                <p>@Model.Damage</p>
+                                            }
+                                            else
+                                            {
+                                                <p>@Model.Evasion</p>
+                                            }
+                                        </div>
+                                    </div>
+                                    <div class="col col-sm-3">
+                                        <button type="button" class="btn btn-info statButton"><i class="fa-solid fa-plus"></i></button>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col">
+                                        <div class="statBlock col-sm-2">
+                                            <p>Inteligence</p>
+                                            @if (Model.Kast == ClassEnum.Mage)
+                                            {
+                                                <p>Damage</p>
+                                            }
+                                            else
+                                            {
+                                                <p>Resistance</p>
+                                            }
+                                        </div>
+                                    </div>
+                                    <div class="col col-sm-2">
+                                        <div class="statBlock">
+                                            <p>@Model.Inte</p>
+                                            @if (Model.Kast == ClassEnum.Mage)
+                                            {
+                                                <p>@Model.Damage</p>
+                                            }
+                                            else
+                                            {
+                                                <p>@Model.Resistance</p>
+                                            }
+                                        </div>
+                                    </div>
+                                    <div class="col col-sm-3">
+                                        <button type="button" class="btn btn-info statButton"><i class="fa-solid fa-plus"></i></button>
+                                    </div>
+                                </div>
+                            </div>
+                        </td>
+                        <td colspan="2">
+                            <div class="container">
+                                <div class="row">
+                                    <div class="col">
+                                        <div class="statBlock col-sm-2">
+                                            <p>Constitution</p>
+                                            <p>Hit Points</p>
+                                        </div>
+                                    </div>
+                                    <div class="col col-sm-2">
+                                        <div class="statBlock">
+                                            <p>@Model.Vit</p>
+                                            <p>@Model.Hp</p>
+                                        </div>
+                                    </div>
+                                    <div class="col col-sm-3">
+                                        <button type="button" class="btn btn-info statButton"><i class="fa-solid fa-plus"></i></button>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col">
+                                        <div class="statBlock col-sm-2">
+                                            <p>Luck</p>
+                                            <p>Critical Hit</p>
+                                        </div>
+                                    </div>
+                                    <div class="col col-sm-2">
+                                        <div class="statBlock">
+                                            <p>@Model.Luck</p>
+                                            <p>@Model.Crit%</p>
+                                        </div>
+                                    </div>
+                                    <div class="col col-sm-3">
+                                        <button type="button" class="btn btn-info statButton"><i class="fa-solid fa-plus"></i></button>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col">
+                                        <div class="statBlock col-sm-2">
+                                            <p>Armor</p>
+                                            <p>Armor</p>
+                                        </div>
+                                    </div>
+                                    <div class="col col-sm-2">
+                                        <div class="statBlock">
+                                            <p>@Model.Armor</p>
+                                            <p>@Model.DamageReduction</p>
+                                        </div>
+                                    </div>
+                                    <div class="col col-sm-3">
+                                        <button type="button" class="btn btn-info statButton"><i class="fa-solid fa-plus"></i></button>
+                                    </div>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                    @*  <tr>
+                    <td colspan="1"></td>
+                    <td colspan="1"></td>
+                    </tr> *@
                 </tbody>
             </table>
         </div>
-        <div class="col col-sm-6">
+        <div class="col col-sm-2" style="margin-top:1rem">
+            <table class=" table table-borderless">
+                <tbody>
+                    <tr style="height:24rem;">
+                        <td>
+                            <div class="container" style="margin-left:2.5rem;">
+                                <div class="row row-cols-5 ">
+                                    @for (int i = 0; i < @Model.MaxInvetory; i++)
+                                    {
+                                        <div class="col">
+                                            <img class="InventoryImg" src="/NullImages\blank.png" />
+                                        </div>
+                                    }
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <textarea placeholder="Click here to edit xour character description">
+                                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
+                            </textarea>
+                        </td>
+                    </tr>
+
+                </tbody>
+            </table>
         </div>
-    </div>
-    <div class="row gridRow1">
-        <div class="col col-sm-6">
-        </div>
-        <div class="col col-sm-6">
-        </div>
+        <div class="col col-sm-4"></div>
     </div>
 </div>

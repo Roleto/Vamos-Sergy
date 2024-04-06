@@ -19,15 +19,21 @@ namespace Vamos_Sergy.Models
 
         [Required]
         [ShowTable]
+
         public int Level { get; set; }
 
+        [ShowTable]
+        public int Gold { get; set; }
+        [ShowTable]
+        public int Mushroom { get; set; }
+
         [NotMapped]
-        public double GetCurrentXpPercentage { get => (Exp/ ((double)Level * 256)) * 100; }
+        public double GetCurrentXpPercentage { get => (Exp / ((double)Level * 256)) * 100; }
 
         [Required]
         [ShowTable]
         public ClassEnum Kast { get; set; }
-        
+
         [Required]
         [ShowTable]
         public RaceEnum Race { get; set; }
@@ -44,6 +50,8 @@ namespace Vamos_Sergy.Models
             get { return str; }
             set { str = value; }
         }
+        [NotMapped]
+        public int Defence { get => str / 2; }
 
         private int dex;
 
@@ -52,7 +60,9 @@ namespace Vamos_Sergy.Models
         {
             get { return dex; }
             set { dex = value; }
-        }        
+        }
+        [NotMapped]
+        public int Evasion { get => dex / 2; }
 
         private int inte;
 
@@ -62,6 +72,8 @@ namespace Vamos_Sergy.Models
             get { return inte; }
             set { inte = value; }
         }
+        [NotMapped]
+        public int Resistance { get => inte / 2; }
 
         private int vit;
 
@@ -73,7 +85,9 @@ namespace Vamos_Sergy.Models
         }
 
         [NotMapped]
-        public int Hp { get => vit * 2 *(this.Level + 1); }
+        public int Hp { get => vit * 2 * (this.Level + 1); }
+
+
 
         private double luck;
 
@@ -83,10 +97,55 @@ namespace Vamos_Sergy.Models
             get { return luck; }
             set { luck = value; }
         }
+
         [NotMapped]
-        [Range(0,50)]
+        public int Damage { get => 1000; }
+
+
+        [NotMapped]
+        [Range(0, 50)]
         //Enemy level-re kell majd ki venni
-        public double Crit { get => (luck * 5) / ((double)this.Level * 2); }
+        public double Crit
+        {
+            get
+            {
+                double Crit = (luck * 5) / ((double)this.Level * 2);
+                if (Crit > 50)
+                    return 50;
+                return Crit;
+            }
+        }
+
+        [NotMapped]
+        public int Armor { get => 120; }
+        private int MaxArmor
+        {
+            get
+            {
+                switch (Kast)
+                {
+                    case ClassEnum.Mage:
+                        return 10;
+                    case ClassEnum.Warrior:
+                        return 50;
+                    case ClassEnum.Ranger:
+                        return 25;
+                }
+                return 10;
+            }
+        }
+
+        [NotMapped]
+        public int DamageReduction
+        {
+            get
+            {
+                int armor = Armor / Level;
+                if (armor > MaxArmor)
+                    return MaxArmor;
+                return armor;
+            }
+        }
 
         public string OwnerId { get; set; }
 
@@ -99,22 +158,30 @@ namespace Vamos_Sergy.Models
         [NotMapped]
         public byte[] Data { get; set; }
 
+        [NotMapped]
+        public List<Item> Inventory { get; set; }
+        [NotMapped]
+        public int MaxInvetory { get; set; }
         public Hero()
         {
             Id = Guid.NewGuid().ToString();
+        }
+        public void GenerateHero(RaceEnum race)
+        {
             Level = 1;
             HasMount = false;
             SetStats(RaceEnum.Human);
-            
+            Inventory = new List<Item>();
+            MaxInvetory = 5;
         }
 
         private void SetStats(RaceEnum race)
         {
-            Str = 1;
-            Dex = 1;
-            Inte = 1;
-            Vit = 1;
-            Luck = 1;
+            Str = 5;
+            Dex = 5;
+            Inte = 5;
+            Vit = 5;
+            Luck = 5;
         }
         //public Hero(string? id)
         //{

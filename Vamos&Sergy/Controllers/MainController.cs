@@ -49,7 +49,7 @@ namespace Vamos_Sergy.Controllers
         public IActionResult ViewHero()
         {
             var userId = _userManager.GetUserId(this.User);
-            var hero = _repo.ReadFromOwner(userId);
+            Hero hero = _repo.ReadFromOwner(userId);
             return View(hero);
         }
 
