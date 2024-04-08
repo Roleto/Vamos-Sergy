@@ -165,15 +165,14 @@ namespace Vamos_Sergy.Models
         public Hero()
         {
             Id = Guid.NewGuid().ToString();
-            MaxInvetory = 5;
         }
-        public void GenerateHero(RaceEnum race)
+        public void GenerateStats(RaceEnum race)
         {
-            Level = 1;
             HasMount = false;
-            SetStats(RaceEnum.Human);
+            SetStats(race);
             Inventory = new List<Item>();
             MaxInvetory = 5;
+
         }
 
         private void SetStats(RaceEnum race)
@@ -183,6 +182,28 @@ namespace Vamos_Sergy.Models
             Inte = 5;
             Vit = 5;
             Luck = 5;
+            switch (race)
+            {
+                default:
+                case RaceEnum.Human:
+                    break;
+                case RaceEnum.Elf:
+                    Inte += 1;
+                    Vit -= 1;
+                    break;
+                case RaceEnum.Darkelf:
+                    Inte += 2;
+                    Str -= 1;
+                    break;
+                case RaceEnum.Dwarf:
+                    Str += 1;
+                    Inte -= 1;
+                    break;
+                case RaceEnum.Deamon:
+                    Inte += 1;
+                    Vit += 1;
+                    break;
+            }
         }
         //public Hero(string? id)
         //{

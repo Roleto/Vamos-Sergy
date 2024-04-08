@@ -41,6 +41,7 @@ namespace Vamos_Sergy.Controllers
         public IActionResult CreateHero(Hero hero)
         {
             hero.OwnerId = _userManager.GetUserId(this.User);
+            hero.GenerateStats(hero.Race);
             _repo.Create(hero);
             return RedirectToAction(nameof(ViewHero));
         }
