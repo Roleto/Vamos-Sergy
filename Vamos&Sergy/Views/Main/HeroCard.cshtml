@@ -4,11 +4,11 @@
         <div class="col col-sm-2 col-md-2 col-lg-2 p-0 ps-1">
             <div class="sidebar h-100 me-0"></div>
         </div>
-        <div class="col col-sm-5 col-md-5 col-lg-5 p-0">
+        <div class="col col-sm-5 col-md-5 col-lg-5 p-0" style="border:solid">
             <table class="table table-borderless m-0 ms-1 p-0 overflow-hidden">
                 <tbody>
                     <tr>
-                        <td><img class="icon" src="/Images/NullImages\helmet.png" /></td>
+                        <td><img class="icon" src="/NullImages\blank.png" /></td>
                         <td rowspan="3" colspan="2">
                             <div class="card cardom">
                                 <img src="@Url.Action("GetImage", "Main")" class="card-img heroImg" alt="...">
@@ -20,33 +20,21 @@
                                 </div>
                             </div>
                         </td>
-                        <td><img class="icon" src="/Images\NullImages\necklace.png" /></td>
+                        <td><img class="icon" src="/NullImages\blank.png" /></td>
                     </tr>
                     <tr>
-                        <td><img class="icon" src="/Images\NullImages\armor.png" /></td>
-                        <td><img class="icon" src="/Images\NullImages\belt.png" /></td>
+                        <td><img class="icon" src="/NullImages\blank.png" /></td>
+                        <td><img class="icon" src="/NullImages\blank.png" /></td>
                     </tr>
                     <tr>
-                        <td><img class="icon" src="/Images\NullImages\hand.png" /></td>
-                        <td><img class="icon" src="/Images\NullImages\ring.png" /></td>
+                        <td><img class="icon" src="/NullImages\blank.png" /></td>
+                        <td><img class="icon" src="/NullImages\blank.png" /></td>
                     </tr>
                     <tr>
-                        <td><img class="icon" src="/Images\NullImages\leg.png" /></td>
-                        <td><img class="icon" src="/Images\NullImages\weapon.png" /></td>
-                        @switch (Model.Kast)
-                        {
-                            default:
-                            case ClassEnum.Mage:
-                                <td><img class="icon" src="/Images\NullImages\blank.png" /></td>
-                                break;
-                            case ClassEnum.Warrior:
-                                <td><img class="icon" src="/Images\NullImages\shield.png" /></td>
-                                break;
-                            case ClassEnum.Ranger:
-                                <td><img class="icon" src="/Images\NullImages\blank.png" /></td>
-                                break;
-                        }
-                        <td><img class="icon" src="/Images\NullImages\blank.png" /></td>
+                        <td><img class="icon" src="/NullImages\blank.png" /></td>
+                        <td><img class="icon" src="/NullImages\blank.png" /></td>
+                        <td><img class="icon" src="/NullImages\blank.png" /></td>
+                        <td><img class="icon" src="/NullImages\blank.png" /></td>
                     </tr>
                     <tr>
                         <td class="m-0 p-0" colspan="2">
@@ -63,14 +51,7 @@
                                         }
                                     </div>
                                     <div class="col col-2 m-0">
-                                        @if (Model.Kast == ClassEnum.Warrior)
-                                        {
-                                            <p style="white-space: pre-line">@Model.Str @Model.Damage</p>
-                                        }
-                                        else
-                                        {
-                                            <p style="white-space: pre-line">@Model.Str @Model.Defence</p>
-                                        }
+                                        <p style="white-space: pre-line">123 145</p>
                                     </div>
                                     <div class="col col-2">
                                         <button type="button" class="btn btn-info statButton"><i class="fa-solid fa-plus"></i></button>
@@ -80,11 +61,11 @@
                         <td class="m-0 p-0" colspan="2">
                             <div class="container">
                                 <div class="row p-0">
-                                    <div class="col col-5 m-0 gy-0">
+                                    <div class="col col-6 m-0 gy-0">
                                         <p style="white-space: pre-line">Constitution Hit&nbspPoints</p>
                                     </div>
-                                    <div class="col col-3 m-0">
-                                        <p class="text-end" style="white-space: pre-line">@Model.Vit @Model.Hp</p>
+                                    <div class="col col-2 m-0">
+                                        <p style="white-space: pre-line">123 145</p>
                                     </div>
                                     <div class="col col-">
                                         <button type="button" class="btn btn-info statButton"><i class="fa-solid fa-plus"></i></button>
@@ -108,14 +89,7 @@
                                         }
                                     </div>
                                     <div class="col col-2 m-0">
-                                        @if (Model.Kast == ClassEnum.Ranger)
-                                        {
-                                            <p style="white-space: pre-line">@Model.Dex @Model.Damage</p>
-                                        }
-                                        else
-                                        {
-                                            <p style="white-space: pre-line">@Model.Dex @Model.Evasion</p>
-                                        }
+                                        <p style="white-space: pre-line">123 145</p>
                                     </div>
                                     <div class="col col-2">
                                         <button type="button" class="btn btn-info statButton"><i class="fa-solid fa-plus"></i></button>
@@ -129,7 +103,7 @@
                                         <p style="white-space: pre-line">Luck Critical&nbspHit</p>
                                     </div>
                                     <div class="col col-2 m-0">
-                                        <p style="white-space: pre-line">@Model.Luck @Model.Crit</p>
+                                        <p style="white-space: pre-line">123 145</p>
                                     </div>
                                     <div class="col col-2">
                                         <button type="button" class="btn btn-info statButton"><i class="fa-solid fa-plus"></i></button>
@@ -153,14 +127,7 @@
                                         }
                                     </div>
                                     <div class="col col-2 m-0">
-                                        @if (Model.Kast == ClassEnum.Ranger)
-                                        {
-                                            <p style="white-space: pre-line">@Model.Inte @Model.Damage</p>
-                                        }
-                                        else
-                                        {
-                                            <p style="white-space: pre-line">@Model.Inte @Model.Resistance</p>
-                                        }
+                                        <p style="white-space: pre-line">123 145</p>
                                     </div>
                                     <div class="col col-2">
                                         <button type="button" class="btn btn-info statButton"><i class="fa-solid fa-plus"></i></button>
@@ -174,7 +141,7 @@
                                         <p style="white-space: pre-line">Armor Reduction</p>
                                     </div>
                                     <div class="col col-2 m-0">
-                                        <p style="white-space: pre-line">@Model.Armor @Model.DamageReduction</p>
+                                        <p style="white-space: pre-line">123 145</p>
                                     </div>
                                     <div class="col col-2">
                                         <button type="button" class="btn btn-info statButton"><i class="fa-solid fa-plus"></i></button>
@@ -189,7 +156,7 @@
         <div class="col col-sm-4 col-md-4 col-lg-4 p-0">
             <div class="container">
                 <div class="row">
-                    <div class="row row-cols-5 ps-0 pe-0 " s>
+                    <div class="row row-cols-5 ps-0 pe-0 "s>
                         @for (int i = 0; i < @Model.MaxInvetory; i++)
                         {
                             <div class="col">
@@ -206,7 +173,7 @@
                 </div>
                 <div class="row">
                     <div class=" col">
-                        <textarea placeholder="Click here to edit xour character description">
+                            <textarea placeholder="Click here to edit xour character description">
                                 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
                             </textarea>
                     </div>

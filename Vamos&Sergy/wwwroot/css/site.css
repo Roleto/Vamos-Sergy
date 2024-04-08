@@ -41,7 +41,7 @@ body {
     max-height: 40%;
 }
 .statBlock {
-    padding-top: 6px;
+   /* padding-top: 6px;
     line-height: .1em;
     height: 2em;
     overflow: hidden;
@@ -51,11 +51,19 @@ body {
     margin-top: 5px;
     margin-bottom: 5px;
     padding-bottom: 2rem;
-    padding-right:1rem;
+    padding-right:1rem;*/
+   border:solid;
+   text-align:left;
+}
+.stat {
+    margin-bottom: 0px;
+    padding-bottom: 0px;
+    padding-top:0px;
 }
 .statButton {
     width: 20px !important;
     padding-right: 20px;
+    text-align:left;
 }
 .statRow{
     margin:100px;
@@ -74,16 +82,18 @@ body {
     /*background-color: rebeccapurple;*/
     /*background-image: url("../NullImages/blank.png");*/
 }
-.InventoryImg{
-    height:6rem;
+.InventoryImg {
+    height: 5.7rem;
+    padding-right: 1rem;
+    padding-left: 1rem;
 }
 .sidebar {
     background-color: aqua;
+    margin-top:0.5rem;
+    margin-right :2.5rem;
 }
 textarea {
     color: gold;
-    margin-top: 1rem;
-    margin-left: 4rem;
     width: 30rem;
     height: 12rem;
     border: none;
@@ -91,4 +101,22 @@ textarea {
     font-weight :bolder;
     background-color:cadetblue;
     resize: none;
+}
+.statRow{
+}
+.borderem{
+    margin-top:1rem;
+    height:19rem;
+    border:solid;
+}
+.cardom{
+    background-color:transparent;
+}
+.heroView {
+    margin-top: 1rem;
+    margin-right:1rem;
+    height: 45%;
+    border: solid;
+}
+myContainer{
 }

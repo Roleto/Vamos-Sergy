@@ -25,7 +25,7 @@ namespace Vamos_Sergy.Controllers
             var hero = _repo.ReadFromOwner(user.Id);
             if(hero == null)
                 return RedirectToAction(nameof(CreateHero));
-
+            //return RedirectToAction(nameof(HeroCard));
             return RedirectToAction(nameof(ViewHero));
             //return View();
         }
@@ -47,6 +47,14 @@ namespace Vamos_Sergy.Controllers
 
         [HttpGet]
         public IActionResult ViewHero()
+        {
+            var userId = _userManager.GetUserId(this.User);
+            Hero hero = _repo.ReadFromOwner(userId);
+            return View(hero);
+        }
+       
+        [HttpGet]
+        public IActionResult HeroCard()
         {
             var userId = _userManager.GetUserId(this.User);
             Hero hero = _repo.ReadFromOwner(userId);

@@ -3,25 +3,119 @@
 @model Hero
 @* @inject TableBuilder tb *@
 
-<form asp-action="CreateHero" method="post" enctype="multipart/form-data">
-    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-    <div class="form-group">
-        <label asp-for="Name" class="control-label"></label>
-        <input asp-for="Name" class="form-control" />
-        <span asp-validation-for="Name" class="text-danger"></span>
+<script type="text/javascript">
+
+    const kast = ["mage", "warrior", "ranger"];
+    let currentIndex = 0;
+    function ShowHeroKast(number) {
+        currentIndex += number;
+        if (currentIndex < 0) {
+            currentIndex = 2;
+        } else if (currentIndex > 2) {
+            currentIndex = 0;
+        }
+        let valami = '/Images\\ClassImages\\' + kast[currentIndex] + '.jpg';
+        document.getElementById("classImg").src = valami;
+        document.getElementById("className").innerHTML = kast[currentIndex];
+
+    }
+
+</script>
+<form class="row g-3 w-50 pt-5" style=" margin-left:19rem; ">
+    <div class="col-md-2">
     </div>
-    <div class="form-group">
-        <label asp-for="Kast" class="control-label"></label>
-        @Html.DropDownListFor(t => t.Kast, Html.GetEnumSelectList(typeof(ClassEnum)))
-        <span asp-validation-for="Kast" class="text-danger"></span>
-    </div>
-    <div class="form-group">
-        <label asp-for="Race" class="control-label"></label>
-        @Html.DropDownListFor(t => t.Race, Html.GetEnumSelectList(typeof(RaceEnum)))
-        <span asp-validation-for="Race" class="text-danger"></span>
-    </div>
-    <div class="form-group">
-        <input type="submit" value="Create" class="btn btn-primary" />
+    <div class="col-md-8">
+        <label asp-for="Name" class="form-label text-warning ">Hero Name</label>
+        <input asp-for="Name" type="text" class="form-control" id="name">
     </div>
 
-</form> 
+    <div class="col-md-2"></div>
+    <div class="col-md-2"></div>
+    <div class="col-md-8">
+        <div class="card cardom">
+            <img src="/Images\ClassImages\mage.jpg" id="classImg" class="card-img" alt="...">
+            <div class="card-footer">
+                <div class="container">
+                    <div class="row">
+                        <div class=" col col-2"><button onclick="ShowHeroKast(-1)" type="button" class="btn btn-success">Previus</button></div>
+                        <div class=" col col-8 text-center"><div id="className" class="text-warning text-capitalize fs-3">Mage</div></div>
+                        <div class=" col col-2"><button onclick="ShowHeroKast(1)" type="button" class="btn btn-success">Next</button></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-2"></div>
+    <div class="col-md-2"></div>
+    <div class="col-md-8">
+        <label for="inputState" class="form-label text-warning">Race</label>
+        <select id="inputState" class="form-select">
+            <option value="0">Human</option>
+            <option value="1">Elf</option>
+            <option value="2">Darkelf</option>
+            <option value="3">Dwarf</option>
+            <option value="4">Deamon</option>
+        </select>
+    </div>
+    <div class="col-md-2"></div>
+    <div class="col-md-5"></div>
+    <div class="col-7">
+        <button type="submit" class="btn btn-primary">Create Hero</button>
+    </div>
+</form>
+<@* form class="myContainer w-50 " style="margin-left:19rem;">
+    <div class="mb-3">
+    <label for="exampleFormControlInput1" class="form-label">Email address</label>
+    <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="name@example.com">
+    </div>
+    <div class="mb-3">
+    <div class="card cardom" >
+    <img src="/Images\ClassImages\warrior.png" class="card-img" alt="...">
+    <div class="card-footer">
+    <div class="container">
+    <div class="row">
+    <div class=" col col-2"><button type="button" class="btn btn-success">Left</button></div>
+    <div class=" col col-8"></div>
+    <div class=" col col-2"><button type="button" class="btn btn-success">Right</button></div>
+    </div>
+    </div>
+    </div>
+    </div>
+    </div>
+    <div class="mb-3">
+    </div>
+    <div class="mb-3">
+    </div>
+    </form> *@
+<@* form asp-action="CreateHero" method="post" enctype="multipart/form-data">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <div class="form-group">
+    <label asp-for="Name" class="control-label"></label>
+    <input asp-for="Name" class="form-control" />
+    <span asp-validation-for="Name" class="text-danger"></span>
+    </div>
+    <div class="card cardom">
+    <img src="/Images\ClassImages\warrior.png" class="card-img" alt="...">
+    <div class="card-footer">
+    <div class="container">
+    <div class="row">
+    <div class=" col col-2"><button type="button" class="btn btn-success">Left</button></div>
+    <div class=" col col-8"></div>
+    <div class=" col col-2"><button type="button" class="btn btn-success">Right</button></div>
+    </div>
+    </div>
+    </div>
+    <label asp-for="Kast" class="control-label"></label>
+    @Html.DropDownListFor(t => t.Kast, Html.GetEnumSelectList(typeof(ClassEnum)))
+    <span asp-validation-for="Kast" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+    <label asp-for="Race" class="control-label"></label>
+    @Html.DropDownListFor(t => t.Race, Html.GetEnumSelectList(typeof(RaceEnum)))
+    <span asp-validation-for="Race" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+    <input type="submit" value="Create" class="btn btn-primary" />
+    </div>
+    </form>
+    *@

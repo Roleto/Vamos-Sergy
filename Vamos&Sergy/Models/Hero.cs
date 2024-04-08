@@ -112,7 +112,7 @@ namespace Vamos_Sergy.Models
                 double Crit = (luck * 5) / ((double)this.Level * 2);
                 if (Crit > 50)
                     return 50;
-                return Crit;
+                return Math.Round(Crit,2);
             }
         }
 
@@ -165,6 +165,7 @@ namespace Vamos_Sergy.Models
         public Hero()
         {
             Id = Guid.NewGuid().ToString();
+            MaxInvetory = 5;
         }
         public void GenerateHero(RaceEnum race)
         {
