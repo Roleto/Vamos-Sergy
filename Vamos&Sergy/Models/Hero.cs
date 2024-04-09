@@ -165,6 +165,7 @@ namespace Vamos_Sergy.Models
         public Hero()
         {
             Id = Guid.NewGuid().ToString();
+            MaxInvetory = 5;
         }
         public void GenerateStats(RaceEnum race)
         {
@@ -172,7 +173,6 @@ namespace Vamos_Sergy.Models
             SetStats(race);
             Inventory = new List<Item>();
             MaxInvetory = 5;
-
         }
 
         private void SetStats(RaceEnum race)
