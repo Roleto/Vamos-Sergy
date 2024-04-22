@@ -5,6 +5,7 @@ using Vamos_Sergy.Data.Classes;
 using Vamos_Sergy.Data.Interfaces;
 using Vamos_Sergy.Helpers;
 using Vamos_Sergy.Models;
+using Vamos_Sergy.Models.Items;
 
 var builder = WebApplication.CreateBuilder(args);
 

@@ -5,6 +5,7 @@ using NuGet.Protocol.Core.Types;
 using Vamos_Sergy.Data.Classes;
 using Vamos_Sergy.Data.Interfaces;
 using Vamos_Sergy.Models;
+using Vamos_Sergy.Models.Items;
 
 namespace Vamos_Sergy.Controllers
 {

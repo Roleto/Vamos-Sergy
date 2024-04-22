@@ -2,11 +2,13 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Diagnostics.CodeAnalysis;
+using Vamos_Sergy.Models.Items;
 
 namespace Vamos_Sergy.Models
 {
     public class Hero
     {
+        private int maxInvetory;
         #region Base props
 
         [Key]
@@ -16,6 +18,7 @@ namespace Vamos_Sergy.Models
         [StringLength(24)]
         [ShowTable]
         public string Name { get; set; }
+
 
         [ShowTable]
         public int Exp { get; set; }
@@ -49,7 +52,6 @@ namespace Vamos_Sergy.Models
 
         private int str;
 
-        //[NotNull]
         public int Str
         {
             get { return str; }
@@ -60,7 +62,6 @@ namespace Vamos_Sergy.Models
 
         private int dex;
 
-        //[NotNull]
         public int Dex
         {
             get { return dex; }
@@ -71,7 +72,6 @@ namespace Vamos_Sergy.Models
 
         private int inte;
 
-        //[NotNull]
         public int Inte
         {
             get { return inte; }
@@ -82,7 +82,6 @@ namespace Vamos_Sergy.Models
 
         private int vit;
 
-        //[NotNull]
         public int Vit
         {
             get { return vit; }
@@ -96,7 +95,6 @@ namespace Vamos_Sergy.Models
 
         private double luck;
 
-        //[NotNull]
         public double Luck
         {
             get { return luck; }
@@ -117,7 +115,7 @@ namespace Vamos_Sergy.Models
                 double Crit = (luck * 5) / ((double)this.Level * 2);
                 if (Crit > 50)
                     return 50;
-                return Math.Round(Crit,2);
+                return Math.Round(Crit, 2);
             }
         }
 
@@ -156,30 +154,32 @@ namespace Vamos_Sergy.Models
         #region inventory props
 
         [NotMapped]
-        public List<Item> Inventory { get; set; }
-        [NotMapped]
-        public int MaxInvetory { get; set; }
+        public Dictionary<int, Equipment> Inventory { get; set; }
+        public Dictionary<int, Equipment> Equipments { get; set; }
 
-        [AllowNull]
-        public virtual Item Helmet { get; set; }
-        [AllowNull]
-        public virtual Item BodyArmor { get; set; }
-        [AllowNull]
-        public virtual Item Gloves { get; set; }
-        [AllowNull]
-        public virtual Item Boots { get; set; }
-        [AllowNull]
-        public virtual Weapon Weapon { get; set; }
-        [AllowNull]
-        public virtual Item Shield { get; set; }
-        [AllowNull]
-        public virtual Item Necklace { get; set; }
-        [AllowNull]
-        public virtual Item Belt{ get; set; }
-        [AllowNull]
-        public virtual Item Ring { get; set; }
-        [AllowNull]
-        public virtual Item Misc { get; set; }
+        [NotMapped]
+        public int MaxInvetory
+        {
+            get { return maxInvetory; }
+            set { maxInvetory = value; }
+        }
+
+        public void Equip(Equipment item)
+        {
+            int valami = (int)item.Type;
+            var old = Equipments[valami];
+            item.IsEqueped = true;
+            if (old != null)
+            {
+                Equipments[valami] = item;
+            }
+            else
+            {
+                Equipments[valami] = item;
+                old.IsEqueped = false;
+                Inventory[item.ItemSlot] = old;
+            }
+        }
 
         #endregion
 
@@ -196,14 +196,15 @@ namespace Vamos_Sergy.Models
         public Hero()
         {
             Id = Guid.NewGuid().ToString();
-            MaxInvetory = 5;
+            //MaxInvetory = 5;
         }
         public void GenerateStats(RaceEnum race)
         {
             HasMount = false;
             SetStats(race);
-            Inventory = new List<Item>();
-            MaxInvetory = 5;
+            this.maxInvetory = 5;
+            Inventory = new Dictionary<int, Equipment>();
+            Equipments = new Dictionary<int, Equipment>();
         }
 
         private void SetStats(RaceEnum race)
@@ -236,13 +237,5 @@ namespace Vamos_Sergy.Models
                     break;
             }
         }
-        //public Hero(string? id)
-        //{
-        //    if(id == null)
-        //        Id = Guid.NewGuid().ToString();
-        //    else 
-        //        Id = id;
-        //}
-
     }
 }

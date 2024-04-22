@@ -1,8 +1,9 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Diagnostics.CodeAnalysis;
 using Vamos_Sergy.Helpers;
 
-namespace Vamos_Sergy.Models
+namespace Vamos_Sergy.Models.Items
 {
     public abstract class Item
     {
@@ -19,30 +20,13 @@ namespace Vamos_Sergy.Models
         [ShowTable]
         public string Description { get; set; }
 
-
-        [Required]
-        [NotMapped]
-        public string Stats { get; set; }
-
         [Required]
         public EquipmentEnum Type { get; set; }
 
         [Required]
-        public RaceEnum RequiredClass{ get; set; }
+        public ClassEnum RequiredClass { get; set; }
 
-        [NotMapped]
-        public int Price { get; set; }
-        
-        [NotMapped]
-        public int Str { get; set; }
-        [NotMapped]
-        public int Dex { get; set; }
-        [NotMapped]
-        public int Inte { get; set; }
-        [NotMapped]
-        public int Vit { get; set; }
-        [NotMapped]
-        public int Luck { get; set; }
+      
 
         [NotMapped]
         public string ContentType { get; set; }
@@ -50,19 +34,25 @@ namespace Vamos_Sergy.Models
         [NotMapped]
         public byte[] Data { get; set; }
 
-        public override string ToString()
-        {
-            string output = "";
-            string[] stats = Stats.Split(';');
-            return base.ToString();
-        }
         public Item()
         {
             Id = Guid.NewGuid().ToString();
         }
-        protected void GenerateStat(string line)
+        protected virtual void GenerateStat()
         {
-
+            switch (RequiredClass)
+            {
+                default:
+                case ClassEnum.Mage:
+                    Inte = 10;
+                    break;
+                case ClassEnum.Warrior:
+                    Str = 10;
+                    break;
+                case ClassEnum.Ranger:
+                    Dex = 10;
+                    break;
+            }
         }
 
     }

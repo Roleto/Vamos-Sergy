@@ -40,6 +40,8 @@ namespace Vamos_Sergy.Data.Classes
 
         public Hero? ReadFromOwner(string id)
         {
+            //88a264fd-505d-45cf-a1b8-c7f2a0c4b15a
+            ;
             return context.Heroes.FirstOrDefault(t => t.OwnerId == id);
         }
 

@@ -8,7 +8,7 @@
     </div>
 
     <div class="col-md-5">
-        <label asp-for="Description" class="form-label text-warning ">Item Name</label>
+        <label asp-for="Description" class="form-label text-warning ">Item Description</label>
         <input asp-for="Description" type="text" class="form-control" id="description">
 
     </div>
@@ -39,11 +39,9 @@
     <div class="col-md-8">
         <label asp-for="RequiredClass" class="form-label text-warning">Required Class</label>
         <select asp-for="RequiredClass" class="form-select">
-            <option value="0">Human</option>
-            <option value="1">Elf</option>
-            <option value="2">Darkelf</option>
-            <option value="3">Dwarf</option>
-            <option value="4">Deamon</option>
+            <option value="0">Mage</option>
+            <option value="1">Warrior</option>
+            <option value="2">Ranger</option>
         </select>
     </div>
     <div class="col-md-2"></div>
