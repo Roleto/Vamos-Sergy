@@ -36,7 +36,25 @@
     </header>
     <div class="container-fluid">
         <main role="main" class="pb-3" style="background-color:royalblue; margin-left:7rem; margin-right:7rem;">
-            @RenderBody()
+            <div class="row">
+                <div class="col col-sm-2 col-md-2 col-lg-2">
+                    <div class="btn-group-vertical w-100 h-100 g-1" role="group" aria-label="Vertical button group">
+                        <div style="height:75px; background-color:black; margin-bottom:1rem;"></div>
+                        <button type="button" class="btn btn-primary">Tavern</button>
+                        <button type="button" class="btn btn-primary mt-2">Arena</button>
+                        <button type="button" class="btn btn-primary mt-2">Weapon Shop</button>
+                        <button type="button" class="btn btn-primary mt-2">Magic Shop</button>
+                        <button type="button" class="btn btn-primary mt-2">Stable</button>
+                        <button type="button" class="btn btn-primary mt-2">Dungeons</button>
+                        <button type="button" class="btn btn-primary mt-2">Guild</button>
+                        <button type="button" class="btn btn-primary mt-2">Mail</button>
+                        <button type="button" class="btn btn-primary mt-2">Hall of Fame</button>
+                    </div>
+                </div>
+                <div class="col col-sm-10 col-md-10 col-lg-10 p-0">
+                    @RenderBody()
+                </div>
+            </div>
         </main>
     </div>
     @*     <footer class="border-top footer text-muted">

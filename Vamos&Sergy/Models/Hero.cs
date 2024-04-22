@@ -1,11 +1,14 @@
 ﻿using Vamos_Sergy.Helpers;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Vamos_Sergy.Models
 {
     public class Hero
     {
+        #region Base props
+
         [Key]
         public string Id { get; set; }
 
@@ -41,6 +44,8 @@ namespace Vamos_Sergy.Models
         [ShowTable]
         public bool HasMount { get; set; }
 
+        #endregion
+        #region stat props
 
         private int str;
 
@@ -147,6 +152,37 @@ namespace Vamos_Sergy.Models
             }
         }
 
+        #endregion
+        #region inventory props
+
+        [NotMapped]
+        public List<Item> Inventory { get; set; }
+        [NotMapped]
+        public int MaxInvetory { get; set; }
+
+        [AllowNull]
+        public virtual Item Helmet { get; set; }
+        [AllowNull]
+        public virtual Item BodyArmor { get; set; }
+        [AllowNull]
+        public virtual Item Gloves { get; set; }
+        [AllowNull]
+        public virtual Item Boots { get; set; }
+        [AllowNull]
+        public virtual Weapon Weapon { get; set; }
+        [AllowNull]
+        public virtual Item Shield { get; set; }
+        [AllowNull]
+        public virtual Item Necklace { get; set; }
+        [AllowNull]
+        public virtual Item Belt{ get; set; }
+        [AllowNull]
+        public virtual Item Ring { get; set; }
+        [AllowNull]
+        public virtual Item Misc { get; set; }
+
+        #endregion
+
         public string OwnerId { get; set; }
 
         [NotMapped]
@@ -157,11 +193,6 @@ namespace Vamos_Sergy.Models
 
         [NotMapped]
         public byte[] Data { get; set; }
-
-        [NotMapped]
-        public List<Item> Inventory { get; set; }
-        [NotMapped]
-        public int MaxInvetory { get; set; }
         public Hero()
         {
             Id = Guid.NewGuid().ToString();

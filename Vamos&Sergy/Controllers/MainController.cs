@@ -62,6 +62,17 @@ namespace Vamos_Sergy.Controllers
             return View(hero);
         }
 
+        [HttpGet]
+        public IActionResult CreateItem()
+        {
+            return View();
+        }
+        [HttpPost]
+        public IActionResult CreateItem(Item newItem)
+        {
+            return RedirectToAction(nameof(ViewHero));
+        }
+
         public async Task<IActionResult> GetImage()
         {
             var principal = this.User;
