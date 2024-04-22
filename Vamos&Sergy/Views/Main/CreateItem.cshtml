@@ -1,0 +1,54 @@
+﻿@model Item
+<form class="row g-3 w-50 pt-5" method="post" style=" margin-left:19rem; ">
+    <div class="col-md-2">
+    </div>
+    <div class="col-md-5">
+        <label asp-for="Name" class="form-label text-warning ">Item Name</label>
+        <input asp-for="Name" type="text" class="form-control" id="name">
+    </div>
+
+    <div class="col-md-5">
+        <label asp-for="Description" class="form-label text-warning ">Item Name</label>
+        <input asp-for="Description" type="text" class="form-control" id="description">
+
+    </div>
+    <div class="col-md-2"></div>
+    <div class="col-md-8">
+        <label asp-for="Data" class="form-label">Chose image for an item</label>
+        <input asp-for="Data" class="form-control" type="file" id="data">
+    </div>
+    <div class="col-md-2"></div>
+    <div class="col-md-2"></div>
+    <div class="col-md-8">
+        <label asp-for="Type" class="form-label text-warning">Type of weapon</label>
+        <select asp-for="Type" class="form-select">
+            <option value="0">Helmet</option>
+            <option value="1">Armor</option>
+            <option value="2">Hand</option>
+            <option value="3">Leg</option>
+            <option value="4">Necklace</option>
+            <option value="5">Belt</option>
+            <option value="6">Ring</option>
+            <option value="7">Misc</option>
+            <option value="8">Shield</option>
+            <option value="9">Weapon</option>
+        </select>
+    </div>
+    <div class="col-md-2"></div>
+    <div class="col-md-2"></div>
+    <div class="col-md-8">
+        <label asp-for="RequiredClass" class="form-label text-warning">Required Class</label>
+        <select asp-for="RequiredClass" class="form-select">
+            <option value="0">Human</option>
+            <option value="1">Elf</option>
+            <option value="2">Darkelf</option>
+            <option value="3">Dwarf</option>
+            <option value="4">Deamon</option>
+        </select>
+    </div>
+    <div class="col-md-2"></div>
+    <div class="col-md-5"></div>
+    <div class="col-7">
+        <button type="submit" class="btn btn-primary">Create Item</button>
+    </div>
+</form>

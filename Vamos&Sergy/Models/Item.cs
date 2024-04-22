@@ -27,6 +27,9 @@ namespace Vamos_Sergy.Models
         [Required]
         public EquipmentEnum Type { get; set; }
 
+        [Required]
+        public RaceEnum RequiredClass{ get; set; }
+
         [NotMapped]
         public int Price { get; set; }
         
@@ -53,7 +56,10 @@ namespace Vamos_Sergy.Models
             string[] stats = Stats.Split(';');
             return base.ToString();
         }
-
+        public Item()
+        {
+            Id = Guid.NewGuid().ToString();
+        }
         protected void GenerateStat(string line)
         {
 

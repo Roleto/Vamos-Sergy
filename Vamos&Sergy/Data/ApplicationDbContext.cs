@@ -23,10 +23,7 @@ namespace Vamos_Sergy.Data
                 .HasForeignKey(x => x.OwnerId)
                 .OnDelete(DeleteBehavior.Cascade);
 
-            builder.Entity<Item>()
-                .HasOne(x => x.Id)
-                .WithMany()
-                .OnDelete(DeleteBehavior.Cascade);
+            builder.Entity<Item>();
 
             base.OnModelCreating(builder);
         }

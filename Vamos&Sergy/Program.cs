@@ -29,6 +29,7 @@ builder.Services.AddDefaultIdentity<SiteUser>(options =>
     .AddEntityFrameworkStores<ApplicationDbContext>();
 builder.Services.AddControllersWithViews();
 builder.Services.AddTransient<IRepository<Hero>, HeroRepository>();
+builder.Services.AddTransient<IRepository<Item>, ItemRepository>();
 builder.Services.AddTransient<TableBuilder>();
 
 var app = builder.Build();

@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using NuGet.Protocol.Core.Types;
 using Vamos_Sergy.Data.Classes;
 using Vamos_Sergy.Data.Interfaces;
 using Vamos_Sergy.Models;
@@ -9,20 +10,25 @@ namespace Vamos_Sergy.Controllers
 {
     public class MainController : Controller
     {
-        private readonly IRepository<Hero> _repo;
+        private readonly IRepository<Hero> _heroRepo;
+        private readonly IRepository<Item> _itemRepo;
         private readonly UserManager<SiteUser> _userManager;
 
-        public MainController(IRepository<Hero> heroRepository, UserManager<SiteUser> userManager)
+       
+
+        public MainController(IRepository<Hero> heroRepo, IRepository<Item> itemRepo, UserManager<SiteUser> userManager)
         {
-            this._repo = heroRepository;
+            _heroRepo = heroRepo;
+            _itemRepo = itemRepo;
             _userManager = userManager;
         }
+
         [Authorize]
         public async Task<IActionResult> Index()
         {
             var principal = this.User;
             var user = await _userManager.GetUserAsync(principal);
-            var hero = _repo.ReadFromOwner(user.Id);
+            var hero = _heroRepo.ReadFromOwner(user.Id);
             if(hero == null)
                 return RedirectToAction(nameof(CreateHero));
             //return RedirectToAction(nameof(HeroCard));
@@ -42,7 +48,7 @@ namespace Vamos_Sergy.Controllers
         {
             hero.OwnerId = _userManager.GetUserId(this.User);
             hero.GenerateStats(hero.Race);
-            _repo.Create(hero);
+            _heroRepo.Create(hero);
             return RedirectToAction(nameof(ViewHero));
         }
 
@@ -50,7 +56,7 @@ namespace Vamos_Sergy.Controllers
         public IActionResult ViewHero()
         {
             var userId = _userManager.GetUserId(this.User);
-            Hero hero = _repo.ReadFromOwner(userId);
+            Hero hero = _heroRepo.ReadFromOwner(userId);
             return View(hero);
         }
        
@@ -58,7 +64,7 @@ namespace Vamos_Sergy.Controllers
         public IActionResult HeroCard()
         {
             var userId = _userManager.GetUserId(this.User);
-            Hero hero = _repo.ReadFromOwner(userId);
+            Hero hero = _heroRepo.ReadFromOwner(userId);
             return View(hero);
         }
 
@@ -68,8 +74,25 @@ namespace Vamos_Sergy.Controllers
             return View();
         }
         [HttpPost]
-        public IActionResult CreateItem(Item newItem)
+        public IActionResult CreateItem(Item newItem, IFormFile picturedata)
         {
+            using (var stream = picturedata.OpenReadStream())
+            {
+                byte[] buffer = new byte[picturedata.Length];
+                stream.Read(buffer, 0, (int)picturedata.Length);
+                //fájl módszer
+                //string filename = newItem.Id + "." + picturedata.FileName.Split('.')[1];
+                //newItem.ImageFileName = filename;
+                //System.IO.File.WriteAllBytes(Path.Combine("wwwroot", "images", filename), buffer);
+                
+                newItem.Data = buffer;
+                newItem.ContentType = picturedata.ContentType;
+            }
+            if (!ModelState.IsValid)
+            {
+            return RedirectToAction(nameof(Index));
+            }
+            _itemRepo.Create(newItem);
             return RedirectToAction(nameof(ViewHero));
         }
 
