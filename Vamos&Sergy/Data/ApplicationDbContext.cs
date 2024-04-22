@@ -6,8 +6,10 @@ namespace Vamos_Sergy.Data
 {
     public class ApplicationDbContext : IdentityDbContext
     {
-        public DbSet<Hero> Heroes {  get; set; }
-        DbSet<SiteUser> Users {  get; set; }
+        public DbSet<Hero> Heroes { get; set; }
+        public DbSet<Item> Items { get; set; }
+
+        DbSet<SiteUser> Users { get; set; }
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
         {
@@ -20,6 +22,12 @@ namespace Vamos_Sergy.Data
                 .WithMany()
                 .HasForeignKey(x => x.OwnerId)
                 .OnDelete(DeleteBehavior.Cascade);
+
+            builder.Entity<Item>()
+                .HasOne(x => x.Id)
+                .WithMany()
+                .OnDelete(DeleteBehavior.Cascade);
+
             base.OnModelCreating(builder);
         }
     }

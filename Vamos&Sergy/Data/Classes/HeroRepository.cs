@@ -13,14 +13,14 @@ namespace Vamos_Sergy.Data.Classes
             this.context = context;
         }
 
-        public void Create(Hero hero)
+        public void Create(Hero item)
         {
-            var heroSameName = context.Heroes.FirstOrDefault(h => h.Name == hero.Name);
+            var heroName = context.Heroes.FirstOrDefault(h => h.Name == item.Name);
 
-            if (heroSameName != null)
+            if (heroName != null)
                 throw new ArgumentException("Hero with this name already exists");
 
-            context.Heroes.Add(hero);
+            context.Heroes.Add(item);
             context.SaveChanges();
         }
         public IEnumerable<Hero> Read()
