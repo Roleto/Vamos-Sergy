@@ -21,11 +21,13 @@ namespace Vamos_Sergy.Models
 
 
         [Required]
+        [NotMapped]
         public string Stats { get; set; }
 
         [Required]
         public EquipmentEnum Type { get; set; }
 
+        [NotMapped]
         public int Price { get; set; }
         
         [NotMapped]
@@ -38,6 +40,12 @@ namespace Vamos_Sergy.Models
         public int Vit { get; set; }
         [NotMapped]
         public int Luck { get; set; }
+
+        [NotMapped]
+        public string ContentType { get; set; }
+
+        [NotMapped]
+        public byte[] Data { get; set; }
 
         public override string ToString()
         {
