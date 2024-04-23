@@ -16,7 +16,7 @@
     <div class="col-md-2"></div>
     <div class="col-md-8">
         <label asp-for="Data" class="form-label">Chose image for an item</label>
-        <input asp-for="Data" class="form-control" type="file" id="data">
+        <input asp-for="Data" class="form-control" type="file" name="picturedata" id="data">
     </div>
     <div class="col-md-2"></div>
     <div class="col-md-2"></div>
@@ -46,6 +46,9 @@
         </select>
     </div>
     <div class="col-md-2"></div>
+    <input type="hidden" asp-for="Id" value="" />
+    <input type="hidden" asp-for="Data" value="asd" />
+    <input type="hidden" asp-for="ContentType" value="asd" />
     <div class="col-md-5"></div>
     <div class="col-7">
         <button type="submit" class="btn btn-primary">Create Item</button>

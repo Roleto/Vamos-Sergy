@@ -97,6 +97,7 @@ namespace Vamos_Sergy.Controllers
         [HttpPost]
         public IActionResult CreateItem(Item newItem, IFormFile picturedata)
         {
+            newItem.Id = Guid.NewGuid().ToString();
             using (var stream = picturedata.OpenReadStream())
             {
                 byte[] buffer = new byte[picturedata.Length];
@@ -109,10 +110,7 @@ namespace Vamos_Sergy.Controllers
                 newItem.Data = buffer;
                 newItem.ContentType = picturedata.ContentType;
             }
-            if (!ModelState.IsValid)
-            {
-                return RedirectToAction(nameof(Index));
-            }
+           
             _itemRepo.Create(newItem);
             return RedirectToAction(nameof(ViewHero));
         }

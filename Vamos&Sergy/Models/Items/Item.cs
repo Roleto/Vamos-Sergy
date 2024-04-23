@@ -25,13 +25,10 @@ namespace Vamos_Sergy.Models.Items
 
         [Required]
         public ClassEnum RequiredClass { get; set; }
-
-      
-
-        [NotMapped]
+        [Required]
         public string ContentType { get; set; }
 
-        [NotMapped]
+        [Required]
         public byte[] Data { get; set; }
 
         public Item()
