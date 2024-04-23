@@ -5,7 +5,7 @@ using Vamos_Sergy.Helpers;
 
 namespace Vamos_Sergy.Models.Items
 {
-    public abstract class Item
+    public class Item
     {
         [Key]
         public string Id { get; set; }
@@ -38,22 +38,5 @@ namespace Vamos_Sergy.Models.Items
         {
             Id = Guid.NewGuid().ToString();
         }
-        protected virtual void GenerateStat()
-        {
-            switch (RequiredClass)
-            {
-                default:
-                case ClassEnum.Mage:
-                    Inte = 10;
-                    break;
-                case ClassEnum.Warrior:
-                    Str = 10;
-                    break;
-                case ClassEnum.Ranger:
-                    Dex = 10;
-                    break;
-            }
-        }
-
     }
 }

@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Http.Features;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Vamos_Sergy.Models;
 using Vamos_Sergy.Models.Items;
@@ -24,13 +25,14 @@ namespace Vamos_Sergy.Data
                 .WithMany()
                 .HasForeignKey(x => x.OwnerId)
                 .OnDelete(DeleteBehavior.Cascade);
+            builder.Entity<Item>();
+
             builder.Entity<Equipment>()
-                .HasOne(x => x.Id)
+                .HasOne(x => x.Owner)
                 .WithMany()
                 .HasForeignKey(x => x.OwherId)
                 .OnDelete(DeleteBehavior.Cascade);
 
-            builder.Entity<Item>();
 
             base.OnModelCreating(builder);
         }

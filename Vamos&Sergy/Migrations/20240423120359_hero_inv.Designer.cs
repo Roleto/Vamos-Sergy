@@ -12,8 +12,8 @@ using Vamos_Sergy.Data;
 namespace Vamos_Sergy.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240422174352_recreate_db")]
-    partial class recreate_db
+    [Migration("20240423120359_hero_inv")]
+    partial class hero_inv
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -237,17 +237,13 @@ namespace Vamos_Sergy.Migrations
                     b.Property<string>("Id")
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<string>("BeltObj")
+                    b.Property<string>("ContentType")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("BodyArmorObj")
+                    b.Property<byte[]>("Data")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("BootsObj")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("varbinary(max)");
 
                     b.Property<int>("Dex")
                         .HasColumnType("int");
@@ -255,19 +251,11 @@ namespace Vamos_Sergy.Migrations
                     b.Property<int>("Exp")
                         .HasColumnType("int");
 
-                    b.Property<string>("GlovesObj")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<int>("Gold")
                         .HasColumnType("int");
 
                     b.Property<bool>("HasMount")
                         .HasColumnType("bit");
-
-                    b.Property<string>("HelmetObj")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("Inte")
                         .HasColumnType("int");
@@ -281,9 +269,8 @@ namespace Vamos_Sergy.Migrations
                     b.Property<double>("Luck")
                         .HasColumnType("float");
 
-                    b.Property<string>("MiscObj")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("MaxInvetory")
+                        .HasColumnType("int");
 
                     b.Property<int>("Mushroom")
                         .HasColumnType("int");
@@ -293,10 +280,6 @@ namespace Vamos_Sergy.Migrations
                         .HasMaxLength(24)
                         .HasColumnType("nvarchar(24)");
 
-                    b.Property<string>("NecklaceObj")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("OwnerId")
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
@@ -304,23 +287,11 @@ namespace Vamos_Sergy.Migrations
                     b.Property<int>("Race")
                         .HasColumnType("int");
 
-                    b.Property<string>("RingObj")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("ShieldObj")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<int>("Str")
                         .HasColumnType("int");
 
                     b.Property<int>("Vit")
                         .HasColumnType("int");
-
-                    b.Property<string>("WeaponObj")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
@@ -329,7 +300,34 @@ namespace Vamos_Sergy.Migrations
                     b.ToTable("Heroes");
                 });
 
-            modelBuilder.Entity("Vamos_Sergy.Models.Item", b =>
+            modelBuilder.Entity("Vamos_Sergy.Models.Items.Equipment", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<bool>("IsEqueped")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("ItemId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("OwherId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("Stats")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("OwherId");
+
+                    b.ToTable("Equipments");
+                });
+
+            modelBuilder.Entity("Vamos_Sergy.Models.Items.Item", b =>
                 {
                     b.Property<string>("Id")
                         .HasColumnType("nvarchar(450)");
@@ -434,6 +432,17 @@ namespace Vamos_Sergy.Migrations
                     b.HasOne("Vamos_Sergy.Models.SiteUser", "Owner")
                         .WithMany()
                         .HasForeignKey("OwnerId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Owner");
+                });
+
+            modelBuilder.Entity("Vamos_Sergy.Models.Items.Equipment", b =>
+                {
+                    b.HasOne("Vamos_Sergy.Models.Hero", "Owner")
+                        .WithMany()
+                        .HasForeignKey("OwherId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 

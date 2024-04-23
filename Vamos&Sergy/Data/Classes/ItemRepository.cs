@@ -1,4 +1,5 @@
-﻿using Vamos_Sergy.Data.Interfaces;
+﻿
+using Vamos_Sergy.Data.Interfaces;
 using Vamos_Sergy.Models.Items;
 
 namespace Vamos_Sergy.Data.Classes
@@ -14,7 +15,7 @@ namespace Vamos_Sergy.Data.Classes
 
         public void Create(Item item)
         {
-            var itemName = context.Heroes.FirstOrDefault(h => h.Name == item.Name);
+            var itemName = context.Items.FirstOrDefault(h => h.Name == item.Name);
 
             if (itemName != null)
                 throw new ArgumentException("Item with this name already exists");
@@ -22,39 +23,33 @@ namespace Vamos_Sergy.Data.Classes
             context.Items.Add(item);
             context.SaveChanges();
         }
-        public IEnumerable<Item> Read()
+        public virtual IEnumerable<Item> Read()
         {
             return context.Items;
         }
 
-        public Item? Read(string id)
+        public virtual Item? Read(string id)
         {
             return context.Items.FirstOrDefault(t => t.Id == id);
         }
         
-        public Item? ReadFromName(string name)
-        {
-            return context.Items.FirstOrDefault(t => t.Name == name);
-        }
-
-        public Item? ReadFromOwner(string id)
+        public virtual Item? ReadFromOwner(string id)
         {
             throw new NotImplementedException("Items dont have owner id-s");
         }
 
-        public void Update(Item item)
+        public virtual void Update(Item item)
         {
             var old = Read(item.Id);
             old.Name = item.Name;
             old.Description = item.Description;
-            old.Stats = item.Stats;
             old.Type = item.Type;
             context.SaveChanges();
         }
 
         public void Delete(string id)
         {
-            Item item = Read(id);
+            var item = Read(id);
             context.Items.Remove(item);
             context.SaveChanges();
         }

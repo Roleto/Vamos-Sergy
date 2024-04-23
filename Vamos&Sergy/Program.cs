@@ -31,6 +31,7 @@ builder.Services.AddDefaultIdentity<SiteUser>(options =>
 builder.Services.AddControllersWithViews();
 builder.Services.AddTransient<IRepository<Hero>, HeroRepository>();
 builder.Services.AddTransient<IRepository<Item>, ItemRepository>();
+builder.Services.AddTransient<IRepository<Equipment>, EquipmentRepository>();
 builder.Services.AddTransient<TableBuilder>();
 
 var app = builder.Build();

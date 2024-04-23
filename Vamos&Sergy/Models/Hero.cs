@@ -8,7 +8,6 @@ namespace Vamos_Sergy.Models
 {
     public class Hero
     {
-        private int maxInvetory;
         #region Base props
 
         [Key]
@@ -154,16 +153,12 @@ namespace Vamos_Sergy.Models
         #region inventory props
 
         [NotMapped]
-        public Dictionary<int, Equipment> Inventory { get; set; }
-        public Dictionary<int, Equipment> Equipments { get; set; }
-
+        public virtual Dictionary<int, Equipment> Inventory { get; set; }
         [NotMapped]
-        public int MaxInvetory
-        {
-            get { return maxInvetory; }
-            set { maxInvetory = value; }
-        }
+        public virtual Dictionary<int, Equipment> Equipments { get; set; }
 
+        [Range(0, 25)]
+        public int MaxInvetory { get; set; }
         public void Equip(Equipment item)
         {
             int valami = (int)item.Type;
@@ -188,21 +183,18 @@ namespace Vamos_Sergy.Models
         [NotMapped]
         public virtual SiteUser Owner { get; set; }
 
-        [NotMapped]
         public string ContentType { get; set; }
 
-        [NotMapped]
         public byte[] Data { get; set; }
         public Hero()
         {
             Id = Guid.NewGuid().ToString();
-            //MaxInvetory = 5;
         }
         public void GenerateStats(RaceEnum race)
         {
             HasMount = false;
+            MaxInvetory = 5;
             SetStats(race);
-            this.maxInvetory = 5;
             Inventory = new Dictionary<int, Equipment>();
             Equipments = new Dictionary<int, Equipment>();
         }

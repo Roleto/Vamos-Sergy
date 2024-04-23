@@ -8,7 +8,6 @@ namespace Vamos_Sergy.Data.Interfaces
         void Create(T item);
         IEnumerable<T> Read();
         T? Read(string id);
-        T? ReadFromName(string name);
         T? ReadFromOwner(string id);
         void Update(T item);
         void Delete(string id);

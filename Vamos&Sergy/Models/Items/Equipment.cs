@@ -1,22 +1,45 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Vamos_Sergy.Helpers;
 
 namespace Vamos_Sergy.Models.Items
 {
-    public class Equipment : Item
+    public class Equipment
     {
+        [Key]
+        public string Id { get; set; }
+
+        public string ItemId{ get; set; }     
+
+        [NotMapped]
+        [ShowTable]
+        public string Name { get; set; }
+
+        [NotMapped]
+        [ShowTable]
+        public string Description { get; set; }
+
+        [NotMapped]
+        public EquipmentEnum Type { get; set; }
+
+        [NotMapped]
+        public ClassEnum RequiredClass { get; set; }
+        
         [Required]
         public bool IsEqueped { get; set; }
 
         [Required]
         public string OwherId { get; set; }
 
+        [NotMapped]
+        public virtual Hero Owner { get; set; }
+
         [Required]
         public string Stats { get; set; }
 
 
         [NotMapped]
-        public int Price { get; set; }
+        public int Price { get => 1; }
 
         [NotMapped]
         [Range(0, 24)]
@@ -40,9 +63,21 @@ namespace Vamos_Sergy.Models.Items
             _random = new Random();
         }
 
-        protected override void GenerateStat()
+        protected virtual void GenerateStat()
         {
-            base.GenerateStat();
+            switch (RequiredClass)
+            {
+                default:
+                case ClassEnum.Mage:
+                    Inte = 10;
+                    break;
+                case ClassEnum.Warrior:
+                    Str = 10;
+                    break;
+                case ClassEnum.Ranger:
+                    Dex = 10;
+                    break;
+            }
         }
     }
 }

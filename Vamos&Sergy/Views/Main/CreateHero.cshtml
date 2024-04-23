@@ -18,12 +18,13 @@
         document.getElementById("classImg").src = valami;
         document.getElementById("className").innerHTML = kast[currentIndex];
         document.getElementById("heroClass").value = currentIndex;
+        document.getElementById("pivtureValue").value = valami;
 
 
     }
 
 </script>
-<form class="row g-3 w-50 pt-5" method="post" style=" margin-left:19rem; ">
+<form class="row g-3 w-50 pt-5" method="post" enctype="multipart/form-data" style=" margin-left:19rem; ">
     <div class="col-md-2">
     </div>
     <div class="col-md-8">
@@ -44,8 +45,9 @@
                         <div class=" col col-2"><button onclick="ShowHeroKast(1)" type="button" class="btn btn-success">Next</button></div>
                     </div>
                 </div>
-            <input type="hidden" id="heroClass" asp-for="Kast" value="0" />
-            <input type="hidden" asp-for="Level" value="1" />
+                <input type="hidden" id="heroClass" asp-for="Kast" value="0" />
+                <input type="hidden" asp-for="Level" value="1" />
+                <input id="pivtureValue" type="hidden" name="picturedata" value="/Images\ClassImages\mage.jpg" />
             </div>
         </div>
     </div>

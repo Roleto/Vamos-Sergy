@@ -54,6 +54,21 @@ namespace Vamos_Sergy.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Items",
+                columns: table => new
+                {
+                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(24)", maxLength: 24, nullable: false),
+                    Description = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
+                    Type = table.Column<int>(type: "int", nullable: false),
+                    RequiredClass = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Items", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "AspNetRoleClaims",
                 columns: table => new
                 {
@@ -159,6 +174,58 @@ namespace Vamos_Sergy.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "Heroes",
+                columns: table => new
+                {
+                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(24)", maxLength: 24, nullable: false),
+                    Exp = table.Column<int>(type: "int", nullable: false),
+                    Level = table.Column<int>(type: "int", nullable: false),
+                    Gold = table.Column<int>(type: "int", nullable: false),
+                    Mushroom = table.Column<int>(type: "int", nullable: false),
+                    Kast = table.Column<int>(type: "int", nullable: false),
+                    Race = table.Column<int>(type: "int", nullable: false),
+                    HasMount = table.Column<bool>(type: "bit", nullable: false),
+                    Str = table.Column<int>(type: "int", nullable: false),
+                    Dex = table.Column<int>(type: "int", nullable: false),
+                    Inte = table.Column<int>(type: "int", nullable: false),
+                    Vit = table.Column<int>(type: "int", nullable: false),
+                    Luck = table.Column<double>(type: "float", nullable: false),
+                    OwnerId = table.Column<string>(type: "nvarchar(450)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Heroes", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Heroes_AspNetUsers_OwnerId",
+                        column: x => x.OwnerId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Equipments",
+                columns: table => new
+                {
+                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    ItemId = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    IsEqueped = table.Column<bool>(type: "bit", nullable: false),
+                    OwherId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    Stats = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Equipments", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Equipments_Heroes_OwherId",
+                        column: x => x.OwherId,
+                        principalTable: "Heroes",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
                 table: "AspNetRoleClaims",
@@ -198,6 +265,15 @@ namespace Vamos_Sergy.Migrations
                 unique: true,
                 filter: "[NormalizedUserName] IS NOT NULL");
 
+            migrationBuilder.CreateIndex(
+                name: "IX_Equipments_OwherId",
+                table: "Equipments",
+                column: "OwherId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Heroes_OwnerId",
+                table: "Heroes",
+                column: "OwnerId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -218,7 +294,16 @@ namespace Vamos_Sergy.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
+                name: "Equipments");
+
+            migrationBuilder.DropTable(
+                name: "Items");
+
+            migrationBuilder.DropTable(
                 name: "AspNetRoles");
+
+            migrationBuilder.DropTable(
+                name: "Heroes");
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");
