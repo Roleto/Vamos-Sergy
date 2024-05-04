@@ -12,8 +12,8 @@ using Vamos_Sergy.Data;
 namespace Vamos_Sergy.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240423120359_hero_inv")]
-    partial class hero_inv
+    [Migration("20240503181728_equipment")]
+    partial class equipment
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -332,6 +332,14 @@ namespace Vamos_Sergy.Migrations
                     b.Property<string>("Id")
                         .HasColumnType("nvarchar(450)");
 
+                    b.Property<string>("ContentType")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<byte[]>("Data")
+                        .IsRequired()
+                        .HasColumnType("varbinary(max)");
+
                     b.Property<string>("Description")
                         .IsRequired()
                         .HasMaxLength(200)
@@ -344,6 +352,12 @@ namespace Vamos_Sergy.Migrations
 
                     b.Property<int>("RequiredClass")
                         .HasColumnType("int");
+
+                    b.Property<string>("SecondaryContentType")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<byte[]>("SecondaryData")
+                        .HasColumnType("varbinary(max)");
 
                     b.Property<int>("Type")
                         .HasColumnType("int");

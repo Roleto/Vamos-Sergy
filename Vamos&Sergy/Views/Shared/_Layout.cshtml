@@ -11,7 +11,7 @@
 <body style="background-color:black; overflow-y:hidden;">
 
     <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+      @*   <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
         <div class="container-fluid">
         <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Vamos_Sergy</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
@@ -30,7 +30,7 @@
         <partial name="_LoginPartial" />
         </div>
         </div>
-        </nav>
+        </nav>  *@
     </header>
     <div class="container-fluid">
         <main role="main" class="pb-3" style="background-color:royalblue; margin-left:7rem; margin-right:7rem;">
@@ -38,9 +38,9 @@
                 <div class="col col-sm-2 col-md-2 col-lg-2">
                     <div class="btn-group-vertical w-100 h-100 g-1" role="group" aria-label="Vertical button group">
                         <div style="height:75px; background-color:black; margin-bottom:1rem;"></div>
-                        <button type="button" class="btn btn-primary">Tavern</button>
-                        <button type="button" class="btn btn-primary mt-2">Arena</button>
-                        <button type="button" onclick="location.href='@Url.Action("CreateItem", "Main" )'" class="btn btn-primary mt-2">Weapon Shop</button>
+                        <button type="button" onclick="location.href='@Url.Action("ViewHero", "Main" )'" class="btn btn-primary">Tavern</button>
+                        <button type="button" onclick="location.href='@Url.Action("CreateItem", "Main" )'" class="btn btn-primary mt-2">Arena</button>
+                        <button type="button" onclick="location.href='@Url.Action("WeaponShop", "Main" )'" class="btn btn-primary mt-2">Weapon Shop</button>
                         <button type="button" class="btn btn-primary mt-2">Magic Shop</button>
                         <button type="button" class="btn btn-primary mt-2">Stable</button>
                         <button type="button" class="btn btn-primary mt-2">Dungeons</button>

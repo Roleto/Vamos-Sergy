@@ -23,7 +23,7 @@ namespace Vamos_Sergy.Data.Classes
             context.Items.Add(item);
             context.SaveChanges();
         }
-        public virtual IEnumerable<Item> Read()
+        public virtual IQueryable<Item> Read()
         {
             return context.Items;
         }
@@ -32,7 +32,7 @@ namespace Vamos_Sergy.Data.Classes
         {
             return context.Items.FirstOrDefault(t => t.Id == id);
         }
-        
+
         public virtual Item? ReadFromOwner(string id)
         {
             throw new NotImplementedException("Items dont have owner id-s");

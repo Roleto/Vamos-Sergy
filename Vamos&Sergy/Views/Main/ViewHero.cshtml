@@ -5,7 +5,17 @@
             <table class="table table-borderless m-0 ms-1 p-0 overflow-hidden">
                 <tbody>
                     <tr>
-                        <td><img class="icon" src="/Images/NullImages\helmet.png" /></td>
+                        @if (Model.Equipments.ContainsKey(EquipmentEnum.Helmet))
+                        {
+                            <td ondblclick="location.href='@Url.Action("EquipItem", "Main" , new { index=1, name = "ViewHero"})'">
+                                <img class="icon" src="@Url.Action("GetInventoryImage", "Main",
+                                new { id = Model.Equipments[EquipmentEnum.Helmet].ItemId})" />
+                            </td>
+                        }
+                        else
+                        {
+                            <td><img class="icon" src="/Images/NullImages\helmet.png" /></td>
+                        }
                         <td rowspan="3" colspan="2">
                             <div class="card cardom">
                                 <img src="@Url.Action("GetImage", "Main", new { isUserImage = false})" class="card-img heroImg" alt="...">
@@ -17,31 +27,116 @@
                                 </div>
                             </div>
                         </td>
-                        <td><img class="icon" src="/Images\NullImages\necklace.png" /></td>
-                    </tr>
-                    <tr>
-                        <td><img class="icon" src="/Images\NullImages\armor.png" /></td>
-                        <td><img class="icon" src="/Images\NullImages\belt.png" /></td>
-                    </tr>
-                    <tr>
-                        <td><img class="icon" src="/Images\NullImages\hand.png" /></td>
-                        <td><img class="icon" src="/Images\NullImages\ring.png" /></td>
-                    </tr>
-                    <tr>
-                        <td><img class="icon" src="/Images\NullImages\leg.png" /></td>
-                        <td><img class="icon" src="/Images\NullImages\weapon.png" /></td>
-                        @switch (Model.Kast)
+                        @if (Model.Equipments.ContainsKey(EquipmentEnum.Necklace))
                         {
-                            default:
-                            case ClassEnum.Mage:
-                                <td><img class="icon" src="/Images\NullImages\blank.png" /></td>
-                                break;
-                            case ClassEnum.Warrior:
+                            <td>
+                                <img class="icon" src="@Url.Action("GetInventoryImage", "Main",
+                                new { id = Model.Equipments[EquipmentEnum.Necklace].ItemId})" />
+                            </td>
+                        }
+                        else
+                        {
+                            <td><img class="icon" src="/Images\NullImages\necklace.png" /></td>
+                        }
+                    </tr>
+                    <tr>
+                        @if (Model.Equipments.ContainsKey(EquipmentEnum.Armor))
+                        {
+                            <td>
+                                <img class="icon" src="@Url.Action("GetInventoryImage", "Main",
+                                new { id = Model.Equipments[EquipmentEnum.Armor].ItemId})" />
+                            </td>
+                        }
+                        else
+                        {
+                            <td><img class="icon" src="/Images\NullImages\armor.png" /></td>
+                        }
+                        @if (Model.Equipments.ContainsKey(EquipmentEnum.Belt))
+                        {
+                            <td>
+                                <img class="icon" src="@Url.Action("GetInventoryImage", "Main",
+                                new { id = Model.Equipments[EquipmentEnum.Belt].ItemId})" />
+                            </td>
+                        }
+                        else
+                        {
+                            <td><img class="icon" src="/Images\NullImages\belt.png" /></td>
+                        }
+                    </tr>
+                    <tr>
+                        @if (Model.Equipments.ContainsKey(EquipmentEnum.Hand))
+                        {
+                            <td>
+                                <img class="icon" src="@Url.Action("GetInventoryImage", "Main",
+                                new { id = Model.Equipments[EquipmentEnum.Hand].ItemId})" />
+                            </td>
+                        }
+                        else
+                        {
+                            <td><img class="icon" src="/Images\NullImages\hand.png" /></td>
+                        }
+                        @if (Model.Equipments.ContainsKey(EquipmentEnum.Ring))
+                        {
+                            <td>
+                                <img class="icon" src="@Url.Action("GetInventoryImage", "Main",
+                                new { id = Model.Equipments[EquipmentEnum.Ring].ItemId})" />
+                            </td>
+                        }
+                        else
+                        {
+                            <td><img class="icon" src="/Images\NullImages\ring.png" /></td>
+                        }
+                    </tr>
+                    <tr>
+                        @if (Model.Equipments.ContainsKey(EquipmentEnum.Leg))
+                        {
+                            <td>
+                                <img class="icon" src="@Url.Action("GetInventoryImage", "Main",
+                                new { id = Model.Equipments[EquipmentEnum.Leg].ItemId})" />
+                            </td>
+                        }
+                        else
+                        {
+                            <td><img class="icon" src="/Images\NullImages\leg.png" /></td>
+                        }
+                        @if (Model.Equipments.ContainsKey(EquipmentEnum.Weapon))
+                        {
+                            <td>
+                                <img class="icon" src="@Url.Action("GetInventoryImage", "Main",
+                                new { id = Model.Equipments[EquipmentEnum.Weapon].ItemId})" />
+                            </td>
+                        }
+                        else
+                        {
+                            <td><img class="icon" src="/Images\NullImages\weapon.png" /></td>
+                        }
+                        @if (Model.Kast == ClassEnum.Warrior)
+                        {
+                            @if (Model.Equipments.ContainsKey(EquipmentEnum.Shield))
+                            {
+                                <td>
+                                    <img class="icon" src="@Url.Action("GetInventoryImage", "Main",
+                                        new { id = Model.Equipments[EquipmentEnum.Shield].ItemId})" />
+                                </td>
+                            }
+                            else
+                            {
                                 <td><img class="icon" src="/Images\NullImages\shield.png" /></td>
-                                break;
-                            case ClassEnum.Ranger:
+                            }
+                        }
+                        else
+                        {
+                            @if (Model.Equipments.ContainsKey(EquipmentEnum.Weapon))
+                            {
+                                <td>
+                                    <img class="icon" src="@Url.Action("GetInventoryImage", "Main",
+                                        new { id = Model.Equipments[EquipmentEnum.Weapon].ItemId, secondary=true})" />
+                                </td>
+                            }
+                            else
+                            {
                                 <td><img class="icon" src="/Images\NullImages\blank.png" /></td>
-                                break;
+                            }
                         }
                         <td><img class="icon" src="/Images\NullImages\blank.png" /></td>
                     </tr>
@@ -77,13 +172,13 @@
                         <td class="m-0 p-0" colspan="2">
                             <div class="container">
                                 <div class="row p-0">
-                                    <div class="col col-5 m-0 gy-0">
+                                    <div class="col col-6 m-0 gy-0">
                                         <p style="white-space: pre-line">Constitution Hit&nbspPoints</p>
                                     </div>
-                                    <div class="col col-3 m-0">
-                                        <p class="text-end" style="white-space: pre-line">@Model.Vit @Model.Hp</p>
+                                    <div class="col col-2 m-0">
+                                        <p style="white-space: pre-line">@Model.Vit @Model.Hp</p>
                                     </div>
-                                    <div class="col col-">
+                                    <div class="col col-2">
                                         <button type="button" class="btn btn-info statButton"><i class="fa-solid fa-plus"></i></button>
                                     </div>
                                 </div>
@@ -164,6 +259,7 @@
                                     </div>
                                 </div>
                             </div>
+                        </td>
                         <td class="m-0 p-0" colspan="2">
                             <div class="container">
                                 <div class="row p-0">
@@ -189,8 +285,17 @@
                     <div class="row row-cols-5 ps-0 pe-0 " s>
                         @for (int i = 0; i < @Model.MaxInvetory; i++)
                         {
-                            <div class="col">
-                                <img class="InventoryImg" src="/Images/NullImages\blank.png" />
+                            <div class="col" ondblclick="location.href='@Url.Action("EquipItem", "Main" , new { index=i, name = "ViewHero"})'">
+                                @if (i < Model.Inventory.Count() && Model.Inventory[i] != null)
+                                {
+
+                                    <img class="InventoryImg" src="@Url.Action("GetInventoryImage", "Main", new { id = Model.Inventory[i].ItemId})" />
+                                }
+                                else
+                                {
+
+                                    <img class="InventoryImg" src="/Images/NullImages\blank.png" />
+                                }
                             </div>
                         }
                         @for (int i = 0; i < 25 - @Model.MaxInvetory; i++)

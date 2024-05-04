@@ -303,6 +303,9 @@ namespace Vamos_Sergy.Migrations
                     b.Property<string>("Id")
                         .HasColumnType("nvarchar(450)");
 
+                    b.Property<int>("InventorySlot")
+                        .HasColumnType("int");
+
                     b.Property<bool>("IsEqueped")
                         .HasColumnType("bit");
 
@@ -350,6 +353,12 @@ namespace Vamos_Sergy.Migrations
 
                     b.Property<int>("RequiredClass")
                         .HasColumnType("int");
+
+                    b.Property<string>("SecondaryContentType")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<byte[]>("SecondaryData")
+                        .HasColumnType("varbinary(max)");
 
                     b.Property<int>("Type")
                         .HasColumnType("int");

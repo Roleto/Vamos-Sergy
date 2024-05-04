@@ -12,8 +12,8 @@ using Vamos_Sergy.Data;
 namespace Vamos_Sergy.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240423122047_item_image")]
-    partial class item_image
+    [Migration("20240425170634_try_somthing")]
+    partial class try_somthing
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -300,33 +300,6 @@ namespace Vamos_Sergy.Migrations
                     b.ToTable("Heroes");
                 });
 
-            modelBuilder.Entity("Vamos_Sergy.Models.Items.Equipment", b =>
-                {
-                    b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<bool>("IsEqueped")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("ItemId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("OwherId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("Stats")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("OwherId");
-
-                    b.ToTable("Equipments");
-                });
-
             modelBuilder.Entity("Vamos_Sergy.Models.Items.Item", b =>
                 {
                     b.Property<string>("Id")
@@ -352,6 +325,14 @@ namespace Vamos_Sergy.Migrations
 
                     b.Property<int>("RequiredClass")
                         .HasColumnType("int");
+
+                    b.Property<string>("SecondaryContentType")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<byte[]>("SecondaryData")
+                        .IsRequired()
+                        .HasColumnType("varbinary(max)");
 
                     b.Property<int>("Type")
                         .HasColumnType("int");
@@ -440,17 +421,6 @@ namespace Vamos_Sergy.Migrations
                     b.HasOne("Vamos_Sergy.Models.SiteUser", "Owner")
                         .WithMany()
                         .HasForeignKey("OwnerId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Owner");
-                });
-
-            modelBuilder.Entity("Vamos_Sergy.Models.Items.Equipment", b =>
-                {
-                    b.HasOne("Vamos_Sergy.Models.Hero", "Owner")
-                        .WithMany()
-                        .HasForeignKey("OwherId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 

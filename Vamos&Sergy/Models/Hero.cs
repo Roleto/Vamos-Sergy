@@ -3,6 +3,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Diagnostics.CodeAnalysis;
 using Vamos_Sergy.Models.Items;
+using System.Collections.Generic;
 
 namespace Vamos_Sergy.Models
 {
@@ -53,42 +54,74 @@ namespace Vamos_Sergy.Models
 
         public int Str
         {
-            get { return str; }
+            get
+            {
+                int realStr = this.str;
+                foreach (var item in Equipments)
+                {
+                    realStr += item.Value.Str;
+                }
+                return realStr;
+            }
             set { str = value; }
         }
         [NotMapped]
-        public int Defence { get => str / 2; }
+        public int Defence { get => Str / 2; }
 
         private int dex;
 
         public int Dex
         {
-            get { return dex; }
+            get
+            {
+                int realDex = this.dex;
+                foreach (var item in Equipments)
+                {
+                    realDex += item.Value.Dex;
+                }
+                return realDex;
+            }
             set { dex = value; }
         }
         [NotMapped]
-        public int Evasion { get => dex / 2; }
+        public int Evasion { get => Dex / 2; }
 
         private int inte;
 
         public int Inte
         {
-            get { return inte; }
+            get
+            {
+                int realInt = this.inte;
+                foreach (var item in Equipments)
+                {
+                    realInt += item.Value.Inte;
+                }
+                return realInt;
+            }
             set { inte = value; }
         }
         [NotMapped]
-        public int Resistance { get => inte / 2; }
+        public int Resistance { get => Inte / 2; }
 
         private int vit;
 
         public int Vit
         {
-            get { return vit; }
+            get
+            {
+                int realVit = this.vit;
+                foreach (var item in Equipments)
+                {
+                    realVit += item.Value.Vit;
+                }
+                return realVit;
+            }
             set { vit = value; }
         }
 
         [NotMapped]
-        public int Hp { get => vit * 2 * (this.Level + 1); }
+        public int Hp { get => Vit * 2 * (this.Level + 1); }
 
 
 
@@ -96,13 +129,45 @@ namespace Vamos_Sergy.Models
 
         public double Luck
         {
-            get { return luck; }
+            get
+            {
+                double realLuck = this.luck;
+                foreach (var item in Equipments)
+                {
+                    realLuck += item.Value.Luck;
+                }
+                return realLuck;
+            }
             set { luck = value; }
         }
 
         [NotMapped]
-        public int Damage { get => 1000; }
+        public int Damage
+        {
+            get
+            {
+                switch (Kast)
+                {
+                    default:
+                    case ClassEnum.Mage:
+                        return weaponDmg() * (1 + Inte / 10);
+                    case ClassEnum.Warrior:
+                        return weaponDmg() * (1 + Str / 10);
+                    case ClassEnum.Ranger:
+                        return weaponDmg() * (1 + Dex / 10);
+                }
+            }
+        }
 
+        private int weaponDmg()
+        {
+            if (Equipments.ContainsKey(EquipmentEnum.Weapon))
+            {
+                Weapon weapon = Equipments[EquipmentEnum.Weapon] as Weapon;
+                return (weapon.MinDamage + weapon.MaxDamage) / 2;
+            }
+            return 1;
+        }
 
         [NotMapped]
         [Range(0, 50)]
@@ -155,26 +220,11 @@ namespace Vamos_Sergy.Models
         [NotMapped]
         public virtual Dictionary<int, Equipment> Inventory { get; set; }
         [NotMapped]
-        public virtual Dictionary<int, Equipment> Equipments { get; set; }
+        public virtual Dictionary<EquipmentEnum, Equipment> Equipments { get; set; }
 
         [Range(0, 25)]
         public int MaxInvetory { get; set; }
-        public void Equip(Equipment item)
-        {
-            int valami = (int)item.Type;
-            var old = Equipments[valami];
-            item.IsEqueped = true;
-            if (old != null)
-            {
-                Equipments[valami] = item;
-            }
-            else
-            {
-                Equipments[valami] = item;
-                old.IsEqueped = false;
-                Inventory[item.ItemSlot] = old;
-            }
-        }
+
 
         #endregion
 
@@ -189,15 +239,79 @@ namespace Vamos_Sergy.Models
         public Hero()
         {
             Id = Guid.NewGuid().ToString();
+            Inventory = new Dictionary<int, Equipment>();
+            Equipments = new Dictionary<EquipmentEnum, Equipment>();
         }
         public void GenerateStats(RaceEnum race)
         {
             HasMount = false;
             MaxInvetory = 5;
             SetStats(race);
-            Inventory = new Dictionary<int, Equipment>();
-            Equipments = new Dictionary<int, Equipment>();
         }
+        public void GetEqupments(List<Equipment> equipments)
+        {
+            foreach (Equipment item in equipments)
+            {
+                if (item.Type == EquipmentEnum.Weapon)
+                    (item as Weapon).SetStat();
+                else if (item.Type == EquipmentEnum.Shield)
+                    (item as Shield).SetStat();
+                else
+                    item.SetStat();
+                if (item.IsEqueped)
+                {
+                    Equipments[item.Type] = item;
+                }
+                else
+                {
+                    Inventory[item.InventorySlot] = item;
+                }
+            }
+        }
+
+        public void Equip(Equipment item)
+        {
+            if (item == null)
+                return;
+            item.IsEqueped = true;
+            if (Equipments.ContainsKey(item.Type))
+            {
+                var old = Equipments[item.Type];
+                Equipments[item.Type] = item;
+                old.IsEqueped = false;
+                Inventory[item.InventorySlot] = old;
+            }
+            else
+            {
+                Equipments[item.Type] = item;
+                Inventory[item.InventorySlot] = null;
+
+            }
+        }
+        public void UnEquip(EquipmentEnum equipment)
+        {
+            if (Equipments.ContainsKey(equipment) && Inventory.Count() <= MaxInvetory)
+            {
+                bool foundSlot = false;
+                var e = Equipments[equipment];
+                int i;
+                for (i = 0; i < Inventory.Count(); i++)
+                {
+                    if (Inventory[i] == null)
+                    {
+                        Inventory[i] = e;
+                        Equipments[equipment] = null;
+                        foundSlot = true;
+                    }
+                }
+                if(!foundSlot)
+                {
+                    Inventory[i + 1] = e;
+                    Equipments[equipment] = null;
+                }
+            }
+        }
+
 
         private void SetStats(RaceEnum race)
         {

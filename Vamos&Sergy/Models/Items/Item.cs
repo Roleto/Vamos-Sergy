@@ -31,6 +31,12 @@ namespace Vamos_Sergy.Models.Items
         [Required]
         public byte[] Data { get; set; }
 
+        [AllowNull]
+        public string? SecondaryContentType { get; set; }
+
+        [AllowNull]
+        public byte[]? SecondaryData { get; set; }
+
         public Item()
         {
             Id = Guid.NewGuid().ToString();

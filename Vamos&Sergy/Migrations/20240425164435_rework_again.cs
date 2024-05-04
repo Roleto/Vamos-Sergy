@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Vamos_Sergy.Migrations
 {
-    public partial class recreate_db : Migration
+    public partial class rework_again : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -61,7 +61,11 @@ namespace Vamos_Sergy.Migrations
                     Name = table.Column<string>(type: "nvarchar(24)", maxLength: 24, nullable: false),
                     Description = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
                     Type = table.Column<int>(type: "int", nullable: false),
-                    RequiredClass = table.Column<int>(type: "int", nullable: false)
+                    RequiredClass = table.Column<int>(type: "int", nullable: false),
+                    ContentType = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Data = table.Column<byte[]>(type: "varbinary(max)", nullable: false),
+                    SecondaryContentType = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    SecondaryData = table.Column<byte[]>(type: "varbinary(max)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -192,7 +196,10 @@ namespace Vamos_Sergy.Migrations
                     Inte = table.Column<int>(type: "int", nullable: false),
                     Vit = table.Column<int>(type: "int", nullable: false),
                     Luck = table.Column<double>(type: "float", nullable: false),
-                    OwnerId = table.Column<string>(type: "nvarchar(450)", nullable: false)
+                    MaxInvetory = table.Column<int>(type: "int", nullable: false),
+                    OwnerId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    ContentType = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Data = table.Column<byte[]>(type: "varbinary(max)", nullable: false)
                 },
                 constraints: table =>
                 {

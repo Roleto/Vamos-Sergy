@@ -23,7 +23,7 @@ namespace Vamos_Sergy.Data.Classes
             context.Heroes.Add(item);
             context.SaveChanges();
         }
-        public IEnumerable<Hero> Read()
+        public IQueryable<Hero> Read()
         {
             return context.Heroes;
         }

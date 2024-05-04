@@ -18,6 +18,7 @@
         Mage = 0,
         Warrior = 1,
         Ranger = 2,
+        All = 3,
     }
 
     public enum RaceEnum

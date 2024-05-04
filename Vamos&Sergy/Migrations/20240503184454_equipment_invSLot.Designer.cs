@@ -12,8 +12,8 @@ using Vamos_Sergy.Data;
 namespace Vamos_Sergy.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240422202015_recreate_db")]
-    partial class recreate_db
+    [Migration("20240503184454_equipment_invSLot")]
+    partial class equipment_invSLot
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -237,6 +237,14 @@ namespace Vamos_Sergy.Migrations
                     b.Property<string>("Id")
                         .HasColumnType("nvarchar(450)");
 
+                    b.Property<string>("ContentType")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<byte[]>("Data")
+                        .IsRequired()
+                        .HasColumnType("varbinary(max)");
+
                     b.Property<int>("Dex")
                         .HasColumnType("int");
 
@@ -260,6 +268,9 @@ namespace Vamos_Sergy.Migrations
 
                     b.Property<double>("Luck")
                         .HasColumnType("float");
+
+                    b.Property<int>("MaxInvetory")
+                        .HasColumnType("int");
 
                     b.Property<int>("Mushroom")
                         .HasColumnType("int");
@@ -294,6 +305,9 @@ namespace Vamos_Sergy.Migrations
                     b.Property<string>("Id")
                         .HasColumnType("nvarchar(450)");
 
+                    b.Property<int>("InventorySlot")
+                        .HasColumnType("int");
+
                     b.Property<bool>("IsEqueped")
                         .HasColumnType("bit");
 
@@ -321,6 +335,14 @@ namespace Vamos_Sergy.Migrations
                     b.Property<string>("Id")
                         .HasColumnType("nvarchar(450)");
 
+                    b.Property<string>("ContentType")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<byte[]>("Data")
+                        .IsRequired()
+                        .HasColumnType("varbinary(max)");
+
                     b.Property<string>("Description")
                         .IsRequired()
                         .HasMaxLength(200)
@@ -333,6 +355,12 @@ namespace Vamos_Sergy.Migrations
 
                     b.Property<int>("RequiredClass")
                         .HasColumnType("int");
+
+                    b.Property<string>("SecondaryContentType")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<byte[]>("SecondaryData")
+                        .HasColumnType("varbinary(max)");
 
                     b.Property<int>("Type")
                         .HasColumnType("int");

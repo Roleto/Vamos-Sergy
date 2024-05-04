@@ -4,23 +4,23 @@
 
 namespace Vamos_Sergy.Migrations
 {
-    public partial class hero_inv : Migration
+    public partial class equipment_invSLot : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.AddColumn<int>(
-                name: "MaxInvetory",
-                table: "Heroes",
+                name: "InventorySlot",
+                table: "Equipments",
                 type: "int",
                 nullable: false,
-                defaultValue: 5);
+                defaultValue: 0);
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropColumn(
-                name: "MaxInvetory",
-                table: "Heroes");
+                name: "InventorySlot",
+                table: "Equipments");
         }
     }
 }

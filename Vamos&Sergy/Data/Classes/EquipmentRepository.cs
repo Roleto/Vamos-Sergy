@@ -15,16 +15,11 @@ namespace Vamos_Sergy.Data.Classes
 
         public void Create(Equipment item)
         {
-            var itemName = context.Equipments.FirstOrDefault(h => h.Name == item.Name);
-
-            if (itemName != null)
-                throw new ArgumentException("Item with this name already exists");
-
             context.Equipments.Add(item);
             context.SaveChanges();
         }
 
-        public IEnumerable<Equipment> Read()
+        public IQueryable<Equipment> Read()
         {
             return context.Equipments;
         }
@@ -32,7 +27,7 @@ namespace Vamos_Sergy.Data.Classes
         public Equipment? Read(string id)
         {
             return context.Equipments.FirstOrDefault(t => t.Id == id);
-        }       
+        }
 
         public Equipment? ReadFromOwner(string id)
         {

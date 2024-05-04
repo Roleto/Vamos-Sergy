@@ -12,8 +12,8 @@ using Vamos_Sergy.Data;
 namespace Vamos_Sergy.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240422215427_hero_img")]
-    partial class hero_img
+    [Migration("20240425164435_rework_again")]
+    partial class rework_again
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -269,6 +269,9 @@ namespace Vamos_Sergy.Migrations
                     b.Property<double>("Luck")
                         .HasColumnType("float");
 
+                    b.Property<int>("MaxInvetory")
+                        .HasColumnType("int");
+
                     b.Property<int>("Mushroom")
                         .HasColumnType("int");
 
@@ -329,6 +332,14 @@ namespace Vamos_Sergy.Migrations
                     b.Property<string>("Id")
                         .HasColumnType("nvarchar(450)");
 
+                    b.Property<string>("ContentType")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<byte[]>("Data")
+                        .IsRequired()
+                        .HasColumnType("varbinary(max)");
+
                     b.Property<string>("Description")
                         .IsRequired()
                         .HasMaxLength(200)
@@ -341,6 +352,14 @@ namespace Vamos_Sergy.Migrations
 
                     b.Property<int>("RequiredClass")
                         .HasColumnType("int");
+
+                    b.Property<string>("SecondaryContentType")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<byte[]>("SecondaryData")
+                        .IsRequired()
+                        .HasColumnType("varbinary(max)");
 
                     b.Property<int>("Type")
                         .HasColumnType("int");

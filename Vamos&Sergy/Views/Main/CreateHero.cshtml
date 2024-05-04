@@ -14,7 +14,12 @@
         } else if (currentIndex > 2) {
             currentIndex = 0;
         }
-        let valami = '/Images\\ClassImages\\' + kast[currentIndex] + '.jpg';
+        let valami = '/Images\\ClassImages\\' + kast[currentIndex];
+        if (currentIndex == 1) {
+            valami += ".png";
+        } else {
+            valami += ".jpg"
+        }
         document.getElementById("classImg").src = valami;
         document.getElementById("className").innerHTML = kast[currentIndex];
         document.getElementById("heroClass").value = currentIndex;

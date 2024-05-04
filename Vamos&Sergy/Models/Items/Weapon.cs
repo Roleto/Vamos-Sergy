@@ -2,6 +2,15 @@
 {
     public class Weapon : Equipment
     {
+        public Weapon() : base()
+        {
+            
+        }
+
+        public Weapon(Item item) : base(item)
+        {
+            
+        }
         public Weapon(int minDamage, int maxDamage)
         {
             MinDamage = minDamage;
@@ -18,6 +27,8 @@
         protected override void GenerateStat()
         {
             base.GenerateStat();
+            MinDamage = _random.Next(2,5);
+            MaxDamage = _random.Next(5, 11); ;
         }
         public int Attack(ClassEnum kast)
         {

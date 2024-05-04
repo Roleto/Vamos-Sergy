@@ -21,6 +21,12 @@
     <div class="col-md-2"></div>
     <div class="col-md-2"></div>
     <div class="col-md-8">
+        <label asp-for="SecondaryData" class="form-label">Chose secondary image for an item(staff,bows)</label>
+        <input asp-for="SecondaryData" class="form-control" type="file" name="secondaryPicturedata" id="data">
+    </div>
+    <div class="col-md-2"></div>
+    <div class="col-md-2"></div>
+    <div class="col-md-8">
         <label asp-for="Type" class="form-label text-warning">Type of weapon</label>
         <select asp-for="Type" class="form-select">
             <option value="0">Helmet</option>
@@ -43,6 +49,7 @@
             <option value="0">Mage</option>
             <option value="1">Warrior</option>
             <option value="2">Ranger</option>
+            <option value="3">For every one</option>
         </select>
     </div>
     <div class="col-md-2"></div>

@@ -1,0 +1,293 @@
+﻿@using Vamos_Sergy.ViewModels
+@model ViewModel
+<script type="text/javascript">
+
+    const kast = ["mage", "warrior", "ranger"];
+    let currentIndex = 0;
+    function ShowHeroKast(number) {
+        currentIndex += number;
+        if (currentIndex < 0) {
+            currentIndex = 2;
+        } else if (currentIndex > 2) {
+            currentIndex = 0;
+        }
+        let valami = '/Images\\ClassImages\\' + kast[currentIndex];
+        if (currentIndex == 1) {
+            valami += ".png";
+        } else {
+            valami += ".jpg"
+        }
+        document.getElementById("classImg").src = valami;
+        document.getElementById("className").innerHTML = kast[currentIndex];
+        document.getElementById("heroClass").value = currentIndex;
+        document.getElementById("pivtureValue").value = valami;
+
+
+    }
+    function Valami() {
+        alert("Double click");
+    }
+
+    function EgyValami() {
+        alert("click");
+    }
+
+    function Buy(id) {
+        var elem = document.getElementById(id);
+        if (typeof elem.onclick == "function") {
+            elem.onclick.apply(elem);
+        }
+    }
+
+</script>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col p-0">
+            <table class="table table-borderless m-0 ms-1 p-0 overflow-hidden">
+                <tbody>
+                    <tr>
+                        <td><img class="icon" src="/Images/NullImages\helmet.png" /></td>
+                        <td rowspan="3" colspan="2">
+                            <div class="card cardom">
+                                <img src="@Url.Action("GetImage", "Main", new { isUserImage = false})" class="card-img heroImg" alt="...">
+                                <div class="card-footer">
+                                    <div class="progress" role="progressbar" aria-label="Basic example" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">
+                                        <div class="progress-bar bg-success text-center" style="width: @Model.Hero.GetCurrentXpPercentage%"></div>
+                                        <small class="justify-content-center d-flex position-absolute w-100">@Model.Hero.Level&period;level</small>
+                                    </div>
+                                </div>
+                            </div>
+                        </td>
+                        <td><img class="icon" src="/Images\NullImages\necklace.png" /></td>
+                    </tr>
+                    <tr>
+                        <td><img class="icon" src="/Images\NullImages\armor.png" /></td>
+                        <td><img class="icon" src="/Images\NullImages\belt.png" /></td>
+                    </tr>
+                    <tr>
+                        <td><img class="icon" src="/Images\NullImages\hand.png" /></td>
+                        <td><img class="icon" src="/Images\NullImages\ring.png" /></td>
+                    </tr>
+                    <tr>
+                        <td><img class="icon" src="/Images\NullImages\leg.png" /></td>
+                        <td><img class="icon" src="/Images\NullImages\weapon.png" /></td>
+                        @switch (Model.Hero.Kast)
+                        {
+                            default:
+                            case ClassEnum.Mage:
+                                <td><img class="icon" src="/Images\NullImages\blank.png" /></td>
+                                break;
+                            case ClassEnum.Warrior:
+                                <td><img class="icon" src="/Images\NullImages\shield.png" /></td>
+                                break;
+                            case ClassEnum.Ranger:
+                                <td><img class="icon" src="/Images\NullImages\blank.png" /></td>
+                                break;
+                        }
+                        <td><img class="icon" src="/Images\NullImages\blank.png" /></td>
+                    </tr>
+                    <tr>
+                        <td class="m-0 p-0" colspan="2">
+                            <div class="container">
+                                <div class="row p-0">
+                                    <div class="col col-6 m-0 gy-0">
+                                        @if (Model.Hero.Kast == ClassEnum.Warrior)
+                                        {
+                                            <p style="white-space: pre-line">Strenght Damage</p>
+                                        }
+                                        else
+                                        {
+                                            <p style="white-space: pre-line">Strenght Defense</p>
+                                        }
+                                    </div>
+                                    <div class="col col-2 m-0">
+                                        @if (Model.Hero.Kast == ClassEnum.Warrior)
+                                        {
+                                            <p style="white-space: pre-line">@Model.Hero.Str @Model.Hero.Damage</p>
+                                        }
+                                        else
+                                        {
+                                            <p style="white-space: pre-line">@Model.Hero.Str @Model.Hero.Defence</p>
+                                        }
+                                    </div>
+                                    <div class="col col-2">
+                                        <button type="button" class="btn btn-info statButton"><i class="fa-solid fa-plus"></i></button>
+                                    </div>
+                                </div>
+                            </div>
+                        <td class="m-0 p-0" colspan="2">
+                            <div class="container">
+                                <div class="row p-0">
+                                    <div class="col col-5 m-0 gy-0">
+                                        <p style="white-space: pre-line">Constitution Hit&nbspPoints</p>
+                                    </div>
+                                    <div class="col col-3 m-0">
+                                        <p style="white-space: pre-line">@Model.Hero.Vit @Model.Hero.Hp</p>
+                                    </div>
+                                    <div class="col col-">
+                                        <button type="button" class="btn btn-info statButton"><i class="fa-solid fa-plus"></i></button>
+                                    </div>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="m-0 p-0" colspan="2">
+                            <div class="container">
+                                <div class="row p-0">
+                                    <div class="col col-6 m-0 gy-0">
+                                        @if (Model.Hero.Kast == ClassEnum.Ranger)
+                                        {
+                                            <p style="white-space: pre-line">Dexterity Damage</p>
+                                        }
+                                        else
+                                        {
+                                            <p style="white-space: pre-line">Dexterity Evasion</p>
+                                        }
+                                    </div>
+                                    <div class="col col-2 m-0">
+                                        @if (Model.Hero.Kast == ClassEnum.Ranger)
+                                        {
+                                            <p style="white-space: pre-line">@Model.Hero.Dex @Model.Hero.Damage</p>
+                                        }
+                                        else
+                                        {
+                                            <p style="white-space: pre-line">@Model.Hero.Dex @Model.Hero.Evasion</p>
+                                        }
+                                    </div>
+                                    <div class="col col-2">
+                                        <button type="button" class="btn btn-info statButton"><i class="fa-solid fa-plus"></i></button>
+                                    </div>
+                                </div>
+                            </div>
+                        <td class="m-0 p-0" colspan="2">
+                            <div class="container">
+                                <div class="row p-0">
+                                    <div class="col col-6 m-0 gy-0">
+                                        <p style="white-space: pre-line">Luck Critical&nbspHit</p>
+                                    </div>
+                                    <div class="col col-2 m-0">
+                                        <p style="white-space: pre-line">@Model.Hero.Luck @Model.Hero.Crit</p>
+                                    </div>
+                                    <div class="col col-2">
+                                        <button type="button" class="btn btn-info statButton"><i class="fa-solid fa-plus"></i></button>
+                                    </div>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="m-0 p-0" colspan="2">
+                            <div class="container">
+                                <div class="row p-0">
+                                    <div class="col col-6 m-0 gy-0">
+                                        @if (Model.Hero.Kast == ClassEnum.Mage)
+                                        {
+                                            <p style="white-space: pre-line">Inteligence Damage</p>
+                                        }
+                                        else
+                                        {
+                                            <p style="white-space: pre-line">Inteligence Resistance</p>
+                                        }
+                                    </div>
+                                    <div class="col col-2 m-0">
+                                        @if (Model.Hero.Kast == ClassEnum.Ranger)
+                                        {
+                                            <p style="white-space: pre-line">@Model.Hero.Inte @Model.Hero.Damage</p>
+                                        }
+                                        else
+                                        {
+                                            <p style="white-space: pre-line">@Model.Hero.Inte @Model.Hero.Resistance</p>
+                                        }
+                                    </div>
+                                    <div class="col col-2">
+                                        <button type="button" class="btn btn-info statButton"><i class="fa-solid fa-plus"></i></button>
+                                    </div>
+                                </div>
+                            </div>
+                        </td>
+                        <td class="m-0 p-0" colspan="2">
+                            <div class="container">
+                                <div class="row p-0">
+                                    <div class="col col-6 m-0 gy-0">
+                                        <p style="white-space: pre-line">Armor Reduction</p>
+                                    </div>
+                                    <div class="col col-2 m-0">
+                                        <p style="white-space: pre-line">@Model.Hero.Armor @Model.Hero.DamageReduction</p>
+                                    </div>
+                                    <div class="col col-2">
+                                        <button type="button" class="btn btn-info statButton"><i class="fa-solid fa-plus"></i></button>
+                                    </div>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="col p-0">
+            <div class="weaponShop container ">
+                <div class="row">
+                    <div class="row row-cols-5 ps-0 pe-1 " s>
+                        @for (int i = 0; i < @Model.Hero.MaxInvetory; i++)
+                        {
+                            <div class="col">
+                                @if (i < Model.Hero.Inventory.Count() && Model.Hero.Inventory[i] != null)
+                                {
+
+                                    <img class="InventoryImg" src="@Url.Action("GetInventoryImage", "Main", new { id = Model.Hero.Inventory[i].ItemId})" />
+                                }
+                                else
+                                {
+
+                                    <img class="InventoryImg" src="/Images/NullImages\blank.png" />
+                                }
+                            </div>
+
+                        }
+                        @for (int i = 0; i < 25 - @Model.Hero.MaxInvetory; i++)
+                        {
+                            <div class="col">
+                                <img class="InventoryImg" style="visibility:hidden" src="/Images/NullImages/blank.png" />
+                            </div>
+                        }
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col gy-0">
+                        <button class="bg-primary">New Wares</button>
+                    </div>
+
+                </div>
+                <div class="row">
+                    <div class="col col-1 gy-0 ">
+                    </div>
+                    @for (int i = 0; i < 3; i++)
+                    {
+                        <div class="col col-3 gy-0" ondblclick="location.href='@Url.Action("BuyWeapon", "Main" , new { index=i})'">
+                            <div class="shopSlot">
+                                <img class="ShopImage" src="@Url.Action("GetShopImage", "Main", new { itemId = Model.GetShopItem(i).ItemId})" />
+                            </div>
+                        </div>
+                    }
+                    <div class="col col-2 gy-0">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col col-1">
+                    </div>
+                    @for (int i = 3; i < 6; i++)
+                    {
+                        <div class="col col-3 gy-0" ondblclick="location.href='@Url.Action("BuyWeapon", "Main" , new { index=i})'">
+                            <div class="shopSlot">
+                                <img class="ShopImage" src="@Url.Action("GetShopImage", "Main", new { itemId = Model.GetShopItem(i).ItemId})" />
+                            </div>
+                        </div>
+                    }
+                    <div class="col col-2">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
