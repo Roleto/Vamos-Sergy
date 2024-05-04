@@ -59,7 +59,8 @@ namespace Vamos_Sergy.Models
                 int realStr = this.str;
                 foreach (var item in Equipments)
                 {
-                    realStr += item.Value.Str;
+                    if (item.Value != null)
+                        realStr += item.Value.Str;
                 }
                 return realStr;
             }
@@ -77,7 +78,8 @@ namespace Vamos_Sergy.Models
                 int realDex = this.dex;
                 foreach (var item in Equipments)
                 {
-                    realDex += item.Value.Dex;
+                    if (item.Value != null)
+                        realDex += item.Value.Dex;
                 }
                 return realDex;
             }
@@ -95,7 +97,8 @@ namespace Vamos_Sergy.Models
                 int realInt = this.inte;
                 foreach (var item in Equipments)
                 {
-                    realInt += item.Value.Inte;
+                    if (item.Value != null)
+                        realInt += item.Value.Inte;
                 }
                 return realInt;
             }
@@ -113,7 +116,8 @@ namespace Vamos_Sergy.Models
                 int realVit = this.vit;
                 foreach (var item in Equipments)
                 {
-                    realVit += item.Value.Vit;
+                    if (item.Value != null)
+                        realVit += item.Value.Vit;
                 }
                 return realVit;
             }
@@ -134,7 +138,8 @@ namespace Vamos_Sergy.Models
                 double realLuck = this.luck;
                 foreach (var item in Equipments)
                 {
-                    realLuck += item.Value.Luck;
+                    if (item.Value != null)
+                        realLuck += item.Value.Luck;
                 }
                 return realLuck;
             }
@@ -274,7 +279,7 @@ namespace Vamos_Sergy.Models
             if (item == null)
                 return;
             item.IsEqueped = true;
-            if (Equipments.ContainsKey(item.Type))
+            if (Equipments.ContainsKey(item.Type) && Equipments[item.Type] != null)
             {
                 var old = Equipments[item.Type];
                 Equipments[item.Type] = item;
@@ -299,12 +304,14 @@ namespace Vamos_Sergy.Models
                 {
                     if (Inventory[i] == null)
                     {
+                        e.InventorySlot = i;
                         Inventory[i] = e;
                         Equipments[equipment] = null;
                         foundSlot = true;
+                        break;
                     }
                 }
-                if(!foundSlot)
+                if (!foundSlot)
                 {
                     Inventory[i + 1] = e;
                     Equipments[equipment] = null;

@@ -5,9 +5,9 @@
             <table class="table table-borderless m-0 ms-1 p-0 overflow-hidden">
                 <tbody>
                     <tr>
-                        @if (Model.Equipments.ContainsKey(EquipmentEnum.Helmet))
+                        @if (Model.Equipments.ContainsKey(EquipmentEnum.Helmet) && Model.Equipments[EquipmentEnum.Helmet] != null)
                         {
-                            <td ondblclick="location.href='@Url.Action("EquipItem", "Main" , new { index=1, name = "ViewHero"})'">
+                            <td ondblclick="location.href='@Url.Action("UnEquipItem", "Main" , new { equipment=EquipmentEnum.Helmet, name = "ViewHero"})'">
                                 <img class="icon" src="@Url.Action("GetInventoryImage", "Main",
                                 new { id = Model.Equipments[EquipmentEnum.Helmet].ItemId})" />
                             </td>
@@ -27,9 +27,9 @@
                                 </div>
                             </div>
                         </td>
-                        @if (Model.Equipments.ContainsKey(EquipmentEnum.Necklace))
+                        @if (Model.Equipments.ContainsKey(EquipmentEnum.Necklace) && Model.Equipments[EquipmentEnum.Necklace] != null)
                         {
-                            <td>
+                            <td ondblclick="location.href='@Url.Action("UnEquipItem", "Main" , new { equipment=EquipmentEnum.Necklace, name = "ViewHero"})'">
                                 <img class="icon" src="@Url.Action("GetInventoryImage", "Main",
                                 new { id = Model.Equipments[EquipmentEnum.Necklace].ItemId})" />
                             </td>
@@ -40,9 +40,9 @@
                         }
                     </tr>
                     <tr>
-                        @if (Model.Equipments.ContainsKey(EquipmentEnum.Armor))
+                        @if (Model.Equipments.ContainsKey(EquipmentEnum.Armor) && Model.Equipments[EquipmentEnum.Armor] != null)
                         {
-                            <td>
+                            <td ondblclick="location.href='@Url.Action("UnEquipItem", "Main" , new { equipment=EquipmentEnum.Armor, name = "ViewHero"})'">
                                 <img class="icon" src="@Url.Action("GetInventoryImage", "Main",
                                 new { id = Model.Equipments[EquipmentEnum.Armor].ItemId})" />
                             </td>
@@ -51,9 +51,9 @@
                         {
                             <td><img class="icon" src="/Images\NullImages\armor.png" /></td>
                         }
-                        @if (Model.Equipments.ContainsKey(EquipmentEnum.Belt))
+                        @if (Model.Equipments.ContainsKey(EquipmentEnum.Belt) && Model.Equipments[EquipmentEnum.Belt] != null)
                         {
-                            <td>
+                            <td ondblclick="location.href='@Url.Action("UnEquipItem", "Main" , new { equipment=EquipmentEnum.Belt, name = "ViewHero"})'">
                                 <img class="icon" src="@Url.Action("GetInventoryImage", "Main",
                                 new { id = Model.Equipments[EquipmentEnum.Belt].ItemId})" />
                             </td>
@@ -64,9 +64,10 @@
                         }
                     </tr>
                     <tr>
-                        @if (Model.Equipments.ContainsKey(EquipmentEnum.Hand))
+                        @if (Model.Equipments.ContainsKey(EquipmentEnum.Hand) && Model.Equipments[EquipmentEnum.Hand] != null)
                         {
-                            <td>
+                            <td ondblclick="location.href='@Url.Action("UnEquipItem", "Main" , new { equipment=EquipmentEnum.Hand, name = "ViewHero"})'">
+
                                 <img class="icon" src="@Url.Action("GetInventoryImage", "Main",
                                 new { id = Model.Equipments[EquipmentEnum.Hand].ItemId})" />
                             </td>
@@ -75,9 +76,9 @@
                         {
                             <td><img class="icon" src="/Images\NullImages\hand.png" /></td>
                         }
-                        @if (Model.Equipments.ContainsKey(EquipmentEnum.Ring))
+                        @if (Model.Equipments.ContainsKey(EquipmentEnum.Ring) && Model.Equipments[EquipmentEnum.Ring] != null)
                         {
-                            <td>
+                            <td ondblclick="location.href='@Url.Action("UnEquipItem", "Main" , new { equipment=EquipmentEnum.Ring, name = "ViewHero"})'">
                                 <img class="icon" src="@Url.Action("GetInventoryImage", "Main",
                                 new { id = Model.Equipments[EquipmentEnum.Ring].ItemId})" />
                             </td>
@@ -88,9 +89,9 @@
                         }
                     </tr>
                     <tr>
-                        @if (Model.Equipments.ContainsKey(EquipmentEnum.Leg))
+                        @if (Model.Equipments.ContainsKey(EquipmentEnum.Leg) && Model.Equipments[EquipmentEnum.Leg] != null)
                         {
-                            <td>
+                            <td ondblclick="location.href='@Url.Action("UnEquipItem", "Main" , new { equipment=EquipmentEnum.Leg, name = "ViewHero"})'">
                                 <img class="icon" src="@Url.Action("GetInventoryImage", "Main",
                                 new { id = Model.Equipments[EquipmentEnum.Leg].ItemId})" />
                             </td>
@@ -99,9 +100,9 @@
                         {
                             <td><img class="icon" src="/Images\NullImages\leg.png" /></td>
                         }
-                        @if (Model.Equipments.ContainsKey(EquipmentEnum.Weapon))
+                        @if (Model.Equipments.ContainsKey(EquipmentEnum.Weapon) && Model.Equipments[EquipmentEnum.Weapon] != null)
                         {
-                            <td>
+                            <td ondblclick="location.href='@Url.Action("UnEquipItem", "Main" , new { equipment=EquipmentEnum.Weapon, name = "ViewHero"})'">
                                 <img class="icon" src="@Url.Action("GetInventoryImage", "Main",
                                 new { id = Model.Equipments[EquipmentEnum.Weapon].ItemId})" />
                             </td>
@@ -112,9 +113,9 @@
                         }
                         @if (Model.Kast == ClassEnum.Warrior)
                         {
-                            @if (Model.Equipments.ContainsKey(EquipmentEnum.Shield))
+                            @if (Model.Equipments.ContainsKey(EquipmentEnum.Shield) && Model.Equipments[EquipmentEnum.Shield] != null)
                             {
-                                <td>
+                                <td ondblclick="location.href='@Url.Action("UnEquipItem", "Main" , new { equipment=EquipmentEnum.Shield, name = "ViewHero"})'">
                                     <img class="icon" src="@Url.Action("GetInventoryImage", "Main",
                                         new { id = Model.Equipments[EquipmentEnum.Shield].ItemId})" />
                                 </td>
@@ -126,9 +127,9 @@
                         }
                         else
                         {
-                            @if (Model.Equipments.ContainsKey(EquipmentEnum.Weapon))
+                            @if (Model.Equipments.ContainsKey(EquipmentEnum.Weapon) && Model.Equipments[EquipmentEnum.Weapon] != null)
                             {
-                                <td>
+                                <td ondblclick="location.href='@Url.Action("UnEquipItem", "Main" , new { equipment=EquipmentEnum.Weapon, name = "ViewHero"})'">
                                     <img class="icon" src="@Url.Action("GetInventoryImage", "Main",
                                         new { id = Model.Equipments[EquipmentEnum.Weapon].ItemId, secondary=true})" />
                                 </td>
@@ -138,7 +139,17 @@
                                 <td><img class="icon" src="/Images\NullImages\blank.png" /></td>
                             }
                         }
-                        <td><img class="icon" src="/Images\NullImages\blank.png" /></td>
+                        @if (Model.Equipments.ContainsKey(EquipmentEnum.Misc) && Model.Equipments[EquipmentEnum.Misc] != null)
+                        {
+                            <td ondblclick="location.href='@Url.Action("UnEquipItem", "Main" , new { equipment=EquipmentEnum.Misc, name = "ViewHero"})'">
+                                <img class="icon" src="@Url.Action("GetInventoryImage", "Main",
+                                        new { id = Model.Equipments[EquipmentEnum.Misc].ItemId, secondary=true})" />
+                            </td>
+                        }
+                        else
+                        {
+                            <td><img class="icon" src="/Images\NullImages\blank.png" /></td>
+                        }
                     </tr>
                     <tr>
                         <td class="m-0 p-0" colspan="2">

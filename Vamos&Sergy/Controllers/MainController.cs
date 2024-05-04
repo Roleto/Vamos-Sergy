@@ -112,6 +112,7 @@ namespace Vamos_Sergy.Controllers
         [HttpGet]
         public IActionResult UnEquipItem(EquipmentEnum equipment, string name)
         {
+            _viewModel.Hero.UnEquip(equipment);
             //if (index < _viewModel.Hero.Inventory.Count())
             //{
             //    Equipment e = _viewModel.Hero.Inventory[index];
