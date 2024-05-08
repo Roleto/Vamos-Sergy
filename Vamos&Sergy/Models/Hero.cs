@@ -169,7 +169,8 @@ namespace Vamos_Sergy.Models
             if (Equipments.ContainsKey(EquipmentEnum.Weapon))
             {
                 Weapon weapon = Equipments[EquipmentEnum.Weapon] as Weapon;
-                return (weapon.MinDamage + weapon.MaxDamage) / 2;
+                if (weapon != null)
+                    return (weapon.MinDamage + weapon.MaxDamage) / 2;
             }
             return 1;
         }
@@ -240,6 +241,38 @@ namespace Vamos_Sergy.Models
 
         public string ContentType { get; set; }
 
+        [NotMapped]
+        public int InvIndex
+        {
+            get
+            {
+                int output = Inventory.Count;
+
+                for (int i = 0; i < Inventory.Count; i++)
+                {
+                    if (Inventory.ContainsKey(i))
+                        output--;
+                }
+
+                return output;
+            }
+        }
+        public int GetFirsNull
+        {
+            get
+            {
+                int i = 0;
+                for (i = 0; i < Inventory.Count; i++)
+                {
+                    if (!Inventory.ContainsKey(i) || Inventory[i] == null)
+                    {
+                        break;
+                    }
+                }
+                return i;
+            }
+        }
+
         public byte[] Data { get; set; }
         public Hero()
         {
@@ -257,12 +290,6 @@ namespace Vamos_Sergy.Models
         {
             foreach (Equipment item in equipments)
             {
-                if (item.Type == EquipmentEnum.Weapon)
-                    (item as Weapon).SetStat();
-                else if (item.Type == EquipmentEnum.Shield)
-                    (item as Shield).SetStat();
-                else
-                    item.SetStat();
                 if (item.IsEqueped)
                 {
                     Equipments[item.Type] = item;
@@ -274,48 +301,32 @@ namespace Vamos_Sergy.Models
             }
         }
 
-        public void Equip(Equipment item)
+        public Equipment Equip(Equipment item)
         {
-            if (item == null)
-                return;
-            item.IsEqueped = true;
             if (Equipments.ContainsKey(item.Type) && Equipments[item.Type] != null)
             {
                 var old = Equipments[item.Type];
                 Equipments[item.Type] = item;
                 old.IsEqueped = false;
-                Inventory[item.InventorySlot] = old;
+                old.InventorySlot = item.InventorySlot;
+                Inventory[old.InventorySlot] = old;
+                return old;
             }
             else
             {
                 Equipments[item.Type] = item;
                 Inventory[item.InventorySlot] = null;
-
+                return null;
             }
         }
         public void UnEquip(EquipmentEnum equipment)
         {
-            if (Equipments.ContainsKey(equipment) && Inventory.Count() <= MaxInvetory)
+            if (Equipments.ContainsKey(equipment) && InvIndex <= MaxInvetory)
             {
-                bool foundSlot = false;
                 var e = Equipments[equipment];
-                int i;
-                for (i = 0; i < Inventory.Count(); i++)
-                {
-                    if (Inventory[i] == null)
-                    {
-                        e.InventorySlot = i;
-                        Inventory[i] = e;
-                        Equipments[equipment] = null;
-                        foundSlot = true;
-                        break;
-                    }
-                }
-                if (!foundSlot)
-                {
-                    Inventory[i + 1] = e;
-                    Equipments[equipment] = null;
-                }
+                e.InventorySlot = GetFirsNull;
+                Inventory[e.InventorySlot] = e;
+                Equipments[equipment] = null;
             }
         }
 

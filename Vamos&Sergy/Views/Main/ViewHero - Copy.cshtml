@@ -1,0 +1,331 @@
+﻿@model Hero;
+<div class="container-fluid">
+    <div class="row">
+        <div class="col p-0">
+            @* itt tartasz az unqeuipet kell meg nézni *@
+            <table class="table table-borderless m-0 ms-1 p-0 overflow-hidden">
+                <tbody>
+                    <tr>
+                        @if (Model.Equipments.ContainsKey(EquipmentEnum.Helmet) && Model.Equipments[EquipmentEnum.Helmet] != null)
+                        {
+                            <td ondblclick="location.href='@Url.Action("UnEquipItem", "Main" , new { equipment=EquipmentEnum.Helmet, name = "ViewHero"})'">
+                                <img class="icon" src="@Url.Action("GetInventoryImage", "Main",
+                                new { id = Model.Equipments[EquipmentEnum.Helmet].ItemId})" />
+                            </td>
+                        }
+                        else
+                        {
+                            <td><img class="icon" src="/Images/NullImages\helmet.png" /></td>
+                        }
+                        <td rowspan="3" colspan="2">
+                            <div class="card cardom">
+                                <img src="@Url.Action("GetImage", "Main", new { isUserImage = false})" class="card-img heroImg" alt="...">
+                                <div class="card-footer">
+                                    <div class="progress" role="progressbar" aria-label="Basic example" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">
+                                        <div class="progress-bar bg-success text-center" style="width: @Model.GetCurrentXpPercentage%"></div>
+                                        <small class="justify-content-center d-flex position-absolute w-100">@Model.Level&period;level</small>
+                                    </div>
+                                </div>
+                            </div>
+                        </td>
+                        @if (Model.Equipments.ContainsKey(EquipmentEnum.Necklace) && Model.Equipments[EquipmentEnum.Necklace] != null)
+                        {
+                            <td ondblclick="location.href='@Url.Action("UnEquipItem", "Main" , new { equipment=EquipmentEnum.Necklace, name = "ViewHero"})'">
+                                <img class="icon" src="@Url.Action("GetInventoryImage", "Main",
+                                new { id = Model.Equipments[EquipmentEnum.Necklace].ItemId})" />
+                            </td>
+                        }
+                        else
+                        {
+                            <td><img class="icon" src="/Images\NullImages\necklace.png" /></td>
+                        }
+                    </tr>
+                    <tr>
+                        @if (Model.Equipments.ContainsKey(EquipmentEnum.Armor) && Model.Equipments[EquipmentEnum.Armor] != null)
+                        {
+                            <td ondblclick="location.href='@Url.Action("UnEquipItem", "Main" , new { equipment=EquipmentEnum.Armor, name = "ViewHero"})'">
+                                <img class="icon" src="@Url.Action("GetInventoryImage", "Main",
+                                new { id = Model.Equipments[EquipmentEnum.Armor].ItemId})" />
+                            </td>
+                        }
+                        else
+                        {
+                            <td><img class="icon" src="/Images\NullImages\armor.png" /></td>
+                        }
+                        @if (Model.Equipments.ContainsKey(EquipmentEnum.Belt) && Model.Equipments[EquipmentEnum.Belt] != null)
+                        {
+                            <td ondblclick="location.href='@Url.Action("UnEquipItem", "Main" , new { equipment=EquipmentEnum.Belt, name = "ViewHero"})'">
+                                <img class="icon" src="@Url.Action("GetInventoryImage", "Main",
+                                new { id = Model.Equipments[EquipmentEnum.Belt].ItemId})" />
+                            </td>
+                        }
+                        else
+                        {
+                            <td><img class="icon" src="/Images\NullImages\belt.png" /></td>
+                        }
+                    </tr>
+                    <tr>
+                        @if (Model.Equipments.ContainsKey(EquipmentEnum.Hand) && Model.Equipments[EquipmentEnum.Hand] != null)
+                        {
+                            <td ondblclick="location.href='@Url.Action("UnEquipItem", "Main" , new { equipment=EquipmentEnum.Hand, name = "ViewHero"})'">
+
+                                <img class="icon" src="@Url.Action("GetInventoryImage", "Main",
+                                new { id = Model.Equipments[EquipmentEnum.Hand].ItemId})" />
+                            </td>
+                        }
+                        else
+                        {
+                            <td><img class="icon" src="/Images\NullImages\hand.png" /></td>
+                        }
+                        @if (Model.Equipments.ContainsKey(EquipmentEnum.Ring) && Model.Equipments[EquipmentEnum.Ring] != null)
+                        {
+                            <td ondblclick="location.href='@Url.Action("UnEquipItem", "Main" , new { equipment=EquipmentEnum.Ring, name = "ViewHero"})'">
+                                <img class="icon" src="@Url.Action("GetInventoryImage", "Main",
+                                new { id = Model.Equipments[EquipmentEnum.Ring].ItemId})" />
+                            </td>
+                        }
+                        else
+                        {
+                            <td><img class="icon" src="/Images\NullImages\ring.png" /></td>
+                        }
+                    </tr>
+                    <tr>
+                        @if (Model.Equipments.ContainsKey(EquipmentEnum.Leg) && Model.Equipments[EquipmentEnum.Leg] != null)
+                        {
+                            <td ondblclick="location.href='@Url.Action("UnEquipItem", "Main" , new { equipment=EquipmentEnum.Leg, name = "ViewHero"})'">
+                                <img class="icon" src="@Url.Action("GetInventoryImage", "Main",
+                                new { id = Model.Equipments[EquipmentEnum.Leg].ItemId})" />
+                            </td>
+                        }
+                        else
+                        {
+                            <td><img class="icon" src="/Images\NullImages\leg.png" /></td>
+                        }
+                        @if (Model.Equipments.ContainsKey(EquipmentEnum.Weapon) && Model.Equipments[EquipmentEnum.Weapon] != null)
+                        {
+                            <td ondblclick="location.href='@Url.Action("UnEquipItem", "Main" , new { equipment=EquipmentEnum.Weapon, name = "ViewHero"})'">
+                                <img class="icon" src="@Url.Action("GetInventoryImage", "Main",
+                                new { id = Model.Equipments[EquipmentEnum.Weapon].ItemId})" />
+                            </td>
+                        }
+                        else
+                        {
+                            <td><img class="icon" src="/Images\NullImages\weapon.png" /></td>
+                        }
+                        @if (Model.Kast == ClassEnum.Warrior)
+                        {
+                            @if (Model.Equipments.ContainsKey(EquipmentEnum.Shield) && Model.Equipments[EquipmentEnum.Shield] != null)
+                            {
+                                <td ondblclick="location.href='@Url.Action("UnEquipItem", "Main" , new { equipment=EquipmentEnum.Shield, name = "ViewHero"})'">
+                                    <img class="icon" src="@Url.Action("GetInventoryImage", "Main",
+                                        new { id = Model.Equipments[EquipmentEnum.Shield].ItemId})" />
+                                </td>
+                            }
+                            else
+                            {
+                                <td><img class="icon" src="/Images\NullImages\shield.png" /></td>
+                            }
+                        }
+                        else
+                        {
+                            @if (Model.Equipments.ContainsKey(EquipmentEnum.Weapon) && Model.Equipments[EquipmentEnum.Weapon] != null)
+                            {
+                                <td ondblclick="location.href='@Url.Action("UnEquipItem", "Main" , new { equipment=EquipmentEnum.Weapon, name = "ViewHero"})'">
+                                    <img class="icon" src="@Url.Action("GetInventoryImage", "Main",
+                                        new { id = Model.Equipments[EquipmentEnum.Weapon].ItemId, secondary=true})" />
+                                </td>
+                            }
+                            else
+                            {
+                                <td><img class="icon" src="/Images\NullImages\blank.png" /></td>
+                            }
+                        }
+                        @if (Model.Equipments.ContainsKey(EquipmentEnum.Misc) && Model.Equipments[EquipmentEnum.Misc] != null)
+                        {
+                            <td ondblclick="location.href='@Url.Action("UnEquipItem", "Main" , new { equipment=EquipmentEnum.Misc, name = "ViewHero"})'">
+                                <img class="icon" src="@Url.Action("GetInventoryImage", "Main",
+                                        new { id = Model.Equipments[EquipmentEnum.Misc].ItemId, secondary=true})" />
+                            </td>
+                        }
+                        else
+                        {
+                            <td><img class="icon" src="/Images\NullImages\blank.png" /></td>
+                        }
+                    </tr>
+                    <tr>
+                        <td class="m-0 p-0" colspan="2">
+                            <div class="container">
+                                <div class="row p-0">
+                                    <div class="col col-6 m-0 gy-0">
+                                        @if (Model.Kast == ClassEnum.Warrior)
+                                        {
+                                            <p style="white-space: pre-line">Strenght Damage</p>
+                                        }
+                                        else
+                                        {
+                                            <p style="white-space: pre-line">Strenght Defense</p>
+                                        }
+                                    </div>
+                                    <div class="col col-2 m-0">
+                                        @if (Model.Kast == ClassEnum.Warrior)
+                                        {
+                                            <p style="white-space: pre-line">@Model.Str @Model.Damage</p>
+                                        }
+                                        else
+                                        {
+                                            <p style="white-space: pre-line">@Model.Str @Model.Defence</p>
+                                        }
+                                    </div>
+                                    <div class="col col-2">
+                                        <button type="button" class="btn btn-info statButton"><i class="fa-solid fa-plus"></i></button>
+                                    </div>
+                                </div>
+                            </div>
+                        <td class="m-0 p-0" colspan="2">
+                            <div class="container">
+                                <div class="row p-0">
+                                    <div class="col col-6 m-0 gy-0">
+                                        <p style="white-space: pre-line">Constitution Hit&nbspPoints</p>
+                                    </div>
+                                    <div class="col col-2 m-0">
+                                        <p style="white-space: pre-line">@Model.Vit @Model.Hp</p>
+                                    </div>
+                                    <div class="col col-2">
+                                        <button type="button" class="btn btn-info statButton"><i class="fa-solid fa-plus"></i></button>
+                                    </div>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="m-0 p-0" colspan="2">
+                            <div class="container">
+                                <div class="row p-0">
+                                    <div class="col col-6 m-0 gy-0">
+                                        @if (Model.Kast == ClassEnum.Ranger)
+                                        {
+                                            <p style="white-space: pre-line">Dexterity Damage</p>
+                                        }
+                                        else
+                                        {
+                                            <p style="white-space: pre-line">Dexterity Evasion</p>
+                                        }
+                                    </div>
+                                    <div class="col col-2 m-0">
+                                        @if (Model.Kast == ClassEnum.Ranger)
+                                        {
+                                            <p style="white-space: pre-line">@Model.Dex @Model.Damage</p>
+                                        }
+                                        else
+                                        {
+                                            <p style="white-space: pre-line">@Model.Dex @Model.Evasion</p>
+                                        }
+                                    </div>
+                                    <div class="col col-2">
+                                        <button type="button" class="btn btn-info statButton"><i class="fa-solid fa-plus"></i></button>
+                                    </div>
+                                </div>
+                            </div>
+                        <td class="m-0 p-0" colspan="2">
+                            <div class="container">
+                                <div class="row p-0">
+                                    <div class="col col-6 m-0 gy-0">
+                                        <p style="white-space: pre-line">Luck Critical&nbspHit</p>
+                                    </div>
+                                    <div class="col col-2 m-0">
+                                        <p style="white-space: pre-line">@Model.Luck @Model.Crit</p>
+                                    </div>
+                                    <div class="col col-2">
+                                        <button type="button" class="btn btn-info statButton"><i class="fa-solid fa-plus"></i></button>
+                                    </div>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="m-0 p-0" colspan="2">
+                            <div class="container">
+                                <div class="row p-0">
+                                    <div class="col col-6 m-0 gy-0">
+                                        @if (Model.Kast == ClassEnum.Mage)
+                                        {
+                                            <p style="white-space: pre-line">Inteligence Damage</p>
+                                        }
+                                        else
+                                        {
+                                            <p style="white-space: pre-line">Inteligence Resistance</p>
+                                        }
+                                    </div>
+                                    <div class="col col-2 m-0">
+                                        @if (Model.Kast == ClassEnum.Ranger)
+                                        {
+                                            <p style="white-space: pre-line">@Model.Inte @Model.Damage</p>
+                                        }
+                                        else
+                                        {
+                                            <p style="white-space: pre-line">@Model.Inte @Model.Resistance</p>
+                                        }
+                                    </div>
+                                    <div class="col col-2">
+                                        <button type="button" class="btn btn-info statButton"><i class="fa-solid fa-plus"></i></button>
+                                    </div>
+                                </div>
+                            </div>
+                        </td>
+                        <td class="m-0 p-0" colspan="2">
+                            <div class="container">
+                                <div class="row p-0">
+                                    <div class="col col-6 m-0 gy-0">
+                                        <p style="white-space: pre-line">Armor Reduction</p>
+                                    </div>
+                                    <div class="col col-2 m-0">
+                                        <p style="white-space: pre-line">@Model.Armor @Model.DamageReduction</p>
+                                    </div>
+                                    <div class="col col-2">
+                                        <button type="button" class="btn btn-info statButton"><i class="fa-solid fa-plus"></i></button>
+                                    </div>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="col p-0">
+            <div class="container">
+                <div class="row">
+                    <div class="row row-cols-5 ps-0 pe-0 " s>
+                        @for (int i = 0; i < @Model.MaxInvetory; i++)
+                        {
+                            <div class="col" ondblclick="location.href='@Url.Action("EquipItem", "Main" , new { index=i, name = "ViewHero"})'">
+                                @if (i < Model.Inventory.Count() && Model.Inventory[i] != null)
+                                {
+
+                                    <img class="InventoryImg" src="@Url.Action("GetInventoryImage", "Main", new { id = Model.Inventory[i].ItemId})" />
+                                }
+                                else
+                                {
+
+                                    <img class="InventoryImg" src="/Images/NullImages\blank.png" />
+                                }
+                            </div>
+                        }
+                        @for (int i = 0; i < 25 - @Model.MaxInvetory; i++)
+                        {
+                            <div class="col">
+                                <img class="InventoryImg" style="visibility:hidden" src="/Images/NullImages/blank.png" />
+                            </div>
+                        }
+                    </div>
+                </div>
+                <div class="row">
+                    <div class=" col">
+                        <textarea placeholder="Click here to edit xour character description">
+                                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
+                            </textarea>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

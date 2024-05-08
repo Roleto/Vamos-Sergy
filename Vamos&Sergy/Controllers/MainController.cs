@@ -44,23 +44,11 @@ namespace Vamos_Sergy.Controllers
             List<Equipment> equipmentList = new List<Equipment>();
             foreach (var item in eq)
             {
+                //itt kell megadni a többit
                 Item i = _itemRepo.Read(item.ItemId);
-                Equipment e = new Equipment(i);
-                e.InventorySlot = item.InventorySlot;
-                if(e.Type == EquipmentEnum.Weapon)
-                {
-                    Weapon w = new Weapon(i);
-                    w.InventorySlot = item.InventorySlot;
-                    equipmentList.Add(w);
-                }
-                else if (e.Type == EquipmentEnum.Shield)
-                {
-                    Shield s = new Shield(i);
-                    s.InventorySlot = item.InventorySlot;
-                    equipmentList.Add(s);
-                }
-                else
-                    equipmentList.Add(e);
+                item.SetStat(i);
+
+                equipmentList.Add(item);
             }
             hero.GetEqupments(equipmentList);
             _viewModel = new ViewModel(hero, _itemRepo.Read().ToList());
@@ -71,6 +59,18 @@ namespace Vamos_Sergy.Controllers
         public IActionResult CreateHero()
         {
             return View();
+        }
+
+        [HttpGet]
+        public IActionResult Proba()
+        {
+            List<string> Messages = new List<string>()
+        {
+            "Turns out NASA can't even improve on duct tape... Duct tape is magic and should be worshipped.",
+            "How come Aquaman can control whales? They're mammals! Makes no sense.",
+            "As with most of life's problems, this one can be solved by a box of pure radiation."
+        };
+            return View(Messages);
         }
 
         [HttpGet]
@@ -87,11 +87,11 @@ namespace Vamos_Sergy.Controllers
         [HttpGet]
         public IActionResult BuyWeapon(int index)
         {
-            if (_viewModel.Hero.Inventory.Count() < _viewModel.Hero.MaxInvetory)
+            if (_viewModel.Hero.InvIndex < _viewModel.Hero.MaxInvetory)
             {
                 Equipment e = _viewModel.Buy(index);
                 e.OwherId = _viewModel.Hero.Id;
-                e.InventorySlot = _viewModel.Hero.Inventory.Count();
+                e.InventorySlot = _viewModel.Hero.GetFirsNull;
                 _equipmentRepo.Create(e);
                 _viewModel.Hero.Inventory[e.InventorySlot] = e;
             }
@@ -101,10 +101,21 @@ namespace Vamos_Sergy.Controllers
         [HttpGet]
         public IActionResult EquipItem(int index, string name)
         {
-            if(index < _viewModel.Hero.Inventory.Count())
+            if (index < _viewModel.Hero.Inventory.Count())
             {
-            Equipment e = _viewModel.Hero.Inventory[index];
-            _viewModel.Hero.Equip(e);
+                Equipment e = _viewModel.Hero.Inventory[index];
+                Item i = _itemRepo.Read(e.ItemId);
+                if (e == null || i == null)
+                    return RedirectToAction(name);
+                e.IsEqueped = true;
+                e.Name = i.Name;
+                e.Description = i.Description;
+                e.Type = i.Type;
+                e.RequiredClass = i.RequiredClass;
+                Equipment old = _viewModel.Hero.Equip(e);
+                _equipmentRepo.Update(e);
+                if (old != null)
+                    _equipmentRepo.Update(old);
             }
             return RedirectToAction(name);
         }
@@ -162,7 +173,7 @@ namespace Vamos_Sergy.Controllers
             //{
             //    hero.GetEqupments(equipments.ToList()) ;
             //}
-            return View(_viewModel.Hero);
+            return View(_viewModel);
         }
 
         [HttpGet]
@@ -254,7 +265,7 @@ namespace Vamos_Sergy.Controllers
         public async Task<IActionResult> GetInventoryImage(string id, bool secondary = false)
         {
             var item = _itemRepo.Read(id);
-            if(secondary)
+            if (secondary)
             {
                 if (item != null && item.SecondaryContentType?.Length > 3)
                 {

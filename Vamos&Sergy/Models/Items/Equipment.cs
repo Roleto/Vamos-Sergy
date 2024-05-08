@@ -53,6 +53,14 @@ namespace Vamos_Sergy.Models.Items
         [NotMapped]
         public int Luck { get; set; }
 
+        [NotMapped]
+        public int MinDamage { get; set; }
+        [NotMapped]
+        public int MaxDamage { get; set; }
+        [NotMapped]
+
+        public int Block { get; set; }
+
         protected Random _random;
 
         public Equipment()
@@ -67,14 +75,19 @@ namespace Vamos_Sergy.Models.Items
             Name = item.Name;
             Description = item.Description;
             Type = item.Type;
+           
             RequiredClass = item.RequiredClass;
             IsEqueped = false;
             Price = (_random.NextDouble() + 0.1) * 10;
             Stats = "";
             GenerateStat();
         }
-        public void SetStat()
+        public void SetStat(Item item)
         {
+            Name = item.Name;
+            Description = item.Description;
+            Type = item.Type;
+            RequiredClass = item.RequiredClass;
             string[] statsArray =  Stats.Split(';');
             foreach (string stat in statsArray)
             {
@@ -95,6 +108,15 @@ namespace Vamos_Sergy.Models.Items
                         break;
                     case "luck":
                         Luck = int.Parse(statArray[1]);
+                        break;
+                    case "min":
+                        MinDamage= int.Parse(statArray[1]);
+                        break;
+                    case "max":
+                        MaxDamage = int.Parse(statArray[1]);
+                        break;
+                    case "block":
+                        Block= int.Parse(statArray[1]);
                         break;
                     default:
                         break;
@@ -128,6 +150,19 @@ namespace Vamos_Sergy.Models.Items
                     GenerateRandomStat();
                     GenerateRandomStat();
                     break;
+            }
+
+            if (Type == EquipmentEnum.Weapon)
+            {
+                MinDamage = _random.Next(2, 5);
+                    Stats += "min:" + Dex.ToString() +";";
+                MaxDamage = _random.Next(5, 11);
+                    Stats += "max:" + Dex.ToString();
+            }
+            else if (Type == EquipmentEnum.Shield)
+            {
+                    Stats += "block:" + Dex.ToString();
+                Block = _random.Next(26);
             }
         }
 
@@ -203,6 +238,39 @@ namespace Vamos_Sergy.Models.Items
                     Stats += ";";
                     break;
             }
+        }
+        public override string ToString()
+        {
+            string output = $"{Description}";
+            if(Type == EquipmentEnum.Weapon)
+            {
+                output += $"<br>Damage: {MinDamage} - {MaxDamage}";
+            }
+            if (Str > 0)
+            {
+                output +=$"<br>Stenght : {Str}";
+            }
+            if (Dex > 0)
+            {
+                output += $"<br>Dexterity : {Dex}";
+            }
+            if (Inte > 0)
+            {
+                output += $"<br>Inteligence : {Inte}";
+            }
+            if (Vit > 0)
+            {
+                output += $"<br>Vitality: {Vit}";
+            }
+            if (Luck > 0)
+            {
+                output += $"<br>Luck: {Luck}";
+            }
+            if (Type == EquipmentEnum.Shield)
+            {
+                output += $"<br>Block : {Block}%";
+            }
+            return output;
         }
     }
 }

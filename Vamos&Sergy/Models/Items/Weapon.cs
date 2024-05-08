@@ -11,25 +11,6 @@
         {
             
         }
-        public Weapon(int minDamage, int maxDamage)
-        {
-            MinDamage = minDamage;
-            MaxDamage = maxDamage;
-        }
-
-        //[NotMapped]
-        public int MinDamage { get; set; }
-        //[NotMapped]
-        public int MaxDamage { get; set; }
-
-
-
-        protected override void GenerateStat()
-        {
-            base.GenerateStat();
-            MinDamage = _random.Next(2,5);
-            MaxDamage = _random.Next(5, 11); ;
-        }
         public int Attack(ClassEnum kast)
         {
             int damage = 0;

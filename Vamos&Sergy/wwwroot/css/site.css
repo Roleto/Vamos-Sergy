@@ -132,8 +132,16 @@ textarea {
 
 }
 .shopSlot {
-    padding-left:.75rem;
-    padding-top:.5rem;
+    padding-left:.15rem;
+    padding-top:1.15rem;
+    padding-bottom:.75rem;
     background-image: url('../Images/NullImages/blank.png');
     background-size: cover;
+}
+.parent .popup {
+    display: none;
+}
+
+.parent:hover .popup {
+    display: block;
 }

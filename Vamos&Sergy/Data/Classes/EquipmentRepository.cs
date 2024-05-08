@@ -37,12 +37,9 @@ namespace Vamos_Sergy.Data.Classes
         public void Update(Equipment item)
         {
             var old = Read(item.Id);
-            old.Name = item.Name;
-            old.Description = item.Description;
-            old.Type = item.Type;
             old.IsEqueped = item.IsEqueped;
-            old.OwherId = item.OwherId;
             old.Stats = item.Stats;
+            old.InventorySlot = item.InventorySlot;
             context.SaveChanges();
         }
         public void Delete(string id)

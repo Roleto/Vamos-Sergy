@@ -11,13 +11,6 @@
         {
 
         }
-        public int Block { get; set; }
-        protected override void GenerateStat()
-        {
-            base.GenerateStat();
-            Block = _random.Next(26);
-        }
-
         public bool Blocking()
         {
             return (_random.Next(0, 101) < Block);
