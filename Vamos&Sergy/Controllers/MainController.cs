@@ -52,8 +52,12 @@ namespace Vamos_Sergy.Controllers
             }
             hero.GetEqupments(equipmentList);
             _viewModel = new ViewModel(hero, _itemRepo.Read().ToList());
+            ViewData["gold"] = 1;
+            ViewData["mushroom"] = 0;
             return RedirectToAction(nameof(ViewHero));
         }
+
+
 
         [HttpGet]
         public IActionResult CreateHero()
@@ -76,11 +80,8 @@ namespace Vamos_Sergy.Controllers
         [HttpGet]
         public async Task<IActionResult> WeaponShop()
         {
-            //var principal = this.User;
-            //var user = await _userManager.GetUserAsync(principal);
-            //var hero = _heroRepo.ReadFromOwner(user.Id);
-            //_viewModel.Hero = hero;
-            //ShopViewModel vm = new ShopViewModel(hero, itemList.ToList(), _equipmentRepo, "D:\\Egyetem\\prog5\\FF\\Vamos&Sergy\\Vamos&Sergy\\wwwroot\\Images\\Backgrounds\\weaponshop.jpg"); ;
+            ViewData["gold"] = 1;
+            ViewData["mushroom"] = 0;
             return View(_viewModel);
         }
 
@@ -101,7 +102,7 @@ namespace Vamos_Sergy.Controllers
         [HttpGet]
         public IActionResult EquipItem(int index, string name)
         {
-            if (index < _viewModel.Hero.Inventory.Count())
+            if (index <= _viewModel.Hero.InvIndex)
             {
                 Equipment e = _viewModel.Hero.Inventory[index];
                 Item i = _itemRepo.Read(e.ItemId);
@@ -124,11 +125,6 @@ namespace Vamos_Sergy.Controllers
         public IActionResult UnEquipItem(EquipmentEnum equipment, string name)
         {
             _viewModel.Hero.UnEquip(equipment);
-            //if (index < _viewModel.Hero.Inventory.Count())
-            //{
-            //    Equipment e = _viewModel.Hero.Inventory[index];
-            //    _viewModel.Hero.Equip(e);
-            //}
             return RedirectToAction(name);
         }
 
@@ -155,10 +151,10 @@ namespace Vamos_Sergy.Controllers
             _heroRepo.Create(hero);
             return RedirectToAction(nameof(ViewHero));
         }
-        private byte[] imageToByteArray(System.Drawing.Image imageIn)
+        private byte[] imageToByteArray(System.Drawing.Image imageIn, ImageFormat format)
         {
             MemoryStream ms = new MemoryStream();
-            imageIn.Save(ms, System.Drawing.Imaging.ImageFormat.Jpeg);
+            imageIn.Save(ms, format);
             return ms.ToArray();
         }
 
@@ -173,16 +169,45 @@ namespace Vamos_Sergy.Controllers
             //{
             //    hero.GetEqupments(equipments.ToList()) ;
             //}
-            return View(_viewModel);
+            return View(_viewModel.Hero);
         }
 
         [HttpGet]
-        public IActionResult HeroCard()
+        public ContentResult HeroCard()
         {
-            var userId = _userManager.GetUserId(this.User);
-            Hero hero = _heroRepo.ReadFromOwner(userId);
-            return View(hero);
+            //< div class="container">
+            //                    <div class="row">
+            //                        <div class="col col-3 ">
+            //                            <img class="profilPic" src="@Url.Action("GetProfilImage", "Main")" class="card-img-top" alt="...">
+            //                        </div>
+            //                        <div class="col col-9">
+            //                            <div class="container text-center">
+            //                                <div class="row">
+            //                                    <div class="col">
+            //                                        <small>Gold: 100</small>
+            //                                        <small>Mushrom: 5</small>
+            //                                    </div>
+            //                                </div>
+            //                            </div>
+            //                        </div>
+            //                    </div>
+            //                </div>
+            return new ContentResult
+            {
+                ContentType = "text/html",
+                Content = "<div class=\"container\"><div class=\"row\"><div class=\"col col-3 \"><img class=\"profilPic\" src=\"@Url.Action(\"GetProfilImage\", \"Main\")\" class=\"card-img-top\" alt=\"...\"></div><div class=\"col col-9\"><div class=\"container text-center\"><div class=\"row\"><div class=\"col\">" +
+                "<small>Gold: 100</small>" +
+                "<small>Mushrom: 5</small></div></div></div></div></div></div>"
+            };
         }
+
+        //[HttpGet]
+        //public IActionResult HeroCard()
+        //{
+        //    var userId = _userManager.GetUserId(this.User);
+        //    Hero hero = _heroRepo.ReadFromOwner(userId);
+        //    return View(hero);
+        //}
 
         [HttpGet]
         public IActionResult CreateItem()
@@ -249,6 +274,22 @@ namespace Vamos_Sergy.Controllers
             }
 
         }
+
+        public async Task<IActionResult> GetProfilImage()
+        {
+            var principal = this.User;
+            var user = await _userManager.GetUserAsync(principal);
+            if (user != null && user.ContentType?.Length > 3)
+            {
+                return new FileContentResult(user.Data, user.ContentType);
+            }
+            else
+            {
+                Image image = Image.FromFile("D:\\Egyetem\\prog5\\FF\\Vamos&Sergy\\Vamos&Sergy\\wwwroot\\Images\\NullImages\\profil.png");
+                return new FileContentResult(imageToByteArray(image, ImageFormat.Png), "image/png");
+            }
+        }
+
         public async Task<IActionResult> GetShopImage(string itemId)
         {
             var item = _itemRepo.Read(itemId);

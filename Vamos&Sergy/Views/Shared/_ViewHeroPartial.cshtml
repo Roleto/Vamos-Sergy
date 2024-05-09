@@ -1,13 +1,11 @@
-﻿@using Vamos_Sergy.ViewModels
-@model ViewModel;
-<table class="table table-borderless m-0 ms-1 p-0 overflow-hidden">
+﻿@model Hero;
+<table class="table table-borderless m-0 ms-1 p-0 overflow-hidden w-50">
     <tbody>
         <tr>
-            @if (Model.Hero.Equipments.ContainsKey(EquipmentEnum.Helmet) && Model.Hero.Equipments[EquipmentEnum.Helmet] != null)
+            @if (Model.Equipments.ContainsKey(EquipmentEnum.Helmet) && Model.Equipments[EquipmentEnum.Helmet] != null)
             {
-                <td ondblclick="location.href='@Url.Action("UnEquipItem", "Main" , new { equipment=EquipmentEnum.Helmet, name = "ViewHero"})'">
-                    <img class="icon" src="@Url.Action("GetInventoryImage", "Main",
-                                new { id = Model.Hero.Equipments[EquipmentEnum.Helmet].ItemId})" />
+                <td ondblclick="location.href='@Url.Action("UnEquipItem", "Main" , new { equipment=EquipmentEnum.Helmet, name = ViewData["name"]})'">
+                    <partial name="_EquipmentLayout" model="@Model.Equipments[EquipmentEnum.Helmet]" />
                 </td>
             }
             else
@@ -19,17 +17,16 @@
                     <img src="@Url.Action("GetImage", "Main", new { isUserImage = false})" class="card-img heroImg" alt="...">
                     <div class="card-footer">
                         <div class="progress" role="progressbar" aria-label="Basic example" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">
-                            <div class="progress-bar bg-success text-center" style="width: @Model.Hero.GetCurrentXpPercentage%"></div>
-                            <small class="justify-content-center d-flex position-absolute w-100">@Model.Hero.Level&period;level</small>
+                            <div class="progress-bar bg-success text-center" style="width: @Model.GetCurrentXpPercentage%"></div>
+                            <small class="justify-content-center d-flex position-absolute w-100">@Model.Level&period;level</small>
                         </div>
                     </div>
                 </div>
             </td>
-            @if (Model.Hero.Equipments.ContainsKey(EquipmentEnum.Necklace) && Model.Hero.Equipments[EquipmentEnum.Necklace] != null)
+            @if (Model.Equipments.ContainsKey(EquipmentEnum.Necklace) && Model.Equipments[EquipmentEnum.Necklace] != null)
             {
-                <td ondblclick="location.href='@Url.Action("UnEquipItem", "Main" , new { equipment=EquipmentEnum.Necklace, name = "ViewHero"})'">
-                    <img class="icon" src="@Url.Action("GetInventoryImage", "Main",
-                                new { id = Model.Hero.Equipments[EquipmentEnum.Necklace].ItemId})" />
+                <td ondblclick="location.href='@Url.Action("UnEquipItem", "Main" , new { equipment=EquipmentEnum.Necklace, name = ViewData["name"]})'">
+                    <partial name="_EquipmentLayout" model="@Model.Equipments[EquipmentEnum.Necklace]" />
                 </td>
             }
             else
@@ -38,22 +35,20 @@
             }
         </tr>
         <tr>
-            @if (Model.Hero.Equipments.ContainsKey(EquipmentEnum.Armor) && Model.Hero.Equipments[EquipmentEnum.Armor] != null)
+            @if (Model.Equipments.ContainsKey(EquipmentEnum.Armor) && Model.Equipments[EquipmentEnum.Armor] != null)
             {
-                <td ondblclick="location.href='@Url.Action("UnEquipItem", "Main" , new { equipment=EquipmentEnum.Armor, name = "ViewHero"})'">
-                    <img class="icon" src="@Url.Action("GetInventoryImage", "Main",
-                                new { id = Model.Hero.Equipments[EquipmentEnum.Armor].ItemId})" />
+                <td ondblclick="location.href='@Url.Action("UnEquipItem", "Main" , new { equipment=EquipmentEnum.Armor, name = ViewData["name"]})'">
+                    <partial name="_EquipmentLayout" model="@Model.Equipments[EquipmentEnum.Armor]" />
                 </td>
             }
             else
             {
                 <td><img class="icon" src="/Images\NullImages\armor.png" /></td>
             }
-            @if (Model.Hero.Equipments.ContainsKey(EquipmentEnum.Belt) && Model.Hero.Equipments[EquipmentEnum.Belt] != null)
+            @if (Model.Equipments.ContainsKey(EquipmentEnum.Belt) && Model.Equipments[EquipmentEnum.Belt] != null)
             {
-                <td ondblclick="location.href='@Url.Action("UnEquipItem", "Main" , new { equipment=EquipmentEnum.Belt, name = "ViewHero"})'">
-                    <img class="icon" src="@Url.Action("GetInventoryImage", "Main",
-                                new { id = Model.Hero.Equipments[EquipmentEnum.Belt].ItemId})" />
+                <td ondblclick="location.href='@Url.Action("UnEquipItem", "Main" , new { equipment=EquipmentEnum.Belt, name = ViewData["name"]})'">
+                    <partial name="_EquipmentLayout" model="@Model.Equipments[EquipmentEnum.Belt]" />
                 </td>
             }
             else
@@ -62,23 +57,20 @@
             }
         </tr>
         <tr>
-            @if (Model.Hero.Equipments.ContainsKey(EquipmentEnum.Hand) && Model.Hero.Equipments[EquipmentEnum.Hand] != null)
+            @if (Model.Equipments.ContainsKey(EquipmentEnum.Hand) && Model.Equipments[EquipmentEnum.Hand] != null)
             {
-                <td ondblclick="location.href='@Url.Action("UnEquipItem", "Main" , new { equipment=EquipmentEnum.Hand, name = "ViewHero"})'">
-
-                    <img class="icon" src="@Url.Action("GetInventoryImage", "Main",
-                                new { id = Model.Hero.Equipments[EquipmentEnum.Hand].ItemId})" />
+                <td ondblclick="location.href='@Url.Action("UnEquipItem", "Main" , new { equipment=EquipmentEnum.Hand, name = ViewData["name"]})'">
+                    <partial name="_EquipmentLayout" model="@Model.Equipments[EquipmentEnum.Hand]" />
                 </td>
             }
             else
             {
                 <td><img class="icon" src="/Images\NullImages\hand.png" /></td>
             }
-            @if (Model.Hero.Equipments.ContainsKey(EquipmentEnum.Ring) && Model.Hero.Equipments[EquipmentEnum.Ring] != null)
+            @if (Model.Equipments.ContainsKey(EquipmentEnum.Ring) && Model.Equipments[EquipmentEnum.Ring] != null)
             {
-                <td ondblclick="location.href='@Url.Action("UnEquipItem", "Main" , new { equipment=EquipmentEnum.Ring, name = "ViewHero"})'">
-                    <img class="icon" src="@Url.Action("GetInventoryImage", "Main",
-                                new { id = Model.Hero.Equipments[EquipmentEnum.Ring].ItemId})" />
+                <td ondblclick="location.href='@Url.Action("UnEquipItem", "Main" , new { equipment=EquipmentEnum.Ring, name = ViewData["name"]})'">
+                    <partial name="_EquipmentLayout" model="@Model.Equipments[EquipmentEnum.Ring]" />
                 </td>
             }
             else
@@ -87,35 +79,32 @@
             }
         </tr>
         <tr>
-            @if (Model.Hero.Equipments.ContainsKey(EquipmentEnum.Leg) && Model.Hero.Equipments[EquipmentEnum.Leg] != null)
+            @if (Model.Equipments.ContainsKey(EquipmentEnum.Leg) && Model.Equipments[EquipmentEnum.Leg] != null)
             {
-                <td ondblclick="location.href='@Url.Action("UnEquipItem", "Main" , new { equipment=EquipmentEnum.Leg, name = "ViewHero"})'">
-                    <img class="icon" src="@Url.Action("GetInventoryImage", "Main",
-                                new { id = Model.Hero.Equipments[EquipmentEnum.Leg].ItemId})" />
+                <td ondblclick="location.href='@Url.Action("UnEquipItem", "Main" , new { equipment=EquipmentEnum.Leg, name = ViewData["name"]})'">
+                    <partial name="_EquipmentLayout" model="@Model.Equipments[EquipmentEnum.Leg]" />
                 </td>
             }
             else
             {
                 <td><img class="icon" src="/Images\NullImages\leg.png" /></td>
             }
-            @if (Model.Hero.Equipments.ContainsKey(EquipmentEnum.Weapon) && Model.Hero.Equipments[EquipmentEnum.Weapon] != null)
+            @if (Model.Equipments.ContainsKey(EquipmentEnum.Weapon) && Model.Equipments[EquipmentEnum.Weapon] != null)
             {
-                <td ondblclick="location.href='@Url.Action("UnEquipItem", "Main" , new { equipment=EquipmentEnum.Weapon, name = "ViewHero"})'">
-                    <img class="icon" src="@Url.Action("GetInventoryImage", "Main",
-                                new { id = Model.Hero.Equipments[EquipmentEnum.Weapon].ItemId})" />
+                <td ondblclick="location.href='@Url.Action("UnEquipItem", "Main" , new { equipment=EquipmentEnum.Weapon, name = ViewData["name"]})'">
+                    <partial name="_EquipmentLayout" model="@Model.Equipments[EquipmentEnum.Weapon]" />
                 </td>
             }
             else
             {
                 <td><img class="icon" src="/Images\NullImages\weapon.png" /></td>
             }
-            @if (Model.Hero.Kast == ClassEnum.Warrior)
+            @if (Model.Kast == ClassEnum.Warrior)
             {
-                @if (Model.Hero.Equipments.ContainsKey(EquipmentEnum.Shield) && Model.Hero.Equipments[EquipmentEnum.Shield] != null)
+                @if (Model.Equipments.ContainsKey(EquipmentEnum.Shield) && Model.Equipments[EquipmentEnum.Shield] != null)
                 {
-                    <td ondblclick="location.href='@Url.Action("UnEquipItem", "Main" , new { equipment=EquipmentEnum.Shield, name = "ViewHero"})'">
-                        <img class="icon" src="@Url.Action("GetInventoryImage", "Main",
-                                        new { id = Model.Hero.Equipments[EquipmentEnum.Shield].ItemId})" />
+                    <td ondblclick="location.href='@Url.Action("UnEquipItem", "Main" , new { equipment=EquipmentEnum.Shield, name = ViewData["name"]})'">
+                        <partial name="_EquipmentLayout" model="@Model.Equipments[EquipmentEnum.Shield]" />
                     </td>
                 }
                 else
@@ -125,11 +114,11 @@
             }
             else
             {
-                @if (Model.Hero.Equipments.ContainsKey(EquipmentEnum.Weapon) && Model.Hero.Equipments[EquipmentEnum.Weapon] != null)
+                @if (Model.Equipments.ContainsKey(EquipmentEnum.Weapon) && Model.Equipments[EquipmentEnum.Weapon] != null)
                 {
-                    <td ondblclick="location.href='@Url.Action("UnEquipItem", "Main" , new { equipment=EquipmentEnum.Weapon, name = "ViewHero"})'">
+                    <td ondblclick="location.href='@Url.Action("UnEquipItem", "Main" , new { equipment=EquipmentEnum.Weapon, name = ViewData["name"]})'">
                         <img class="icon" src="@Url.Action("GetInventoryImage", "Main",
-                                        new { id = Model.Hero.Equipments[EquipmentEnum.Weapon].ItemId, secondary=true})" />
+                        new { id = Model.Equipments[EquipmentEnum.Weapon].ItemId, secondary=true})" />
                     </td>
                 }
                 else
@@ -137,11 +126,10 @@
                     <td><img class="icon" src="/Images\NullImages\blank.png" /></td>
                 }
             }
-            @if (Model.Hero.Equipments.ContainsKey(EquipmentEnum.Misc) && Model.Hero.Equipments[EquipmentEnum.Misc] != null)
+            @if (Model.Equipments.ContainsKey(EquipmentEnum.Misc) && Model.Equipments[EquipmentEnum.Misc] != null)
             {
-                <td ondblclick="location.href='@Url.Action("UnEquipItem", "Main" , new { equipment=EquipmentEnum.Misc, name = "ViewHero"})'">
-                    <img class="icon" src="@Url.Action("GetInventoryImage", "Main",
-                                        new { id = Model.Hero.Equipments[EquipmentEnum.Misc].ItemId, secondary=true})" />
+                <td ondblclick="location.href='@Url.Action("UnEquipItem", "Main" , new { equipment=EquipmentEnum.Misc, name = ViewData["name"]})'">
+                    <partial name="_EquipmentLayout" model="@Model.Equipments[EquipmentEnum.Misc]" />
                 </td>
             }
             else
@@ -154,7 +142,7 @@
                 <div class="container">
                     <div class="row p-0">
                         <div class="col col-6 m-0 gy-0">
-                            @if (Model.Hero.Kast == ClassEnum.Warrior)
+                            @if (Model.Kast == ClassEnum.Warrior)
                             {
                                 <p style="white-space: pre-line">Strenght Damage</p>
                             }
@@ -164,13 +152,13 @@
                             }
                         </div>
                         <div class="col col-2 m-0">
-                            @if (Model.Hero.Kast == ClassEnum.Warrior)
+                            @if (Model.Kast == ClassEnum.Warrior)
                             {
-                                <p style="white-space: pre-line">@Model.Hero.Str @Model.Hero.Damage</p>
+                                <p style="white-space: pre-line">@Model.Str @Model.Damage</p>
                             }
                             else
                             {
-                                <p style="white-space: pre-line">@Model.Hero.Str @Model.Hero.Defence</p>
+                                <p style="white-space: pre-line">@Model.Str @Model.Defence</p>
                             }
                         </div>
                         <div class="col col-2">
@@ -185,7 +173,7 @@
                             <p style="white-space: pre-line">Constitution Hit&nbspPoints</p>
                         </div>
                         <div class="col col-2 m-0">
-                            <p style="white-space: pre-line">@Model.Hero.Vit @Model.Hero.Hp</p>
+                            <p style="white-space: pre-line">@Model.Vit @Model.Hp</p>
                         </div>
                         <div class="col col-2">
                             <button type="button" class="btn btn-info statButton"><i class="fa-solid fa-plus"></i></button>
@@ -199,7 +187,7 @@
                 <div class="container">
                     <div class="row p-0">
                         <div class="col col-6 m-0 gy-0">
-                            @if (Model.Hero.Kast == ClassEnum.Ranger)
+                            @if (Model.Kast == ClassEnum.Ranger)
                             {
                                 <p style="white-space: pre-line">Dexterity Damage</p>
                             }
@@ -209,13 +197,13 @@
                             }
                         </div>
                         <div class="col col-2 m-0">
-                            @if (Model.Hero.Kast == ClassEnum.Ranger)
+                            @if (Model.Kast == ClassEnum.Ranger)
                             {
-                                <p style="white-space: pre-line">@Model.Hero.Dex @Model.Hero.Damage</p>
+                                <p style="white-space: pre-line">@Model.Dex @Model.Damage</p>
                             }
                             else
                             {
-                                <p style="white-space: pre-line">@Model.Hero.Dex @Model.Hero.Evasion</p>
+                                <p style="white-space: pre-line">@Model.Dex @Model.Evasion</p>
                             }
                         </div>
                         <div class="col col-2">
@@ -230,7 +218,7 @@
                             <p style="white-space: pre-line">Luck Critical&nbspHit</p>
                         </div>
                         <div class="col col-2 m-0">
-                            <p style="white-space: pre-line">@Model.Hero.Luck @Model.Hero.Crit</p>
+                            <p style="white-space: pre-line">@Model.Luck @Model.Crit</p>
                         </div>
                         <div class="col col-2">
                             <button type="button" class="btn btn-info statButton"><i class="fa-solid fa-plus"></i></button>
@@ -244,7 +232,7 @@
                 <div class="container">
                     <div class="row p-0">
                         <div class="col col-6 m-0 gy-0">
-                            @if (Model.Hero.Kast == ClassEnum.Mage)
+                            @if (Model.Kast == ClassEnum.Mage)
                             {
                                 <p style="white-space: pre-line">Inteligence Damage</p>
                             }
@@ -254,13 +242,13 @@
                             }
                         </div>
                         <div class="col col-2 m-0">
-                            @if (Model.Hero.Kast == ClassEnum.Ranger)
+                            @if (Model.Kast == ClassEnum.Ranger)
                             {
-                                <p style="white-space: pre-line">@Model.Hero.Inte @Model.Hero.Damage</p>
+                                <p style="white-space: pre-line">@Model.Inte @Model.Damage</p>
                             }
                             else
                             {
-                                <p style="white-space: pre-line">@Model.Hero.Inte @Model.Hero.Resistance</p>
+                                <p style="white-space: pre-line">@Model.Inte @Model.Resistance</p>
                             }
                         </div>
                         <div class="col col-2">
@@ -276,7 +264,7 @@
                             <p style="white-space: pre-line">Armor Reduction</p>
                         </div>
                         <div class="col col-2 m-0">
-                            <p style="white-space: pre-line">@Model.Hero.Armor @Model.Hero.DamageReduction</p>
+                            <p style="white-space: pre-line">@Model.Armor @Model.DamageReduction</p>
                         </div>
                         <div class="col col-2">
                             <button type="button" class="btn btn-info statButton"><i class="fa-solid fa-plus"></i></button>

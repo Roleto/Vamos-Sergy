@@ -1,37 +1,20 @@
 ﻿@using Vamos_Sergy.ViewModels
-@model ViewModel;
+@model Hero;
+@{
+    ViewData["name"] = "ViewHero";
+    ViewData["gold"] = Model.Gold;
+    ViewData["mushroom"] = Model.Mushroom;
+}
 <div class="container-fluid">
     <div class="row">
         <div class="col p-0">
-            @* itt tartasz az unqeuipet kell meg nézni *@
-            @* viewHero *@
-            <partial name="_ViewHeroPartial" data="@Model" />
+            <partial name="_ViewHeroPartial" model="@Model" view-data="ViewData" />
         </div>
         <div class="col p-0">
             <div class="container">
                 <div class="row">
                     <div class="row row-cols-5 ps-0 pe-0 " s>
-                        @for (int i = 0; i < @Model.Hero.MaxInvetory; i++)
-                        {
-                            <div class="col" ondblclick="location.href='@Url.Action("EquipItem", "Main" , new { index=i, name = "ViewHero"})'">
-                                @if (Model.Hero.Inventory.ContainsKey(i) && Model.Hero.Inventory[i] != null)
-                                {
-
-                                    <img class="InventoryImg" src="@Url.Action("GetInventoryImage", "Main", new { id = Model.Hero.Inventory[i].ItemId})" />
-                                }
-                                else
-                                {
-
-                                    <img class="InventoryImg" src="/Images/NullImages\blank.png" />
-                                }
-                            </div>
-                        }
-                        @for (int i = 0; i < 25 - @Model.Hero.MaxInvetory; i++)
-                        {
-                            <div class="col">
-                                <img class="InventoryImg" style="visibility:hidden" src="/Images/NullImages/blank.png" />
-                            </div>
-                        }
+                        <partial name="_InventoryLayout" model="@Model" view-data="ViewData" />
                     </div>
                 </div>
                 <div class="row">

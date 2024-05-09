@@ -29,6 +29,10 @@ namespace Vamos_Sergy.Models
         public int Level { get; set; }
 
         [ShowTable]
+        [Range(0,100)]
+        public double Adventure{ get; set; }
+
+        [ShowTable]
         public int Gold { get; set; }
         [ShowTable]
         public int Mushroom { get; set; }
@@ -46,6 +50,8 @@ namespace Vamos_Sergy.Models
 
         [ShowTable]
         public bool HasMount { get; set; }
+
+        public int Honor { get; set; }
 
         #endregion
         #region stat props
@@ -246,9 +252,9 @@ namespace Vamos_Sergy.Models
         {
             get
             {
-                int output = Inventory.Count;
+                int output = MaxInvetory;
 
-                for (int i = 0; i < Inventory.Count; i++)
+                for (int i = 0; i < MaxInvetory; i++)
                 {
                     if (Inventory.ContainsKey(i))
                         output--;
@@ -279,6 +285,8 @@ namespace Vamos_Sergy.Models
             Id = Guid.NewGuid().ToString();
             Inventory = new Dictionary<int, Equipment>();
             Equipments = new Dictionary<EquipmentEnum, Equipment>();
+            Adventure = 100;
+            Honor= 100;
         }
         public void GenerateStats(RaceEnum race)
         {

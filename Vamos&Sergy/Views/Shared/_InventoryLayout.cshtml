@@ -1,0 +1,28 @@
+﻿@model Hero
+@for (int i = 0; i < 25; i++)
+{
+    if (i < @Model.MaxInvetory)
+    {
+        <div class="col ItemSlot" ondblclick="location.href='@Url.Action("EquipItem", "Main" , new { index=i, name = ViewData["name"]})'">
+            <div class="ItemFrame">
+
+            @if (Model.Inventory.ContainsKey(i) && Model.Inventory[i] != null)
+            {
+                <partial name="_ItemLayout" model="@Model.Inventory[i]" />
+            }
+            </div>
+        </div>
+    }
+    else
+    {
+        <div class="col">
+            <img class="InventoryImg" style="visibility:hidden" src="/Images/NullImages/blank.png" />
+        </div>
+    }
+
+}
+@*
+@for (int i = 0; i < 25 - @Model.MaxInvetory; i++)
+{
+}
+ *@
