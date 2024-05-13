@@ -6,10 +6,11 @@ namespace Vamos_Sergy.Models.Items
 {
     public class Equipment
     {
+        private string getPrice { get => $"{Price} g {Mushroom} m"; }
         [Key]
         public string Id { get; set; }
 
-        public string ItemId{ get; set; }     
+        public string ItemId { get; set; }
 
         [NotMapped]
         [ShowTable]
@@ -25,7 +26,7 @@ namespace Vamos_Sergy.Models.Items
 
         [NotMapped]
         public ClassEnum RequiredClass { get; set; }
-        
+
         [Required]
         public bool IsEqueped { get; set; }
 
@@ -38,9 +39,14 @@ namespace Vamos_Sergy.Models.Items
         [Required]
         public string Stats { get; set; }
 
+        private double price;
+        [NotMapped]
+        public double Price { get => price; }
+
+        private int mushroom;
 
         [NotMapped]
-        public double Price { get; }
+        public int Mushroom { get => mushroom; }
 
         [NotMapped]
         public int Str { get; set; }
@@ -70,17 +76,25 @@ namespace Vamos_Sergy.Models.Items
         public Equipment(Item item)
         {
             _random = new Random();
-            Id=Guid.NewGuid().ToString();
+            Id = Guid.NewGuid().ToString();
             ItemId = item.Id;
             Name = item.Name;
             Description = item.Description;
             Type = item.Type;
-           
+
             RequiredClass = item.RequiredClass;
             IsEqueped = false;
-            Price = (_random.NextDouble() + 0.1) * 10;
             Stats = "";
             GenerateStat();
+        }
+        public bool CanBuy(double price, int mushroom)
+        {
+            if (Price <= price && Mushroom <= mushroom)
+            {
+                price = 0;
+                return true;
+            }
+            return false;
         }
         public void SetStat(Item item)
         {
@@ -88,14 +102,14 @@ namespace Vamos_Sergy.Models.Items
             Description = item.Description;
             Type = item.Type;
             RequiredClass = item.RequiredClass;
-            string[] statsArray =  Stats.Split(';');
+            string[] statsArray = Stats.Split(';');
             foreach (string stat in statsArray)
             {
                 string[] statArray = stat.Split(":");
                 switch (statArray[0])
                 {
                     case "int":
-                        Inte = int.Parse(statArray[1]); 
+                        Inte = int.Parse(statArray[1]);
                         break;
                     case "str":
                         Str = int.Parse(statArray[1]);
@@ -110,13 +124,13 @@ namespace Vamos_Sergy.Models.Items
                         Luck = int.Parse(statArray[1]);
                         break;
                     case "min":
-                        MinDamage= int.Parse(statArray[1]);
+                        MinDamage = int.Parse(statArray[1]);
                         break;
                     case "max":
                         MaxDamage = int.Parse(statArray[1]);
                         break;
                     case "block":
-                        Block= int.Parse(statArray[1]);
+                        Block = int.Parse(statArray[1]);
                         break;
                     default:
                         break;
@@ -155,15 +169,21 @@ namespace Vamos_Sergy.Models.Items
             if (Type == EquipmentEnum.Weapon)
             {
                 MinDamage = _random.Next(2, 5);
-                    Stats += "min:" + Dex.ToString() +";";
+                Stats += "min:" + Dex.ToString() + ";";
                 MaxDamage = _random.Next(5, 11);
-                    Stats += "max:" + Dex.ToString();
+                Stats += "max:" + Dex.ToString();
             }
             else if (Type == EquipmentEnum.Shield)
             {
-                    Stats += "block:" + Dex.ToString();
+                Stats += "block:" + Dex.ToString();
                 Block = _random.Next(26);
             }
+            price = Math.Round((_random.NextDouble() + 0.1) * 10, 2);
+            int mush = _random.Next(0, 101);
+            if (mush <= 10)
+                mushroom = 1;
+            else if (mush <= 20)
+                mushroom = 2;
         }
 
         protected void GenerateRandomStat()
@@ -242,13 +262,13 @@ namespace Vamos_Sergy.Models.Items
         public override string ToString()
         {
             string output = $"{Description}";
-            if(Type == EquipmentEnum.Weapon)
+            if (Type == EquipmentEnum.Weapon)
             {
                 output += $"<br>Damage: {MinDamage} - {MaxDamage}";
             }
             if (Str > 0)
             {
-                output +=$"<br>Stenght : {Str}";
+                output += $"<br>Stenght : {Str}";
             }
             if (Dex > 0)
             {
@@ -269,6 +289,10 @@ namespace Vamos_Sergy.Models.Items
             if (Type == EquipmentEnum.Shield)
             {
                 output += $"<br>Block : {Block}%";
+            }
+            if (Price != 0)
+            {
+                output += $"<br>Price : {this.getPrice}";
             }
             return output;
         }

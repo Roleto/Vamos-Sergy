@@ -46,11 +46,17 @@ namespace Vamos_Sergy.ViewModels
                     i--;
             }
         }
-        public Equipment Buy(int index)
+        public Equipment? Buy(int index)
         {
             Equipment e = GetShopItem(index);
-            GenerateOne(e.ItemId);
-            return e;
+            if (e.CanBuy(Hero.Gold, Hero.Mushroom))
+            {
+                GenerateOne(e.ItemId);
+                Hero.Gold -= e.Price;
+                Hero.Mushroom -= e.Mushroom;
+                return e;
+            }
+            return null;
         }
         void GenerateOne(string id)
         {

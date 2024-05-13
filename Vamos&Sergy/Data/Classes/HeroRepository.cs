@@ -46,6 +46,8 @@ namespace Vamos_Sergy.Data.Classes
         public void Update(Hero item)
         {
             var old = Read(item.Id);
+            if (old == null)
+                return;
             old.Name = item.Name;
             old.Kast = item.Kast;
             old.Level = item.Level;
@@ -56,6 +58,8 @@ namespace Vamos_Sergy.Data.Classes
             old.Inte = item.Inte;
             old.Vit = item.Vit;
             old.Luck = item.Luck;
+            old.Gold = item.Gold;
+            old.Mushroom = item.Mushroom;
             context.SaveChanges();
         }
         public void Delete(string id)

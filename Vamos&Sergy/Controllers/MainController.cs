@@ -23,6 +23,11 @@ namespace Vamos_Sergy.Controllers
         private readonly UserManager<SiteUser> _userManager;
         private static ViewModel _viewModel;
 
+        private void RefreshMoney()
+        {
+            ViewData["gold"] = _viewModel.Hero.Gold;
+            ViewData["mushroom"] = _viewModel.Hero.Mushroom;
+        }
 
         public MainController(IRepository<Hero> heroRepo, IRepository<Item> itemRepo, IRepository<Equipment> equipmentRepo, UserManager<SiteUser> userManager)
         {
@@ -52,8 +57,7 @@ namespace Vamos_Sergy.Controllers
             }
             hero.GetEqupments(equipmentList);
             _viewModel = new ViewModel(hero, _itemRepo.Read().ToList());
-            ViewData["gold"] = 1;
-            ViewData["mushroom"] = 0;
+            this.RefreshMoney();
             return RedirectToAction(nameof(ViewHero));
         }
 
@@ -66,37 +70,34 @@ namespace Vamos_Sergy.Controllers
         }
 
         [HttpGet]
-        public IActionResult Proba()
-        {
-            List<string> Messages = new List<string>()
-        {
-            "Turns out NASA can't even improve on duct tape... Duct tape is magic and should be worshipped.",
-            "How come Aquaman can control whales? They're mammals! Makes no sense.",
-            "As with most of life's problems, this one can be solved by a box of pure radiation."
-        };
-            return View(Messages);
-        }
-
-        [HttpGet]
         public async Task<IActionResult> WeaponShop()
         {
-            ViewData["gold"] = 1;
-            ViewData["mushroom"] = 0;
+            this.RefreshMoney();
             return View(_viewModel);
         }
 
         [HttpGet]
         public IActionResult BuyWeapon(int index)
         {
-            if (_viewModel.Hero.InvIndex < _viewModel.Hero.MaxInvetory)
+            if (_viewModel.Hero.InvIndex > 0)
             {
-                Equipment e = _viewModel.Buy(index);
-                e.OwherId = _viewModel.Hero.Id;
-                e.InventorySlot = _viewModel.Hero.GetFirsNull;
-                _equipmentRepo.Create(e);
-                _viewModel.Hero.Inventory[e.InventorySlot] = e;
+                Equipment? e = _viewModel.Buy(index);
+                if (e != null)
+                {
+                    e.OwherId = _viewModel.Hero.Id;
+                    e.InventorySlot = _viewModel.Hero.GetFirsNull;
+                    _equipmentRepo.Create(e);
+                    _viewModel.Hero.Inventory[e.InventorySlot] = e;
+                    _heroRepo.Update(_viewModel.Hero);
+                    this.RefreshMoney();
+                    return RedirectToAction(nameof(WeaponShop));
+                }
+                ViewData["error"] = "Don't have enough money";
+                return RedirectToAction(nameof(WeaponShop));
             }
+            ViewData["error"] = "Inventury is full";
             return RedirectToAction(nameof(WeaponShop));
+
         }
 
         [HttpGet]
@@ -161,37 +162,13 @@ namespace Vamos_Sergy.Controllers
         [HttpGet]
         public IActionResult ViewHero()
         {
-            //var userId = _userManager.GetUserId(this.User);
-            //Hero hero = _heroRepo.ReadFromOwner(userId);
-            //f48378fc-0d28-4f9f-b37a-615a3cae98c8
-            //var equipments = _equipmentRepo.Read().Where(x => x.OwherId == hero.Id);
-            //if (equipments != null)
-            //{
-            //    hero.GetEqupments(equipments.ToList()) ;
-            //}
+            this.RefreshMoney();
             return View(_viewModel.Hero);
         }
 
         [HttpGet]
         public ContentResult HeroCard()
         {
-            //< div class="container">
-            //                    <div class="row">
-            //                        <div class="col col-3 ">
-            //                            <img class="profilPic" src="@Url.Action("GetProfilImage", "Main")" class="card-img-top" alt="...">
-            //                        </div>
-            //                        <div class="col col-9">
-            //                            <div class="container text-center">
-            //                                <div class="row">
-            //                                    <div class="col">
-            //                                        <small>Gold: 100</small>
-            //                                        <small>Mushrom: 5</small>
-            //                                    </div>
-            //                                </div>
-            //                            </div>
-            //                        </div>
-            //                    </div>
-            //                </div>
             return new ContentResult
             {
                 ContentType = "text/html",

@@ -33,7 +33,7 @@ namespace Vamos_Sergy.Models
         public double Adventure{ get; set; }
 
         [ShowTable]
-        public int Gold { get; set; }
+        public double Gold { get; set; }
         [ShowTable]
         public int Mushroom { get; set; }
 
@@ -246,6 +246,7 @@ namespace Vamos_Sergy.Models
         public virtual SiteUser Owner { get; set; }
 
         public string ContentType { get; set; }
+        public byte[] Data { get; set; }
 
         [NotMapped]
         public int InvIndex
@@ -279,7 +280,6 @@ namespace Vamos_Sergy.Models
             }
         }
 
-        public byte[] Data { get; set; }
         public Hero()
         {
             Id = Guid.NewGuid().ToString();
