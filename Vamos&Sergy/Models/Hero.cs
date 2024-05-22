@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Diagnostics.CodeAnalysis;
 using Vamos_Sergy.Models.Items;
 using System.Collections.Generic;
+using System.Text.Json.Serialization;
 
 namespace Vamos_Sergy.Models
 {
@@ -32,13 +33,18 @@ namespace Vamos_Sergy.Models
         [Range(0,100)]
         public double Adventure{ get; set; }
 
+        public HeroStateEnum HeroState { get; set; }
+
         [ShowTable]
         public double Gold { get; set; }
         [ShowTable]
         public int Mushroom { get; set; }
 
         [NotMapped]
-        public double GetCurrentXpPercentage { get => (Exp / ((double)Level * 256)) * 100; }
+        public double GetCurrentXpPercentage { get => (Exp / (double)MaxXp); }
+
+        [NotMapped]
+        public int MaxXp{ get => (Level * 15 ) + (Level * 100); }
 
         [Required]
         [ShowTable]
@@ -49,9 +55,16 @@ namespace Vamos_Sergy.Models
         public RaceEnum Race { get; set; }
 
         [ShowTable]
-        public bool HasMount { get; set; }
+        public MountEnum Mount { get; set; }
 
         public int Honor { get; set; }
+
+        public string WeaponShop { get; set; }
+        public string MagicShop { get; set; }
+        public string QuestIds{ get; set; }
+
+        [NotMapped]
+        public List<Quest> Quest { get; set; }
 
         #endregion
         #region stat props
@@ -230,8 +243,10 @@ namespace Vamos_Sergy.Models
         #region inventory props
 
         [NotMapped]
+        [JsonIgnore]
         public virtual Dictionary<int, Equipment> Inventory { get; set; }
         [NotMapped]
+        [JsonIgnore]
         public virtual Dictionary<EquipmentEnum, Equipment> Equipments { get; set; }
 
         [Range(0, 25)]
@@ -243,6 +258,7 @@ namespace Vamos_Sergy.Models
         public string OwnerId { get; set; }
 
         [NotMapped]
+        [JsonIgnore]
         public virtual SiteUser Owner { get; set; }
 
         public string ContentType { get; set; }
@@ -287,14 +303,15 @@ namespace Vamos_Sergy.Models
             Equipments = new Dictionary<EquipmentEnum, Equipment>();
             Adventure = 100;
             Honor= 100;
+            HeroState = HeroStateEnum.Free;
         }
         public void GenerateStats(RaceEnum race)
         {
-            HasMount = false;
+            Mount = MountEnum.None;
             MaxInvetory = 5;
             SetStats(race);
         }
-        public void GetEqupments(List<Equipment> equipments)
+        public void SetEquipment(List<Equipment> equipments)
         {
             foreach (Equipment item in equipments)
             {
@@ -307,6 +324,18 @@ namespace Vamos_Sergy.Models
                     Inventory[item.InventorySlot] = item;
                 }
             }
+        }
+
+        public void SetQuest(List<Quest> quests)
+        {
+            Quest = quests;
+            string quest = "";
+            foreach (var item in quests)
+            {
+                quest += $"{item.Id};";
+            }
+            QuestIds = quest.Remove(0,quest.Length - 1);
+            ;
         }
 
         public Equipment Equip(Equipment item)

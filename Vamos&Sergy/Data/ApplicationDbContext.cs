@@ -11,6 +11,7 @@ namespace Vamos_Sergy.Data
         public DbSet<Hero> Heroes { get; set; }
         public DbSet<Equipment> Equipments { get; set; }
         public DbSet<Item> Items { get; set; }
+        public DbSet<Quest> Quests { get; set; }
 
         DbSet<SiteUser> Users { get; set; }
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
@@ -33,6 +34,7 @@ namespace Vamos_Sergy.Data
                 .HasForeignKey(x => x.OwherId)
                 .OnDelete(DeleteBehavior.Cascade);
 
+            builder.Entity<Quest>();
 
             base.OnModelCreating(builder);
         }

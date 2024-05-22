@@ -11,6 +11,10 @@ namespace Vamos_Sergy.Models.Items
         public string Id { get; set; }
 
         [Required]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public int SimpleId { get; set; }
+
+        [Required]
         [StringLength(24)]
         [ShowTable]
         public string Name { get; set; }

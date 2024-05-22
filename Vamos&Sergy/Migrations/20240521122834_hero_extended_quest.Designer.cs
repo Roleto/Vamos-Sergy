@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Vamos_Sergy.Data;
 
@@ -11,9 +12,10 @@ using Vamos_Sergy.Data;
 namespace Vamos_Sergy.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240521122834_hero_extended_quest")]
+    partial class hero_extended_quest
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -255,6 +257,9 @@ namespace Vamos_Sergy.Migrations
                     b.Property<double>("Gold")
                         .HasColumnType("float");
 
+                    b.Property<bool>("HasMount")
+                        .HasColumnType("bit");
+
                     b.Property<int>("HeroState")
                         .HasColumnType("int");
 
@@ -281,9 +286,6 @@ namespace Vamos_Sergy.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("MaxInvetory")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Mount")
                         .HasColumnType("int");
 
                     b.Property<int>("Mushroom")

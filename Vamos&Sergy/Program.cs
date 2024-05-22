@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Vamos_Sergy.Data;
@@ -32,7 +33,9 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddTransient<IRepository<Hero>, HeroRepository>();
 builder.Services.AddTransient<IRepository<Item>, ItemRepository>();
 builder.Services.AddTransient<IRepository<Equipment>, EquipmentRepository>();
+builder.Services.AddTransient<IRepository<Quest>, QuestRepository>();
 builder.Services.AddTransient<TableBuilder>();
+builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 
@@ -40,6 +43,8 @@ var app = builder.Build();
 if (app.Environment.IsDevelopment())
 {
     app.UseMigrationsEndPoint();
+    app.UseSwagger();
+    app.UseSwaggerUI();
 }
 else
 {

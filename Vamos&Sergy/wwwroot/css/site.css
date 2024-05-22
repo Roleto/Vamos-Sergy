@@ -1,125 +1,142 @@
 html {
-  font-size: 14px;
+    font-size: 14px;
 }
 
 @media (min-width: 768px) {
-  html {
-    font-size: 16px;
-  }
+    html {
+        font-size: 16px;
+    }
 }
 
 html {
-  position: relative;
-  min-height: 100%;
+    position: relative;
+    min-height: 100%;
 }
 
 body {
-  margin-bottom: 60px;
+    margin-top: 0.1rem;
+    background-color: black;
+    overflow-y: hidden;
+    max-height: 100%;
 }
 
-.hero{
-    max-width : 60%;
-    border:none;
+.hero {
+    max-width: 60%;
+    border: none;
     /*background-color:cornflowerblue;*/
 }
-.icon{
-    height:100px;
-}
-.heroImg {
-    margin-top:10px;
-    height:300px;
 
+.icon {
+    height: 100px;
 }
+
+.heroImg {
+    margin-top: 10px;
+    height: 300px;
+}
+
 .stat {
     margin-bottom: 0px;
     padding-bottom: 0px;
-    padding-top:0px;
+    padding-top: 0px;
 }
+
 .statButton {
     width: 20px !important;
     padding-right: 20px;
-    text-align:left;
+    text-align: left;
 }
+
 .inventory {
     max-height: 50%;
 }
+
 .InventorySlot {
     /*background-color: darkslateblue;
     height: 1.5rem !important;*/
     /*margin: 0rem;*/
-    margin-top :0.3rem;
-    margin-right:1rem;
+    margin-top: 0.3rem;
+    margin-right: 1rem;
     height: 4.5rem;
     width: 4.5rem;
     /*background-color: rebeccapurple;*/
     /*background-image: url("../NullImages/blank.png");*/
 }
+
 .InventoryImg {
     height: 5.7rem;
     padding-right: 1rem;
     padding-left: 1rem;
 }
+
 .EquipmentImg {
     height: 5.7rem;
     padding-right: 0rem;
     padding-left: 1rem;
 }
+
 .sidebar {
     background-color: aqua;
-    margin-top:0.5rem;
-    margin-right :2.5rem;
+    margin-top: 0.5rem;
+    margin-right: 2.5rem;
 }
+
 textarea {
     color: gold;
     width: 30rem;
     height: 12rem;
     border: none;
     /*text-shadow: 4px 4px;*/
-    font-weight :bolder;
-    background-color:cadetblue;
+    font-weight: bolder;
+    background-color: cadetblue;
     resize: none;
 }
-.cardom{
-    background-color:transparent;
+
+.cardom {
+    background-color: transparent;
 }
+
 .weaponShop {
     background-image: url('../Images/Backgrounds/weaponshop.jpg');
     background-size: cover;
-    margin-top:1rem;
 }
 
 .ShopImage {
     height: 5rem;
     padding-right: .1rem;
     padding-left: .75rem;
-
 }
+
 .InventoryImage {
     max-height: 5rem;
     padding-right: .1rem;
     padding-left: .75rem;
 }
+
 .ItemSlot {
-    padding-left:.15rem;
-    padding-top:1rem;
-    margin-right:0rem;
-    padding-bottom:2rem;
+    padding-left: .15rem;
+    padding-top: 1rem;
+    margin-right: 0rem;
+    padding-bottom: 2rem;
     background-image: url('../Images/NullImages/blank.png');
     background-size: cover;
 }
+
 .ShopSlot {
-/*
+    /*
     margin-right: 0rem;
 */
-    padding-left: .75rem;   
+    padding-left: .75rem;
     padding-top: 1.25rem;
-    padding-bottom: .75rem;   
+    padding-bottom: .75rem;
     background-size: cover;
     background-image: url('../Images/NullImages/blank.png');
 }
+
 .ItemFrame {
     height: 3.75rem;
 }
+
 .EquipmentSlot {
     height: 6rem;
     /*padding-left: .15rem;
@@ -127,6 +144,7 @@ textarea {
     padding-bottom: .75rem;
     background-size: cover;*/
 }
+
 .parent .popup {
     display: none;
 }
@@ -140,6 +158,83 @@ textarea {
     background-color: black;
     margin-bottom: 1rem;
 }
-.profilPic{
-    height:5rem;
+
+.profilPic {
+    height: 5rem;
+}
+
+.tavern {
+    display:flex;
+    width: 100%;
+    height: 100%;
+    max-width: 100%;
+    max-height: 100%;
+    margin-bottom: 35rem;
+    background-image: url('../Images/Backgrounds/tavern.jpg');
+}
+.adventure {
+    width: 100%;
+    height: 100%;
+    max-width: 100%;
+    max-height: 100%;
+    margin-bottom: 44rem;
+    background-image: url('../Images/Backgrounds/adventure.jpg');
+}
+
+.work {
+    /*display:flex;
+    flex-direction:column-reverse;*/
+    width: 100%;
+    height: 100%;
+    max-width: 100%;
+    max-height: 100%;
+    margin-bottom: 44rem;
+    background-image: url('../Images/Backgrounds/work.jpg');
+}
+
+.workProgress{
+    display:flex;
+    position:relative;
+    top:40rem;
+    left:7rem;
+    width:80%;
+    height:2rem;
+}
+.progresstext{
+    margin-top:.3rem;
+    margin-left:9rem;
+}
+
+.flex-container {
+    display: flex;
+    max-height: 100%;
+}
+
+.innkeeper {
+    background-size: cover;
+    background-image: url('../Images/Backgrounds/bartender.png');
+    width: 10rem;
+    height: 10rem;
+    position: relative;
+    left: 25rem;
+    top: 24.5rem;
+}
+
+.quest {
+    background-size: cover;
+    background-image: url('../Images/Backgrounds/quest.png');
+    width: 10rem;
+    height: 10rem;
+    position: relative;
+    left: 32rem;
+    top: 23rem;
+}
+.gambler {
+    background-size:cover;
+    background-image: url('../Images/Backgrounds/gambler.png');
+    width: 10rem;
+    height: 9rem;
+    position: relative;
+    right: 11rem;
+    top: 25.5rem;
 }

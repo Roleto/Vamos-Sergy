@@ -11,6 +11,7 @@ namespace Vamos_Sergy.Models.Items
         public string Id { get; set; }
 
         public string ItemId { get; set; }
+        public int SimpleItemId { get; set; }
 
         [NotMapped]
         [ShowTable]
@@ -78,6 +79,7 @@ namespace Vamos_Sergy.Models.Items
             _random = new Random();
             Id = Guid.NewGuid().ToString();
             ItemId = item.Id;
+            SimpleItemId = item.SimpleId;
             Name = item.Name;
             Description = item.Description;
             Type = item.Type;
@@ -89,6 +91,7 @@ namespace Vamos_Sergy.Models.Items
         }
         public bool CanBuy(double price, int mushroom)
         {
+            return true;
             if (Price <= price && Mushroom <= mushroom)
             {
                 price = 0;
