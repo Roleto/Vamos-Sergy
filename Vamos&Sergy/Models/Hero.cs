@@ -57,6 +57,8 @@ namespace Vamos_Sergy.Models
         [ShowTable]
         public MountEnum Mount { get; set; }
 
+        public DateTime? MountEndDate { get; set; }
+
         public int Honor { get; set; }
 
         public string WeaponShop { get; set; }
@@ -334,7 +336,7 @@ namespace Vamos_Sergy.Models
             {
                 quest += $"{item.Id};";
             }
-            QuestIds = quest.Remove(0,quest.Length - 1);
+            QuestIds = quest.Remove(quest.Length - 1,1);
             ;
         }
 
@@ -365,6 +367,11 @@ namespace Vamos_Sergy.Models
                 Inventory[e.InventorySlot] = e;
                 Equipments[equipment] = null;
             }
+        }
+
+        public double EnverimentalBonus()
+        {
+            return (15 * Level) * .25;
         }
 
 
@@ -398,5 +405,7 @@ namespace Vamos_Sergy.Models
                     break;
             }
         }
+
+
     }
 }

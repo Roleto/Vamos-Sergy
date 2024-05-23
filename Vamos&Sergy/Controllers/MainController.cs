@@ -64,12 +64,14 @@ namespace Vamos_Sergy.Controllers
             var quests = _questRepo.Read().ToArray();
             List<Quest> questList = new List<Quest>();
             hero.SetEquipment(equipmentList);
+            string[] valami = hero.QuestIds.Split(';');
             foreach (var item in hero.QuestIds.Split(';'))
             {
                 var q = _questRepo.Read(item);
-                questList.Add(q);
+                if (q != null)
+                    questList.Add(q);
             }
-            //hero.SetQuest(questList);
+            hero.SetQuest(questList);
             _weaponshop = new ShopViewModel(hero, _itemRepo.Read().ToList(), "D:\\Egyetem\\prog5\\FF\\Vamos&Sergy\\Vamos&Sergy\\wwwroot\\Images\\Backgrounds\\weaponshop.jpg");
             this.RefreshMoney();
             return RedirectToAction(nameof(ViewHero));
@@ -80,14 +82,40 @@ namespace Vamos_Sergy.Controllers
         public IActionResult Tavern()
         {
             this.RefreshMoney();
-
             return View(new TavernViewModel(_weaponshop.Hero));
         }
 
         [HttpPost]
-        public IActionResult Tavern(Quest quest)
+        public IActionResult Tavern(int selectedQuest)
         {
             return View();
+        }
+
+        [HttpGet]
+        public IActionResult Arena()
+        {
+            this.RefreshMoney();
+            return View(new TavernViewModel(_weaponshop.Hero));
+        }
+
+        [HttpPost]
+        public IActionResult Arena(bool win)
+        {
+            return View();
+        }
+
+        [HttpGet]
+        public IActionResult Stable()
+        {
+            this.RefreshMoney();
+            return View(_weaponshop.Hero);
+        }
+
+        [HttpPost]
+        public IActionResult Stable(MountEnum mount)
+        {
+            ;
+            return RedirectToAction(nameof(Stable));
         }
 
         [HttpGet]
@@ -170,7 +198,7 @@ namespace Vamos_Sergy.Controllers
                 {
                     questList.Add(quests[random]);
                 }
-            } while (questList.Count != 3) ;
+            } while (questList.Count != 3);
             string name = picturedata.Split('\\')[2];
             IFormFile file;
             // wwwroot\\Images\\ClassImages\\warrior.jpg

@@ -20,6 +20,10 @@ body {
     max-height: 100%;
 }
 
+.goldColor{
+    color:gold;
+}
+
 .hero {
     max-width: 60%;
     border: none;
@@ -75,13 +79,17 @@ body {
     padding-left: 1rem;
 }
 
+.sideButton {
+    height: 4.1rem;
+}
+
 .sidebar {
     background-color: aqua;
     margin-top: 0.5rem;
     margin-right: 2.5rem;
 }
 
-textarea {
+.heroDesc {
     color: gold;
     width: 30rem;
     height: 12rem;
@@ -90,6 +98,83 @@ textarea {
     font-weight: bolder;
     background-color: cadetblue;
     resize: none;
+}
+
+.questDesc {
+    /*color: gold;*/
+    width: 28rem;
+    height: 7rem;
+    border: none;
+    /*text-shadow: 4px 4px;*/
+    font-weight: bolder;
+    /*background-color: cadetblue;*/
+    resize: none;
+}
+
+.questButtons {
+    display: flex;
+    width: 100%;
+    margin-bottom: 1rem;
+}
+
+questButton {
+    padding-left: 10rem !important;
+    padding-right: 10rem !important;
+}
+
+.stable {
+    background-image: url('../Images/Backgrounds/stable.jpeg');
+    background-size: cover;
+    height: 100%;
+}
+
+
+.stableShop {
+    background-color: rgb(100, 149, 237,.9);
+    width: 60%;
+    height: 18.5rem;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    top: 17rem;
+    left: 12.5rem;
+}
+
+.mountBlock {
+    margin-left: 1rem;
+    margin-top: 3.5rem;
+    width: 20%;
+    max-height: 3.5rem;
+    border-right: solid;
+}
+
+.mountButton {
+    margin-top: 4rem;
+    margin-left: 3rem;
+    margin-right: 1rem;
+    width: 100%;
+}
+
+.stable_p {
+    margin-top: .5rem;
+    margin-bottom: 0rem;
+}
+
+.mountImg {
+    height: 100px;
+    padding-left: 1.5rem;
+}
+
+.mountText {
+    padding-left:.5rem;
+    padding-top:1rem;
+    width: 75%;
+    color:gold;
+    font-size:16px;
+}
+span.mountText {
+    padding-top: .2rem;
+    padding-bottom:.5rem;
 }
 
 .cardom {
@@ -164,7 +249,7 @@ textarea {
 }
 
 .tavern {
-    display:flex;
+    display: flex;
     width: 100%;
     height: 100%;
     max-width: 100%;
@@ -172,6 +257,7 @@ textarea {
     margin-bottom: 35rem;
     background-image: url('../Images/Backgrounds/tavern.jpg');
 }
+
 .adventure {
     width: 100%;
     height: 100%;
@@ -192,17 +278,18 @@ textarea {
     background-image: url('../Images/Backgrounds/work.jpg');
 }
 
-.workProgress{
-    display:flex;
-    position:relative;
-    top:40rem;
-    left:7rem;
-    width:80%;
-    height:2rem;
+.workProgress {
+    display: flex;
+    position: relative;
+    top: 40rem;
+    left: 7rem;
+    width: 80%;
+    height: 2rem;
 }
-.progresstext{
-    margin-top:.3rem;
-    margin-left:9rem;
+
+.progresstext {
+    margin-top: .3rem;
+    margin-left: 9rem;
 }
 
 .flex-container {
@@ -229,8 +316,9 @@ textarea {
     left: 32rem;
     top: 23rem;
 }
+
 .gambler {
-    background-size:cover;
+    background-size: cover;
     background-image: url('../Images/Backgrounds/gambler.png');
     width: 10rem;
     height: 9rem;
