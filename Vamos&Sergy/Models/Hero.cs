@@ -8,7 +8,7 @@ using System.Text.Json.Serialization;
 
 namespace Vamos_Sergy.Models
 {
-    public class Hero
+    public class Hero : ICharacter
     {
         #region Base props
 
@@ -147,8 +147,6 @@ namespace Vamos_Sergy.Models
 
         [NotMapped]
         public int Hp { get => Vit * 2 * (this.Level + 1); }
-
-
 
         private double luck;
 
@@ -297,6 +295,7 @@ namespace Vamos_Sergy.Models
                 return i;
             }
         }
+
 
         public Hero()
         {

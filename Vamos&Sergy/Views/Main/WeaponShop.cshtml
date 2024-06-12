@@ -1,12 +1,11 @@
 ﻿@using Vamos_Sergy.ViewModels
 @using Vamos_Sergy.Models
 @model ShopViewModel
-
 @{
     ViewData["name"] = "WeaponShop";
 }
+<script type="text/javascript"> 
 
-<script type="text/javascript">
     function NotImplemented(){
         alert("Nincs implementálva");
     }
@@ -36,7 +35,7 @@
             <partial name="_ViewHeroPartial" model="@Model.Hero" view-data="ViewData" />
         </div>
         <div class="col p-0 b-0">
-            <div class="weaponShop container " data-ajax="true" data-ajax-mode="replace" data-ajax-update="#inventorySlot >
+            <div class="weaponShop container">
                 <div class="row p-0">
                     <div class="row row-cols-5 ps-0 pe-1 " id="inventorySlot">
                         <partial name="_InventoryLayout" model="@Model.Hero" view-data="ViewData" />
@@ -53,7 +52,7 @@
                     </div>
                     @for (int i = 0; i < 3; i++)
                     {
-                        <div class="col col-3 ShopSlot gy-0" oncontextmenu="NotImplemented()" ondblclick="location.href='@Url.Action("BuyWeapon", "Main" , new { index=i})'">
+                        <div class="col col-3 ShopSlot gy-0" oncontextmenu="NotImplemented()" ondblclick="location.href='@Url.Action("BuyWeapon", "Main" , new { index=i, Model})'">
                             <a
                                tabindex="0"
                                role="button"
@@ -70,6 +69,7 @@
                     <div class="row" style="padding-bottom:1rem;">
                         <div class="col col-1 gy-0">
                         </div>
+
                         @for (int i = 3; i < 6; i++)
                         {
                             <div class="col col-3 ShopSlot gy-0" ondblclick="location.href='@Url.Action("BuyWeapon", "Main" , new { index=i})'">

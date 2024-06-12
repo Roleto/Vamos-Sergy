@@ -2,6 +2,7 @@
 using Vamos_Sergy.Models;
 using Vamos_Sergy.Data;
 using System.Xml.Linq;
+using Vamos_Sergy.Models.Items;
 namespace Vamos_Sergy.Data.Classes
 {
     public class HeroRepository : IRepository<Hero>
@@ -68,7 +69,5 @@ namespace Vamos_Sergy.Data.Classes
             context.Heroes.Remove(hero);
             context.SaveChanges();
         }
-
-      
     }
 }

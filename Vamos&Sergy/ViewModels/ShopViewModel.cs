@@ -10,40 +10,35 @@ namespace Vamos_Sergy.ViewModels
     {
         public string BackgroundUrl { get; set; }
 
-        public ShopViewModel()
-        {
-            BackgroundUrl = "D:\\Egyetem\\prog5\\FF\\Vamos & Sergy\\Vamos & Sergy\\wwwroot\\Images\\Backgrounds\\weaponshop.jpg";
-        }
-
         public ShopViewModel(Hero hero, List<Item> itemList,string url) : base(hero)
         {
             ItemList = itemList;
             BackgroundUrl = url;
             EquipmentList = new Dictionary<string, Equipment>();
-            GenerateAll();
+            GenerateAll(hero);
         }
 
-        public virtual Equipment? Buy(int index)
+        public virtual Equipment? Buy(int index,Hero hero)
         {
             Equipment e = GetEquipment(index);
-            if (e.CanBuy(Hero.Gold, Hero.Mushroom))
+            if (e.CanBuy(hero.Gold, hero.Mushroom))
             {
                 GenerateOne(e.ItemId);
-                Hero.Gold -= e.Price;
-                Hero.Mushroom -= e.Mushroom;
+                hero.Gold -= e.Price;
+                hero.Mushroom -= e.Mushroom;
                 return e;
             }
             return null;
         }
 
 
-        public void GenerateAll()
+        public void GenerateAll(Hero hero)
         {
             for (int i = 0; i < 6; i++)
             {
                 int n = _random.Next(0, ItemList.Count());
                 Equipment e = new Equipment(ItemList.ElementAt(n));
-                if ((e.RequiredClass == Hero.Kast || e.RequiredClass == ClassEnum.All) && !EquipmentList.ContainsKey(e.ItemId))
+                if ((e.RequiredClass == hero.Kast || e.RequiredClass == ClassEnum.All) && !EquipmentList.ContainsKey(e.ItemId))
                     EquipmentList[e.ItemId] = e;
                 else
                     i--;
