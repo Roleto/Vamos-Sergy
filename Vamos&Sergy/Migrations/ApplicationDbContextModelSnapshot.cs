@@ -238,9 +238,6 @@ namespace Vamos_Sergy.Migrations
                     b.Property<double>("Adventure")
                         .HasColumnType("float");
 
-                    b.Property<int>("BeerCount")
-                        .HasColumnType("int");
-
                     b.Property<string>("ContentType")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");

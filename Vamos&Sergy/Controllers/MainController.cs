@@ -82,16 +82,12 @@ namespace Vamos_Sergy.Controllers
         public IActionResult Tavern()
         {
             this.RefreshMoney();
-            ViewData["beer"] = _weaponshop.Hero.BeerCount;
             return View(new TavernViewModel(_weaponshop.Hero));
         }
 
         [HttpPost]
-        public IActionResult Tavern(int selectedQuest,string heroId)
+        public IActionResult Tavern(int selectedQuest)
         {
-            //todo: set hero || vm
-            ;
-            this.RefreshMoney();
             return View();
         }
 

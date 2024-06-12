@@ -40,16 +40,14 @@
     </div>
     <div id="questdiv1" style="display:none">
         <textarea readonly class="questDesc">@Model.Quest[0].Text</textarea>
-        @if (@Model.Quest[0].Mushroom > 0)
-        {
+        @if (@Model.Quest[0].Mushroom > 0){
             <p>Gold: @Model.Quest[0].GetGoldValue(Model.Mount) Mushroom: @Model.Quest[0].Mushroom </p>
         }
-        else
-        {
+        else{
             <p>Gold: @Model.Quest[0].GetGoldValue(Model.Mount) </p>
         }
         <p>Experience : @Model.Quest[0].Exp</p>
-        <p>Duration : @Model.Quest[0].GetTimeString(Model.Mount, Model.Adventure)</p>
+        <p>Duration : @Model.Quest[0].GetTimeString(Model.Mount,Model.Adventure)</p>
     </div>
     <div id="questdiv2" style="display:none">
         <textarea readonly class="questDesc">@Model.Quest[1].Text</textarea>
