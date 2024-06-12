@@ -2,7 +2,6 @@
 @model TavernViewModel
 
 <script type="text/javascript">
-
     function Clicked(id) {
         alert('siker');
     }
@@ -14,7 +13,7 @@
             let hidden = document.getElementById("hiddenData");
             hidden.value = 0;
             return true;
-        } 
+        }
         if (y.style.display === "block") {
             let hidden = document.getElementById("hiddenData");
             hidden.value = 1;
@@ -37,7 +36,167 @@
             alert('noo');
         }
     }
+    function drink() {
+        let beerCount = Number(document.getElementById("beerInput").value);
+        let currentAdv = Number(document.getElementById("advInput").value);
+        var qeustion = document.getElementById("question");
+        if (currentAdv >= 80 && beerCount < 9) {
+            qeustion.innerHTML = "<h5>You drank enough go do somthing useful.<h5>";
+            return;
+        }
+        if (currentAdv <= 80 && beerCount < 10) {
+            currentAdv += 20;
+            beerCount += 1;
+            var beerText = document.getElementById("beerText");
+            beerText.innerHTML = "<h4>Drank today: " + beerCount + "/10</h4>";
+            document.getElementById("advInput").value = currentAdv;
+            document.getElementById("advProgressVal").innerHTML = "Thirst for adventure: " + currentAdv;
+            document.getElementById("advProgress").style = "width: " + currentAdv + "%;background-color:gold";
+            let mushroom = Number(document.getElementById("currentMushroom").textContent);
+            mushroom -= 1;
+            document.getElementById("currentMushroom").textContent = mushroom;
+            document.getElementById("mushroomInput").value = mushroom;
+            document.getElementById("beerInput").value = beerCount;
+            if (mushroom == 0) {
+                document.getElementById("drinkButton").disabled = true;
+            }
+        }
+        if (currentAdv + 20 >= 100 && beerCount < 10) {
+            qeustion.innerHTML = "<h5>You drank enough go do somthing useful.<h5>";
+            return;
+        }
+        if (beerCount == 10) {
+            document.getElementById("beerInput").value = beerCount;
+            qeustion.innerHTML = "<h5>You've had enough mate, come back tomorrow</h5>";
+            document.getElementById("drinkButton").disabled = true;
+        }
+    }
+    function setGambleronClick() {
+        const gvalue = document.querySelector("#goldinputValue");
+        const ginput = document.querySelector("#goldRangeInput");
+        const mvalue = document.querySelector("#mushroominputValue");
+        const minput = document.querySelector("#mushroomrangeInput");
+        const gambleText = document.getElementById("gamleText");
+        let gold = Number(document.getElementById("currentGold").textContent);
+        let mushroom = Number(document.getElementById("currentMushroom").textContent);
+
+        // let bindingMoney = gold * ginput.value / 100;
+        // alert(bindingMoney);
+        gvalue.textContent = ginput.value
+        ginput.addEventListener("input", (event) => {
+            let bindingMoney = gold * ginput.value / 100;
+            if (bindingMoney == 0) {
+                gambleText.innerHTML = "<h4>Welcome</h4><p>You seem to be pretty bright.Feel like a game of fortu..I mean dexterity ? Tee - Hee</p>";
+
+            } else {
+                gambleText.innerHTML = "<h4>Yes</h4><p>Wanna win ? Then risk somthing.</p>";
+            }
+            gvalue.textContent = bindingMoney.toFixed(2);
+            mvalue.textContent = 0;
+            minput.value = 0;
+        });
+
+        mvalue.textContent = minput.value;
+        minput.addEventListener("input", (event) => {
+            if (event.target.value < mushroom) {
+                if (event.target.value == 0) {
+                    gambleText.innerHTML = "<h4>Welcome</h4><p>You seem to be pretty bright.Feel like a game of fortu..I mean dexterity ? Tee - Hee</p>";
+
+                } else {
+                    gambleText.innerHTML = "<h4>Yes</h4><p>Wanna win ? Then risk somthing.</p>";
+                }
+                mvalue.textContent = event.target.value;
+                gvalue.textContent = 0;
+                ginput.value = 0;
+            } else {
+                mvalue.textContent = mushroom;
+                minput.value = mushroom;
+            }
+        });
+        resetGamble();
+    }
+    function cupClick(id) {
+        const gambleText = document.getElementById("gamleText");
+        const gold = Number(document.querySelector("#goldinputValue").textContent);
+        const mushroom = Number(document.querySelector("#mushroominputValue").textContent);
+        const currentMush = document.getElementById("currentMushroom");
+        const currentGold = document.getElementById("currentGold");
+        let winCupValue = Number(document.querySelector("#winnerCup").value);
+        // alert('winCupValue : ' + winCupValue);
+        if (winCupValue > 0) {
+            const cup = document.getElementById("cup" + id);
+            cup.style.display = "none";
+            if (Number(id) == winCupValue) {
+                // alert('id:' + id);
+                let goldWin = Number(currentGold.innerText) + gold;
+                currentGold.innerText = goldWin;
+                let mushWin = Number(currentMush.innerText) + mushroom;
+                currentMush.innerText = mushWin;
+                gambleText.innerHTML = "<h4>Congratulations</h4><p>Wow you are realy good at this game. give it another try?</p>";
+            } else {
+                let goldLoose = Number(currentGold.innerText) - gold;
+                currentGold.innerText = goldLoose;
+                let mushLoose = Number(currentMush.innerText) - mushroom;
+                currentMush.innerText = mushLoose;
+                gambleText.innerHTML = "<h4>What a pity</h4><p>Oh bad luck, what a pity. Another game another chance, you'll win for sure</p>";
+            }
+            document.getElementById("winnerCup").value = "0";
+
+            // document.getElementById("gambelButton").disabled = false;
+            document.getElementById("gambleFooter").innerHTML = '<button onclick="resetGamble()" type = "button" class="btn btn-primary" >Try Agin</button>';
+            disableGambler(true);
+
+        }
+    }
+    function gamble() {
+        document.getElementById("ball1").style.display = "none";
+        document.getElementById("ball2").style.display = "none";
+        document.getElementById("ball3").style.display = "none";
+        const gold = Number(document.querySelector("#goldinputValue").textContent);
+        const mushroom = Number(document.querySelector("#mushroominputValue").textContent);
+        if (gold > 0 || mushroom > 0) {
+            document.getElementById("gambelButton").disabled = true;
+            let random = Math.floor(Math.random() * 100);
+
+            if (random < 33) {
+                document.getElementById("ball1").style.display = "block";
+                document.getElementById("winnerCup").value = "1";
+                alert(1);
+                // document.getElementById("cup1").style.display = "block";
+            } else if (random < 66) {
+                alert(3);
+                document.getElementById("ball2").style.display = "block";
+                // document.getElementById("cup3").style.display = "none";
+                document.getElementById("winnerCup").value = "3";
+            } else {
+                alert(2);
+                document.getElementById("ball3").style.display = "block";
+                // document.getElementById("cup2").style.display = "none";
+                document.getElementById("winnerCup").value = "2";
+            }
+            document.getElementById("gamleText").innerHTML = "<h4>it's Your Turn</h4><p>Under which cup is the ball. Choose wisely.</p>"
+            disableGambler(true);
+        }
+    }
+    function disableGambler(enabled) {
+        let valami = Boolean(enabled);
+        document.querySelector("#goldRangeInput").disabled = enabled;
+        document.querySelector("#mushroomrangeInput").disabled = enabled;
+    }
+    function resetGamble() {
+        disableGambler(false);
+        document.getElementById("cup1").style.display = "block";
+        document.getElementById("cup2").style.display = "block";
+        document.getElementById("cup3").style.display = "block";
+        document.querySelector("#goldRangeInput").value = 0;
+        document.querySelector("#mushroomrangeInput").value = 0;
+        document.querySelector("#mushroominputValue").value = 0;
+        document.querySelector("#goldinputValue").value = 0;
+        document.getElementById("gamleText").innerHTML = "<h4>Welcome</h4><p>You seem to be pretty bright.Feel like a game of fortu..I mean dexterity ? Tee - Hee</p>";
+        document.getElementById("gambleFooter").innerHTML = '<button id="gambelButton" onclick="gamble()" type="button" class="btn btn-primary">Try Your Luck</button>';
+    }
 </script>
+
 @if (Model.Hero.HeroState == HeroStateEnum.Free)
 {
     <div class="tavern">
@@ -45,71 +204,128 @@
         </div>
         <div class="quest" data-bs-toggle="modal" data-bs-target="#questModal">
         </div>
-        <div class="gambler" data-bs-toggle="modal" data-bs-target="#gamblerModal">
+        <div class="gambler" onclick="setGambleronClick()" data-bs-toggle="modal" data-bs-target="#gamblerModal">
         </div>
-        <div class="modal fade" id="questModal" tabindex="-1" aria-labelledby="questModalLabel" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h1 class="modal-title fs-5" id="questModalLabel">What are you looking? Your are here for adventures then i have a few options you choose from.</h1>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                        <partial name="_QuestLayout" model="@Model.Hero" view-data="ViewData" />
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                        <form onsubmit="return validateForm()" enctype="application/x-www-form-urlencoded" method="post" action="/Main/Tavern">
-                            <input id="hiddenData" name="selectedQuest" type="hidden" value="5" />
-                            <button type="submit" class="btn btn-primary">Accept</button>
-                        </form>
+        <form onsubmit="return validateForm()" enctype="application/x-www-form-urlencoded" method="post" action="/Main/Tavern">
+            <input name="heroId" type="hidden" value="@Model.Hero.Id" />
+            <input id="goldInput" name="gold" type="hidden" value="@Model.Hero.Gold" />
+            <input id="mushroomInput" name="mushroom" type="hidden" value="@Model.Hero.Mushroom" />
+            <input name="beer" type="hidden" id="beerInput" value="@Model.Hero.BeerCount" />
+            <input name="adv" type="hidden" id="advInput" value="@Model.Hero.Adventure" />
+            <input name="mushroom" type="hidden" id="advInput" value="@Model.Hero.Mushroom" />
+            <input type="hidden" id="winnerCup" value="0" />
+            <div class="progress adventureBar" role="progressbar" aria-label="Basic example" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100">
+                <div id="advProgress" class="progress-bar " style="width: @Model.Hero.Adventure%;background-color:gold"></div>
+                <h3 id="advProgressVal" class="progresstext justify-content-center d-flex position-absolute w-100">Thirst for adventure: @Model.Hero.Adventure</h3>
+            </div>
+            <div class="modal fade" id="questModal" tabindex="-1" aria-labelledby="questModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered tavernModal">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h1 class="modal-title fs-5" id="questModalLabel">What are you looking? Your are here for adventures then i have a few options you choose from.</h1>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <partial name="_QuestLayout" model="@Model.Hero" view-data="@ViewData" />
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            @if (Model.Hero.Adventure == 0)
+                            {
+                                <button type="submit" disabled class="btn btn-primary">Dring some Beer</button>
+                            }
+                            else
+                            {
+                                <button type="submit" class="btn btn-primary">Accept</button>
+                            }
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-        <div class="modal fade" id="inkeeperModal" tabindex="-1" aria-labelledby="inkeeperModalLabel" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h1 class="modal-title fs-5" id="inkeeperModalLabel">Modal title</h1>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                        <h1>Inkeper</h1>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                        <button type="button" class="btn btn-primary">Save changes</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="modal fade" id="gamblerModal" tabindex="-1" aria-labelledby="gamblerModalLabel" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h1 class="modal-title fs-5" id="gamblerModalLabel">Modal title</h1>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                        <h1>Gambler</h1>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                        <button type="button" class="btn btn-primary">Save changes</button>
+            <div class="modal fade" id="inkeeperModal" tabindex="-1" aria-labelledby="inkeeperModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered tavernModal">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h1 class="modal-title fs-5" id="inkeeperModalLabel">Hello</h1>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body" style="display:flex">
+                            <img style="width:30%" src="/Images/Backgrounds/bartender.png" />
+                            @if (Model.Hero.BeerCount < 10 && Model.Hero.Adventure < 81)
+                            {
+                                <span id="question"><h3>You look thirsty, would you like a beer ? </h3></span>
+                            }
+                            else
+                            {
+                                <span><h5>You've had enough mate, come back tomorrow</h5></span>
+                            }
+                        </div>
+                        <div class="modal-footer" style="display:flex; flex-direction:column">
+                            <span id="beerText"><h4>Drank today: @Model.Hero.BeerCount/10</h4></span>
+                            <button type="button" onclick="drink()" id="drinkButton" class="btn btn-primary">Drink</button>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
+            <div class="modal fade" id="gamblerModal" tabindex="-1" aria-labelledby="gamblerModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered tavernModal">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h1 class="modal-title fs-5" id="gamblerModalLabel">Modal title</h1>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <div style="display:flex;">
+                                <img style="max-width:30%" src="/Images/Backgrounds/gambler_icon.png" />
+                                <div style="width:70%">
+                                    <div id="gamleText">
+                                        <h4>Welcome</h4>
+                                        <p>
+                                            You seem to be pretty bright. Feel like a game of fortu.. I mean dexterity? Tee-Hee
+                                        </p>
+                                    </div>
+                                    <input class="gamlerRange" id="goldRangeInput" type="range" min="0" max="100" step="10" value="0" />
+                                    <p>Gold Value: <output id="goldinputValue">0</output></p>
+                                    <input class="gamlerRange" id="mushroomrangeInput" type="range" min="0" max="10" step="1" value="0" />
+                                    <p>Mushroom Value: <output id="mushroominputValue">0</output></p>
+                                </div>
+                            </div>
+                            <div style="height:15rem;">
+                                <div class="gamblerBallImg1">
+                                    <img id="ball1" height="50px" width="50px" src="/Images/Icon/ball.ico" />
+                                </div>
+                                <div class="gamblerBallImg2">
+                                    <img id="ball2" height="50px" width="50px" src="/Images/Icon/ball.ico" />
+                                </div>
+                                <div class="gamblerBallImg3">
+                                    <img id="ball3" height="50px" width="50px" src="/Images/Icon/ball.ico" />
+                                </div>
+                                <div onclick="cupClick('1')" class="gamblerCupImg1">
+                                    <img id="cup1" height="175px" width="150px" src="/Images/Icon/cup.png" />
+                                </div>
+                                <div onclick="cupClick('3')" class="gamblerCupImg2">
+                                    <img id="cup3" height="175px" width="150px" src="/Images/Icon/cup.png" />
+                                </div>
+                                <div onclick="cupClick('2')" class="gamblerCupImg3">
+                                    <img id="cup2" height="175px" width="150px" src="/Images/Icon/cup.png" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer" id="gambleFooter">
+                            <button id="gambelButton" onclick="gamble()" type="button" class="btn btn-primary">Try Your Luck</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
     </div>
 }
 else if (Model.Hero.HeroState == HeroStateEnum.OnAdvanture)
 {
     <div class="adventure">
         <div class="progress workProgress" role="progressbar" aria-label="Basic example" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100">
-            <div class="progress-bar text-center" style="width: 75%;">
-                <h3 class="progresstext">7:25 (Finished 16:25)</h3>
-            </div>
+            <div class="progress-bar text-center" style="width: 75%;"></div>
+            <h3 class="progresstext justify-content-center d-flex position-absolute w-100">7:25 (Finished 16:25)</h3>
         </div>
     </div>
 }
