@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Vamos_Sergy.Data;
 
@@ -11,9 +12,10 @@ using Vamos_Sergy.Data;
 namespace Vamos_Sergy.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240516132423_extending_tables")]
+    partial class extending_tables
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -238,9 +240,6 @@ namespace Vamos_Sergy.Migrations
                     b.Property<double>("Adventure")
                         .HasColumnType("float");
 
-                    b.Property<int>("BeerCount")
-                        .HasColumnType("int");
-
                     b.Property<string>("ContentType")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -257,6 +256,9 @@ namespace Vamos_Sergy.Migrations
 
                     b.Property<double>("Gold")
                         .HasColumnType("float");
+
+                    b.Property<bool>("HasMount")
+                        .HasColumnType("bit");
 
                     b.Property<int>("HeroState")
                         .HasColumnType("int");
@@ -283,12 +285,6 @@ namespace Vamos_Sergy.Migrations
                     b.Property<int>("MaxInvetory")
                         .HasColumnType("int");
 
-                    b.Property<int>("Mount")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime?>("MountEndDate")
-                        .HasColumnType("datetime2");
-
                     b.Property<int>("Mushroom")
                         .HasColumnType("int");
 
@@ -300,10 +296,6 @@ namespace Vamos_Sergy.Migrations
                     b.Property<string>("OwnerId")
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("QuestIds")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("Race")
                         .HasColumnType("int");
@@ -414,7 +406,8 @@ namespace Vamos_Sergy.Migrations
 
                     b.Property<string>("Text")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(24)
+                        .HasColumnType("nvarchar(24)");
 
                     b.HasKey("Id");
 

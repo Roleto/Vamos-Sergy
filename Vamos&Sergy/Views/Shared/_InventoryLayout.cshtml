@@ -6,10 +6,18 @@
         <div class="col ItemSlot" ondblclick="location.href='@Url.Action("EquipItem", "Main" , new { index=i, name = ViewData["name"]})'">
             <div class="ItemFrame">
 
-            @if (Model.Inventory.ContainsKey(i) && Model.Inventory[i] != null)
-            {
-                <partial name="_ItemLayout" model="@Model.Inventory[i]" />
-            }
+                @if (Model.Inventory.ContainsKey(i) && Model.Inventory[i] != null)
+                {
+                    <div ondblclick="location.href='@Url.Action("EquipItem", "Main" , new { index=i, name=ViewData["name"]})'">
+                        <partial name="_ItemLayout" model="@Model.Inventory[i]" />
+                    </div>
+                }
+                else
+                {
+                    <div class="col">
+                        <img class="InventoryImg" style="visibility:hidden" src="/Images/NullImages/blank.png" />
+                    </div>
+                }
             </div>
         </div>
     }

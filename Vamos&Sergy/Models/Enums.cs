@@ -29,4 +29,27 @@
         Dwarf= 3,
         Deamon= 4,
     }
+
+    public enum HeroStateEnum
+    {
+        Free = 0,
+        OnAdvanture = 1,
+        Working = 2,
+    }
+
+    public enum QuestTimeEnum
+    {
+        Short = 0, // 5perc
+        Medium = 1,//10 perc
+        Long = 2,//20 perc
+    }
+
+    public enum MountEnum
+    {
+        None = 0,
+        Pig = 1,
+        Wolf = 2,
+        Raptor = 3,
+        Griff = 4,
+    }
 }

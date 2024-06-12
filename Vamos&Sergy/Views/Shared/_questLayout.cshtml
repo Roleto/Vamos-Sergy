@@ -1,0 +1,81 @@
+﻿@model Hero
+
+<script type="text/javascript">
+
+    function Clicked(id) {
+        alert('siker');
+    }
+
+    function quest1() {
+        var x = document.getElementById("questdiv1");
+        x.style.display = "block";
+        var y = document.getElementById("questdiv2");
+        var z = document.getElementById("questdiv3");
+        y.style.display = "none";
+        z.style.display = "none";
+    }
+    function quest2() {
+        var x = document.getElementById("questdiv2");
+
+        x.style.display = "block";
+        var y = document.getElementById("questdiv1");
+        var z = document.getElementById("questdiv3");
+        y.style.display = "none";
+        z.style.display = "none";
+    }
+    function quest3() {
+        var x = document.getElementById("questdiv3");
+        x.style.display = "block";
+        var y = document.getElementById("questdiv2");
+        var z = document.getElementById("questdiv1");
+        y.style.display = "none";
+        z.style.display = "none";
+    }
+</script>
+<div>
+    <div class="questButtons">
+        <button type="button" onclick="quest1()" class="btn btn-success btn-outline-warning rounded-pill ms-5 me-5">Quest1</button>
+        <button type="button" onclick="quest2()" class="btn btn-success btn-outline-warning rounded-pill ms-1 me-5">Quest2</button>
+        <button type="button" onclick="quest3()" class="btn btn-success btn-outline-warning rounded-pill ms-1 ">Quest3</button>
+    </div>
+    <div id="questdiv1" style="display:none">
+        <textarea readonly class="questDesc">@Model.Quest[0].Text</textarea>
+        @if (@Model.Quest[0].Mushroom > 0)
+        {
+            <p>Gold: @Model.Quest[0].GetGoldValue(Model.Mount) Mushroom: @Model.Quest[0].Mushroom </p>
+        }
+        else
+        {
+            <p>Gold: @Model.Quest[0].GetGoldValue(Model.Mount) </p>
+        }
+        <p>Experience : @Model.Quest[0].Exp</p>
+        <p>Duration : @Model.Quest[0].GetTimeString(Model.Mount, Model.Adventure)</p>
+    </div>
+    <div id="questdiv2" style="display:none">
+        <textarea readonly class="questDesc">@Model.Quest[1].Text</textarea>
+        @if (@Model.Quest[1].Mushroom > 0)
+        {
+            <p>Gold: @Model.Quest[1].GetGoldValue(Model.Mount) Mushroom: @Model.Quest[1].Mushroom </p>
+        }
+        else
+        {
+            <p>Gold: @Model.Quest[1].GetGoldValue(Model.Mount) </p>
+        }
+        <p>Experience : @Model.Quest[1].Exp</p>
+        <p>Duration : @Model.Quest[1].GetTimeString(Model.Mount, Model.Adventure)</p>
+    </div>
+    <div id="questdiv3" style="display:none">
+        <textarea readonly class="questDesc">@Model.Quest[2].Text</textarea>
+        @if (@Model.Quest[2].Mushroom > 0)
+        {
+            <p>Gold: @Model.Quest[2].GetGoldValue(Model.Mount) Mushroom: @Model.Quest[2].Mushroom </p>
+        }
+        else
+        {
+            <p>Gold: @Model.Quest[2].GetGoldValue(Model.Mount) </p>
+        }
+        <p>Experience : @Model.Quest[2].Exp</p>
+        <p>Duration : @Model.Quest[2].GetTimeString(Model.Mount, Model.Adventure)</p>
+    </div>
+</div>
+

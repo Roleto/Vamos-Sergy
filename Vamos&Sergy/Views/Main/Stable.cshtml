@@ -1,0 +1,203 @@
+﻿@model Hero
+<div class="stable">
+    <div class="stableShop">
+        <span class="mountText"> Welcome to my Stable humble Adventurer.</span>
+        <ul class="nav nav-tabs" id="myTab" role="tablist">
+            <li class="nav-item" role="presentation">
+                <button class="nav-link active goldColor" id="home-tab" data-bs-toggle="tab" data-bs-target="#home-tab-pane" type="button" role="tab" aria-controls="home-tab-pane" aria-selected="true">Pig</button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link goldColor" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile-tab-pane" type="button" role="tab" aria-controls="profile-tab-pane" aria-selected="false">Wolf</button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link goldColor " id="contact-tab" data-bs-toggle="tab" data-bs-target="#contact-tab-pane" type="button" role="tab" aria-controls="contact-tab-pane" aria-selected="false">Raptor</button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link goldColor" id="disabled-tab" data-bs-toggle="tab" data-bs-target="#disabled-tab-pane" type="button" role="tab" aria-controls="disabled-tab-pane" aria-selected="false">Dragon Griffin</button>
+            </li>
+        </ul>
+        <div class="tab-content" id="myTabContent">
+            <div class="tab-pane fade show active" id="home-tab-pane" role="tabpanel" aria-labelledby="home-tab" tabindex="0">
+                <div style="display:flex">
+                    <span class="mountText">The socket is a bit misplaced</span>
+                    <img class="mountImg" src="/Images/Icon/pig.png" />
+                </div>
+                <div style="display:flex">
+                    <div class="mountBlock">
+                        <p class="stable_p">Price</p>
+                        <p>Gold: 1</p>
+                    </div>
+                    <div class="mountBlock">
+                        <p class="stable_p">Travel duration</p>
+                        <p>-10%</p>
+                    </div>
+                    <div class="mountBlock">
+                        <p class="stable_p">Durations</p>
+                        <p>14 Days</p>
+                    </div>
+                    <form enctype="application/x-www-form-urlencoded" method="post" action="/Main/Stable">
+                        @if (Model.Gold < 1)
+                        {
+                            if (Model.Mount == MountEnum.Pig)
+                            {
+                                <button disabled class="btn btn-primary mountButton">Extend</button>
+                            }
+                            else
+                            {
+                                <button disabled class="btn btn-primary mountButton">Buy</button>
+                            }
+                        }
+                        else
+                        {
+                            <input name="mount" type="hidden" value="@MountEnum.Pig" />
+                            @if (Model.Mount == MountEnum.Pig)
+                            {
+                                <button type="submit" class="btn btn-primary mountButton">Extend</button>
+                            }
+                            else
+                            {
+                                <button type="submit" class=" btn btn-primary mountButton">Buy</button>
+                            }
+                        }
+                    </form>
+                </div>
+            </div>
+            <div class="tab-pane fade" id="profile-tab-pane" role="tabpanel" aria-labelledby="profile-tab" tabindex="0">
+                <div style="display:flex">
+                    <span class="mountText">Sits up and begs(and bites)</span>
+                    <img class="mountImg" src="/Images/Icon/wolf.png" />
+                </div>
+                <div style="display:flex">
+                    <div class="mountBlock">
+                        <p class="stable_p">Price</p>
+                        <p>Gold: 5</p>
+                    </div>
+                    <div class="mountBlock">
+                        <p class="stable_p">Travel duration</p>
+                        <p>-20%</p>
+                    </div>
+                    <div class="mountBlock">
+                        <p class="stable_p">Durations</p>
+                        <p>14 Days</p>
+                    </div>
+                    <form enctype="application/x-www-form-urlencoded" method="post" action="/Main/Stable">
+                        @if (Model.Gold < 5)
+                        {
+                            if (Model.Mount == MountEnum.Wolf)
+                            {
+                                <button disabled class="btn btn-primary mountButton">Extend</button>
+                            }
+                            else
+                            {
+                                <button disabled class="btn btn-primary mountButton">Buy</button>
+                            }
+                        }
+                        else
+                        {
+                            <input name="mount" type="hidden" value="@MountEnum.Wolf" />
+                            @if (Model.Mount == MountEnum.Wolf)
+                            {
+                                <button type="submit" class="btn btn-primary mountButton">Extend</button>
+                            }
+                            else
+                            {
+                                <button type="submit" class=" btn btn-primary mountButton">Buy</button>
+                            }
+                        }
+                    </form>
+                </div>
+            </div>
+            <div class="tab-pane fade" id="contact-tab-pane" role="tabpanel" aria-labelledby="contact-tab" tabindex="0">
+                <div style="display:flex">
+                    <span class="mountText">Knows how to open doors.</span>
+                    <img class="mountImg" src="/Images/Icon/raptor.png" />
+                </div>
+                <div style="display:flex">
+                    <div class="mountBlock">
+                        <p class="stable_p">Price</p>
+                        <p>Gold: 10 M:1</p>
+                    </div>
+                    <div class="mountBlock">
+                        <p class="stable_p">Travel duration</p>
+                        <p>-30%</p>
+                    </div>
+                    <div class="mountBlock">
+                        <p class="stable_p">Durations</p>
+                        <p>14 Days</p>
+                    </div>
+                    <form enctype="application/x-www-form-urlencoded" method="post" action="/Main/Stable">
+                        @if (Model.Gold < 10 || Model.Mushroom < 1)
+                        {
+                            if (Model.Mount == MountEnum.Raptor)
+                            {
+                                <button disabled class="btn btn-primary mountButton">Extend</button>
+                            }
+                            else
+                            {
+                                <button disabled class="btn btn-primary mountButton">Buy</button>
+                            }
+                        }
+                        else
+                        {
+                            <input name="mount" type="hidden" value="@MountEnum.Raptor" />
+                            @if (Model.Mount == MountEnum.Raptor)
+                            {
+                                <button type="submit" class="btn btn-primary mountButton">Extend</button>
+                            }
+                            else
+                            {
+                                <button type="submit" class=" btn btn-primary mountButton">Buy</button>
+                            }
+                        }
+                    </form>
+                </div>
+            </div>
+            <div class="tab-pane fade" id="disabled-tab-pane" role="tabpanel" aria-labelledby="disabled-tab" tabindex="0">
+                <div style="display:flex">
+                    <span class="mountText">Superior to every low-minded griffin dragon.Enviromental reward:@Model.EnverimentalBonus() gold</span>
+                    <img class="mountImg" src="/Images/Icon/griffin.png" />
+                </div>
+                <div style="display:flex">
+                    <div class="mountBlock">
+                        <p class="stable_p">Price:</p>
+                        <p>Mushroom: 25</p>
+                    </div>
+                    <div class="mountBlock">
+                        <p class="stable_p">Travel duration:</p>
+                        <p>-50%</p>
+                    </div>
+                    <div class="mountBlock">
+                        <p class="stable_p">Durations</p>
+                        <p>14 Days</p>
+                    </div>
+
+                    <form enctype="application/x-www-form-urlencoded" method="post" action="/Main/Stable">
+                        @if (Model.Mushroom < 25)
+                        {
+                            if (Model.Mount == MountEnum.Griff)
+                            {
+                                <button disabled class="btn btn-primary mountButton">Extend</button>
+                            }
+                            else
+                            {
+                                <button type="submit" disabled class="btn btn-primary mountButton">Buy</button>
+                            }
+                        }
+                        else
+                        {
+                            <input name="mount" type="hidden" value="@MountEnum.Griff" />
+                            @if (Model.Mount == MountEnum.Griff)
+                            {
+                                <button type="submit" class="btn btn-primary mountButton">Extend</button>
+                            }
+                            else
+                            {
+                                <button type="submit" class=" btn btn-primary mountButton">Buy</button>
+                            }
+                        }
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

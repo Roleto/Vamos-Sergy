@@ -51,7 +51,7 @@ namespace Vamos_Sergy.Data.Classes
             old.Name = item.Name;
             old.Kast = item.Kast;
             old.Level = item.Level;
-            old.HasMount = item.HasMount;
+            old.Mount = item.Mount;
             old.Exp = item.Exp;
             old.Str = item.Str;
             old.Dex = item.Dex;

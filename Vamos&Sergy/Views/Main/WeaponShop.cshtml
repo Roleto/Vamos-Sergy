@@ -1,27 +1,50 @@
 ﻿@using Vamos_Sergy.ViewModels
 @using Vamos_Sergy.Models
-@model ViewModel
+@model ShopViewModel
 
 @{
     ViewData["name"] = "WeaponShop";
 }
+
+<script type="text/javascript">
+    function NotImplemented(){
+        alert("Nincs implementálva");
+    }
+    function GetWeapons(id) {
+        alert('siker');
+        const xhttpr = new XMLHttpRequest();
+        xhttpr.open('GET', 'https://localhost:7284/Quest', true);
+
+        xhttpr.send();
+
+        xhttpr.onload = () => {
+            if (xhttpr.status === 200) {
+                const response = JSON.parse(xhttpr.response);
+                let realId = "item" + id;
+                alert(realId);
+                const element = document.getElementById(realId);
+                alert(element);
+            } else {
+            }
+        };
+    }
+</script>
 
 <div class="container-fluid">
     <div class="row">
         <div class="col p-0">
             <partial name="_ViewHeroPartial" model="@Model.Hero" view-data="ViewData" />
         </div>
-        <div class="col p-0">
+        <div class="col p-0 b-0">
             <div class="weaponShop container ">
-                <div class="row">
+                <div class="row p-0">
                     <div class="row row-cols-5 ps-0 pe-1 " s>
                         <partial name="_InventoryLayout" model="@Model.Hero" view-data="ViewData" />
-
                     </div>
                 </div>
                 <div class="row">
                     <div class="col gy-0">
-                        <buttonid class="bg-primary">New Wares</button>
+                        <button class="bg-primary" onclick="GetWeapons()">New Wares</button>
                     </div>
 
                 </div>
@@ -30,19 +53,28 @@
                     </div>
                     @for (int i = 0; i < 3; i++)
                     {
-                        <div class="col col-3 ShopSlot gy-0" ondblclick="location.href='@Url.Action("BuyWeapon", "Main" , new { index=i})'">
-                            <partial name="_ItemLayout" model="@Model.GetShopItem(i)" />
+                        <div class="col col-3 ShopSlot gy-0" oncontextmenu="NotImplemented()" ondblclick="location.href='@Url.Action("BuyWeapon", "Main" , new { index=i})'">
+                            @* <partial name="_ItemLayout" model="Model.GetEquipment(i)" /> *@
+                            <a
+                               tabindex="0"
+                               role="button"
+                               data-bs-toggle="popover"
+                               title="@Model.GetEquipment(i).Name"
+                               data-bs-content="@Model.GetEquipment(i).ToString()"
+                               href="#">
+                                <img class="InventoryImage" src="@Url.Action("GetInventoryImage", "Main", new { id = Model.GetEquipment(i).ItemId})" />
+                            </a>
                         </div>
                     }
                     <div class="col col-2 gy-0">
                     </div>
                     <div class="row" style="padding-bottom:1rem;">
-                        <div class="col col-1">
+                        <div class="col col-1 gy-0">
                         </div>
                         @for (int i = 3; i < 6; i++)
                         {
                             <div class="col col-3 ShopSlot gy-0" ondblclick="location.href='@Url.Action("BuyWeapon", "Main" , new { index=i})'">
-                                <partial name="_ItemLayout" model="@Model.GetShopItem(i)" />
+                                <partial name="_ItemLayout" model="@Model.GetEquipment(i)" />
                             </div>
                         }
                         <div class="col col-2">
@@ -52,3 +84,4 @@
             </div>
         </div>
     </div>
+</div>

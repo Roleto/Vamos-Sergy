@@ -2,15 +2,14 @@
 <html lang="en">
 <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width,height=device-height, initial-scale=1.0" />
     <title>@ViewData["Title"] - Vamos_Sergy</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
 
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/Vamos_Sergy.styles.css" asp-append-version="true" />
 </head>
-<body style="background-color:black; overflow-y:hidden;">
-
+<body>
     <header>
         @*   <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
         <div class="container-fluid">
@@ -33,62 +32,59 @@
         </div>
         </nav>  *@
     </header>
-    <div class="container-fluid">
-        <main role="main" class="pb-3" style="background-color:royalblue; margin-left:7rem; margin-right:7rem;">
-            <div class="row">
-                <div class="col col-sm-2 col-md-2 col-lg-2">
-                    <div class="btn-group-vertical w-100 h-100 g-1" role="group" aria-label="Vertical button group">
-
-                        <button type="button" onclick="location.href='@Url.Action("ViewHero", "Main" )'">
-                            <div class="container">
-                                <div class="row">
-                                    <div class="col col-3 ">
-                                        <img class="profilPic" src="@Url.Action("GetProfilImage", "Main")" class="card-img-top" alt="...">
-                                    </div>
-                                    <div class="col col-9">
-                                        <div class="container text-center">
-                                            <div class="row">
-                                                <div class="col">
-                                                    @if (ViewData.ContainsKey("gold"))
-                                                    {
-                                                        <small>Gold: @ViewData["gold"]</small>
-                                                    }
-                                                    else
-                                                    {
-                                                        <small>Gold: 0</small>
-                                                    }
-                                                    @if (ViewData.ContainsKey("mushroom"))
-                                                    {
-                                                        <small>Mushrom: @ViewData["mushroom"]</small>
-                                                    }
-                                                    else
-                                                    {
-                                                        <small>Mushrom: 0</small>
-                                                    }
-                                                </div>
+    <main role="main" style="background-color:royalblue; margin-left:7rem; margin-right:7rem;">
+        <div class="flex-container">
+            <div style="width:17%;">
+                <div class="btn-group-vertical w-100 h-100 g-1" role="group" aria-label="Vertical button group">
+                    <button type="button" onclick="location.href='@Url.Action("ViewHero", "Main" )'">
+                        <div class="container">
+                            <div class="row">
+                                <div class="col col-3 ">
+                                    <img class="profilPic" src="@Url.Action("GetProfilImage", "Main")" class="card-img-top" alt="...">
+                                </div>
+                                <div class="col col-9">
+                                    <div class="container text-center">
+                                        <div class="row">
+                                            <div class="col">
+                                                @if (ViewData.ContainsKey("gold"))
+                                                {
+                                                    <small>Gold:  <output id="currentGold">@ViewData["gold"]</output></small>
+                                                }
+                                                else
+                                                {
+                                                    <small>Gold: 0</small>
+                                                }
+                                                @if (ViewData.ContainsKey("mushroom"))
+                                                {
+                                                    <small>Mushrom: <output id="currentMushroom">@ViewData["mushroom"]</output></small>
+                                                }
+                                                else
+                                                {
+                                                    <small>Mushrom: 0</small>
+                                                }
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                        </button>
-                        <button type="button" onclick="location.href='@Url.Action("ViewHero", "Main" )'" class="btn btn-primary">Tavern</button>
-                        <button type="button" onclick="location.href='@Url.Action("CreateItem", "Main" )'" class="btn btn-primary mt-2">Arena</button>
-                        <button type="button" onclick="location.href='@Url.Action("WeaponShop", "Main" )'" class="btn btn-primary mt-2">Weapon Shop</button>
-                        <button type="button" class="btn btn-primary mt-2">Magic Shop</button>
-                        <button type="button" class="btn btn-primary mt-2">Stable</button>
-                        <button type="button" class="btn btn-primary mt-2">Dungeons</button>
-                        <button type="button" class="btn btn-primary mt-2">Guild</button>
-                        <button type="button" class="btn btn-primary mt-2">Mail</button>
-                        <button type="button" class="btn btn-primary mt-2">Hall of Fame</button>
-                    </div>
-                </div>
-                <div class="col col-sm-10 col-md-10 col-lg-10 p-0">
-                    @RenderBody()
+                        </div>
+                    </button>
+                    <button type="button" onclick="location.href='@Url.Action("Tavern", "Main" )'" class="btn btn-primary sideButton">Tavern</button>
+                    <button type="button" onclick="location.href='@Url.Action("CreateItem", "Main" )'" class="btn btn-primary mt-2 sideButton">Arena</button>
+                    <button type="button" onclick="location.href='@Url.Action("WeaponShop", "Main" )'" class="btn btn-primary mt-2 sideButton">Weapon Shop</button>
+                    <button type="button" class="btn btn-primary mt-2 sideButton">Magic Shop</button>
+                    <button type="button" onclick="location.href='@Url.Action("Stable", "Main" )'" class="btn btn-primary mt-2 sideButton">Stable</button>
+                    <button type="button" class="btn btn-primary mt-2 sideButton">Dungeons</button>
+                    <button type="button" class="btn btn-primary mt-2 sideButton">Guild</button>
+                    <button type="button" class="btn btn-primary mt-2 sideButton">Mail</button>
+                    <button type="button" class="btn btn-primary mt-2 sideButton">Hall of Fame</button>
                 </div>
             </div>
-        </main>
-    </div>
+            <div style="width:83%; max-height:100%">
+                @RenderBody()
+            </div>
+        </div>
+    </main>
     @*     <footer class="border-top footer text-muted">
     <div class="container">
     &copy; 2024 - Vamos_Sergy - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>

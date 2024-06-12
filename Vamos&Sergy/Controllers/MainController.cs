@@ -1,11 +1,14 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using NuGet.Protocol.Core.Types;
 using System;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
+using System.Net;
+using System.Text;
 using Vamos_Sergy.Data.Classes;
 using Vamos_Sergy.Data.Interfaces;
 using Vamos_Sergy.Migrations;
@@ -17,24 +20,27 @@ namespace Vamos_Sergy.Controllers
 {
     public class MainController : Controller
     {
-        private readonly IRepository<Hero> _heroRepo;
         private readonly IRepository<Item> _itemRepo;
+        private readonly IRepository<Hero> _heroRepo;
         private readonly IRepository<Equipment> _equipmentRepo;
+        private readonly IRepository<Quest> _questRepo;
         private readonly UserManager<SiteUser> _userManager;
-        private static ViewModel _viewModel;
+        private static ShopViewModel _weaponshop;
+        private static string baseUri = "https://localhost:7284";
+
+        public MainController(IRepository<Item> itemRepo, IRepository<Hero> heroRepo, IRepository<Equipment> equipmentRepo, IRepository<Quest> questRepo, UserManager<SiteUser> userManager)
+        {
+            _itemRepo = itemRepo;
+            _heroRepo = heroRepo;
+            _equipmentRepo = equipmentRepo;
+            _questRepo = questRepo;
+            _userManager = userManager;
+        }
 
         private void RefreshMoney()
         {
-            ViewData["gold"] = _viewModel.Hero.Gold;
-            ViewData["mushroom"] = _viewModel.Hero.Mushroom;
-        }
-
-        public MainController(IRepository<Hero> heroRepo, IRepository<Item> itemRepo, IRepository<Equipment> equipmentRepo, UserManager<SiteUser> userManager)
-        {
-            _heroRepo = heroRepo;
-            _itemRepo = itemRepo;
-            _equipmentRepo = equipmentRepo;
-            _userManager = userManager;
+            ViewData["gold"] = _weaponshop.Hero.Gold;
+            ViewData["mushroom"] = _weaponshop.Hero.Mushroom;
         }
 
         [Authorize]
@@ -55,13 +61,66 @@ namespace Vamos_Sergy.Controllers
 
                 equipmentList.Add(item);
             }
-            hero.GetEqupments(equipmentList);
-            _viewModel = new ViewModel(hero, _itemRepo.Read().ToList());
+            var quests = _questRepo.Read().ToArray();
+            List<Quest> questList = new List<Quest>();
+            hero.SetEquipment(equipmentList);
+            string[] valami = hero.QuestIds.Split(';');
+            foreach (var item in hero.QuestIds.Split(';'))
+            {
+                var q = _questRepo.Read(item);
+                if (q != null)
+                    questList.Add(q);
+            }
+            hero.SetQuest(questList);
+            _weaponshop = new ShopViewModel(hero, _itemRepo.Read().ToList(), "D:\\Egyetem\\prog5\\FF\\Vamos&Sergy\\Vamos&Sergy\\wwwroot\\Images\\Backgrounds\\weaponshop.jpg");
             this.RefreshMoney();
             return RedirectToAction(nameof(ViewHero));
         }
 
 
+        [HttpGet]
+        public IActionResult Tavern()
+        {
+            this.RefreshMoney();
+            ViewData["beer"] = _weaponshop.Hero.BeerCount;
+            return View(new TavernViewModel(_weaponshop.Hero));
+        }
+
+        [HttpPost]
+        public IActionResult Tavern(int selectedQuest,string heroId)
+        {
+            //todo: set hero || vm
+            ;
+            this.RefreshMoney();
+            return View();
+        }
+
+        [HttpGet]
+        public IActionResult Arena()
+        {
+            this.RefreshMoney();
+            return View(new TavernViewModel(_weaponshop.Hero));
+        }
+
+        [HttpPost]
+        public IActionResult Arena(bool win)
+        {
+            return View();
+        }
+
+        [HttpGet]
+        public IActionResult Stable()
+        {
+            this.RefreshMoney();
+            return View(_weaponshop.Hero);
+        }
+
+        [HttpPost]
+        public IActionResult Stable(MountEnum mount)
+        {
+            ;
+            return RedirectToAction(nameof(Stable));
+        }
 
         [HttpGet]
         public IActionResult CreateHero()
@@ -73,22 +132,22 @@ namespace Vamos_Sergy.Controllers
         public async Task<IActionResult> WeaponShop()
         {
             this.RefreshMoney();
-            return View(_viewModel);
+            return View(_weaponshop);
         }
 
         [HttpGet]
         public IActionResult BuyWeapon(int index)
         {
-            if (_viewModel.Hero.InvIndex > 0)
+            if (_weaponshop.Hero.InvIndex > 0)
             {
-                Equipment? e = _viewModel.Buy(index);
+                Equipment? e = _weaponshop.Buy(index);
                 if (e != null)
                 {
-                    e.OwherId = _viewModel.Hero.Id;
-                    e.InventorySlot = _viewModel.Hero.GetFirsNull;
+                    e.OwherId = _weaponshop.Hero.Id;
+                    e.InventorySlot = _weaponshop.Hero.GetFirsNull;
                     _equipmentRepo.Create(e);
-                    _viewModel.Hero.Inventory[e.InventorySlot] = e;
-                    _heroRepo.Update(_viewModel.Hero);
+                    _weaponshop.Hero.Inventory[e.InventorySlot] = e;
+                    _heroRepo.Update(_weaponshop.Hero);
                     this.RefreshMoney();
                     return RedirectToAction(nameof(WeaponShop));
                 }
@@ -103,29 +162,27 @@ namespace Vamos_Sergy.Controllers
         [HttpGet]
         public IActionResult EquipItem(int index, string name)
         {
-            if (index <= _viewModel.Hero.InvIndex)
-            {
-                Equipment e = _viewModel.Hero.Inventory[index];
-                Item i = _itemRepo.Read(e.ItemId);
-                if (e == null || i == null)
-                    return RedirectToAction(name);
-                e.IsEqueped = true;
-                e.Name = i.Name;
-                e.Description = i.Description;
-                e.Type = i.Type;
-                e.RequiredClass = i.RequiredClass;
-                Equipment old = _viewModel.Hero.Equip(e);
-                _equipmentRepo.Update(e);
-                if (old != null)
-                    _equipmentRepo.Update(old);
-            }
+            Equipment e = _weaponshop.Hero.Inventory[index];
+            Item i = _itemRepo.Read(e.ItemId);
+            if (e == null || i == null)
+                return RedirectToAction(name);
+            e.IsEqueped = true;
+            e.Name = i.Name;
+            e.Description = i.Description;
+            e.Type = i.Type;
+            e.RequiredClass = i.RequiredClass;
+            Equipment old = _weaponshop.Hero.Equip(e);
+            _equipmentRepo.Update(e);
+            if (old != null)
+                _equipmentRepo.Update(old);
+
             return RedirectToAction(name);
         }
 
         [HttpGet]
         public IActionResult UnEquipItem(EquipmentEnum equipment, string name)
         {
-            _viewModel.Hero.UnEquip(equipment);
+            _weaponshop.Hero.UnEquip(equipment);
             return RedirectToAction(name);
         }
 
@@ -135,6 +192,17 @@ namespace Vamos_Sergy.Controllers
         {
             hero.OwnerId = _userManager.GetUserId(this.User);
             hero.GenerateStats(hero.Race);
+            var quests = _questRepo.Read().ToArray();
+            List<Quest> questList = new List<Quest>();
+            Random r = new Random();
+            do
+            {
+                int random = r.Next(quests.Length);
+                if (questList.FirstOrDefault(x => x.Id == quests[random].Id) == null)
+                {
+                    questList.Add(quests[random]);
+                }
+            } while (questList.Count != 3);
             string name = picturedata.Split('\\')[2];
             IFormFile file;
             // wwwroot\\Images\\ClassImages\\warrior.jpg
@@ -163,27 +231,18 @@ namespace Vamos_Sergy.Controllers
         public IActionResult ViewHero()
         {
             this.RefreshMoney();
-            return View(_viewModel.Hero);
+            return View(_weaponshop.Hero);
         }
 
-        [HttpGet]
-        public ContentResult HeroCard()
-        {
-            return new ContentResult
-            {
-                ContentType = "text/html",
-                Content = "<div class=\"container\"><div class=\"row\"><div class=\"col col-3 \"><img class=\"profilPic\" src=\"@Url.Action(\"GetProfilImage\", \"Main\")\" class=\"card-img-top\" alt=\"...\"></div><div class=\"col col-9\"><div class=\"container text-center\"><div class=\"row\"><div class=\"col\">" +
-                "<small>Gold: 100</small>" +
-                "<small>Mushrom: 5</small></div></div></div></div></div></div>"
-            };
-        }
-
-        //[HttpGet]
-        //public IActionResult HeroCard()
+        //public ContentResult HeroCard()
         //{
-        //    var userId = _userManager.GetUserId(this.User);
-        //    Hero hero = _heroRepo.ReadFromOwner(userId);
-        //    return View(hero);
+        //    return new ContentResult
+        //    {
+        //        ContentType = "text/html",
+        //        Content = "<div class=\"container\"><div class=\"row\"><div class=\"col col-3 \"><img class=\"profilPic\" src=\"@Url.Action(\"GetProfilImage\", \"Main\")\" class=\"card-img-top\" alt=\"...\"></div><div class=\"col col-9\"><div class=\"container text-center\"><div class=\"row\"><div class=\"col\">" +
+        //        "<small>Gold: 100</small>" +
+        //        "<small>Mushrom: 5</small></div></div></div></div></div></div>"
+        //    };
         //}
 
         [HttpGet]
