@@ -39,26 +39,34 @@ namespace Vamos_Sergy.Models
         public double Gold { get; set; }
         [ShowTable]
         public int Mushroom { get; set; }
+        public int BeerCount { get; set; }
 
         [NotMapped]
+        [JsonIgnore]
         public double GetCurrentXpPercentage { get => (Exp / (double)MaxXp); }
 
         [NotMapped]
-        public int MaxXp{ get => (Level * 15 ) + (Level * 100); }
+        [JsonIgnore]
+        public int MaxXp { get => (Level * 15) + (Level * 100); }
 
         [Required]
         [ShowTable]
+        [JsonIgnore]
         public ClassEnum Kast { get; set; }
 
         [Required]
         [ShowTable]
+        [JsonIgnore]
         public RaceEnum Race { get; set; }
 
         [ShowTable]
+        [JsonIgnore]
         public MountEnum Mount { get; set; }
 
+        [JsonIgnore]
         public DateTime? MountEndDate { get; set; }
 
+        [JsonIgnore]
         public int Honor { get; set; }
 
         public string WeaponShop { get; set; }

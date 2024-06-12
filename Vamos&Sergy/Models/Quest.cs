@@ -69,12 +69,9 @@ namespace Vamos_Sergy.Models
                     break;
             }
         }
-        public string GetTimeString(MountEnum mount,double adventure)
+        public string GetTimeString(MountEnum mount, double adventure)
         {
-            if(adventure > Time / 60) {
-                Time = adventure * 60;
-            }
-            double percentage = 1;
+            double percentage = 1;           
             switch (mount)
             {
                 default:
@@ -93,17 +90,21 @@ namespace Vamos_Sergy.Models
                     percentage = .5;
                     break;
             }
-            int newTime = (int)(Time * percentage);
-            int min = newTime / 60;
-            int sec = newTime % 60;
+            double newTime = (int)(Time * percentage);
+            if (adventure < Time / 60)
+            {
+                newTime = adventure * 60;
+            }
+            double min = newTime / 60;
+            double sec = newTime % 60;
             if (sec < 10)
                 return $"{min}:0{sec}";
             return $"{min}:{sec}";
         }
         public double GetGoldValue(MountEnum mount)
         {
-            if (mount == MountEnum.Griff) 
-                return Math.Round(Gold * 1.5,2);
+            if (mount == MountEnum.Griff)
+                return Math.Round(Gold * 1.5, 2);
             return Gold;
         }
     }

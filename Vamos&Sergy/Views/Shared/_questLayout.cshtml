@@ -38,7 +38,7 @@
         <button type="button" onclick="quest2()" class="btn btn-success btn-outline-warning rounded-pill ms-1 me-5">Quest2</button>
         <button type="button" onclick="quest3()" class="btn btn-success btn-outline-warning rounded-pill ms-1 ">Quest3</button>
     </div>
-    <div id="questdiv1" style="display:none">
+    <div id="questdiv1" style="display:block">
         <textarea readonly class="questDesc">@Model.Quest[0].Text</textarea>
         @if (@Model.Quest[0].Mushroom > 0){
             <p>Gold: @Model.Quest[0].GetGoldValue(Model.Mount) Mushroom: @Model.Quest[0].Mushroom </p>

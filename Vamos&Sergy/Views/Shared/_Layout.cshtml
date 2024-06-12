@@ -48,7 +48,7 @@
                                             <div class="col">
                                                 @if (ViewData.ContainsKey("gold"))
                                                 {
-                                                    <small>Gold: @ViewData["gold"]</small>
+                                                    <small>Gold:  <output id="currentGold">@ViewData["gold"]</output></small>
                                                 }
                                                 else
                                                 {
@@ -56,7 +56,7 @@
                                                 }
                                                 @if (ViewData.ContainsKey("mushroom"))
                                                 {
-                                                    <small>Mushrom: @ViewData["mushroom"]</small>
+                                                    <small>Mushrom: <output id="currentMushroom">@ViewData["mushroom"]</output></small>
                                                 }
                                                 else
                                                 {
@@ -91,7 +91,7 @@
     </div>
     </footer> *@
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="~/lib/jquery-ajax-unobtrusive/jquery.unobtrusive-ajax.js"></script>
+    @* <script src="~/lib/jquery-ajax-unobtrusive/jquery.unobtrusive-ajax.js"></script> *@
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
     <script src="https://kit.fontawesome.com/a0addb9504.js" crossorigin="anonymous"></script>
