@@ -7,6 +7,7 @@
     }
 
     function quest1() {
+        document.getElementById("selectedQuest").ariaValueMax = 0;
         var x = document.getElementById("questdiv1");
         x.style.display = "block";
         var y = document.getElementById("questdiv2");
@@ -15,8 +16,8 @@
         z.style.display = "none";
     }
     function quest2() {
+        document.getElementById("selectedQuest").ariaValueMax = 1;
         var x = document.getElementById("questdiv2");
-
         x.style.display = "block";
         var y = document.getElementById("questdiv1");
         var z = document.getElementById("questdiv3");
@@ -24,6 +25,7 @@
         z.style.display = "none";
     }
     function quest3() {
+        document.getElementById("selectedQuest").ariaValueMax = 2;
         var x = document.getElementById("questdiv3");
         x.style.display = "block";
         var y = document.getElementById("questdiv2");

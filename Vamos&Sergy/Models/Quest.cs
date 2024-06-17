@@ -24,6 +24,8 @@ namespace Vamos_Sergy.Models
 
         [NotMapped]
         public double Time { get; set; }
+        [NotMapped]
+        public Monster Enemy { get; set; }
 
         public Quest()
         {

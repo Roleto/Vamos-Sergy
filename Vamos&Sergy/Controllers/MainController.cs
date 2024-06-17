@@ -98,6 +98,7 @@ namespace Vamos_Sergy.Controllers
             this.RefreshMoney();
             return RedirectToAction(nameof(ViewHero));
         }
+        #region ApiCalls
 
         [HttpGet]
         public async Task<IActionResult> ViewHero()
@@ -236,17 +237,37 @@ namespace Vamos_Sergy.Controllers
             return RedirectToAction(nameof(CreateMonster));
         }
 
+        #endregion
         [HttpGet]
         public IActionResult Tavern()
         {
             this.RefreshMoney();
-            return View(new TavernViewModel(_hero));
+            return View(_hero);
         }
 
         [HttpPost]
-        public IActionResult Tavern(int selectedQuest)
+        public IActionResult Tavern(int selectedQuest,bool questEnded,int beerCount,int goldInput, int mushroomInput)
         {
-            return View();
+            if (questEnded)
+            {
+
+            }
+            else
+            {
+                Random r = new Random();
+                var m = _monsterRepo.Read().ToArray();
+                Quest q = _hero.Quest[selectedQuest];
+                _hero.Gold = goldInput;
+                _hero.Mushroom = mushroomInput;
+                _hero.SelectedQuest = selectedQuest;
+                _hero.Quest[selectedQuest].Enemy = m[r.Next(0, m.Length)];
+                _hero.QuestStarted = DateTime.Now;
+                _hero.HeroState = HeroStateEnum.OnAdvanture;
+                _hero.BeerCount = beerCount;
+                _hero.Adventure -= q.Time / 60;
+            }
+            _heroRepo.Update(_hero);
+            return RedirectToAction(nameof(Tavern));
         }
 
         [HttpGet]

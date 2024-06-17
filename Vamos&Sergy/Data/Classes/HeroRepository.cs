@@ -50,17 +50,28 @@ namespace Vamos_Sergy.Data.Classes
             if (old == null)
                 return;
             old.Name = item.Name;
-            old.Kast = item.Kast;
-            old.Level = item.Level;
-            old.Mount = item.Mount;
+            old.GuildId = item.GuildId;
+            old.GuildName = item.GuildName;
             old.Exp = item.Exp;
+            old.Level = item.Level;
+            old.Adventure = item.Adventure;
+            old.HeroState = item.HeroState;
+            old.Gold = item.Gold;
+            old.Mushroom = item.Mushroom;
+            old.BeerCount = item.BeerCount;
+            old.Mount = item.Mount;
+            old.MountEndDate = item.MountEndDate;
+            old.Honor = item.Honor;
+            old.WeaponShop = item.WeaponShop;
+            old.MagicShop = item.MagicShop;
+            old.QuestIds = item.QuestIds;
+            old.SelectedQuest = item.SelectedQuest;
+            old.QuestStarted = item.QuestStarted;
             old.Str = item.Str;
             old.Dex = item.Dex;
             old.Inte = item.Inte;
             old.Vit = item.Vit;
             old.Luck = item.Luck;
-            old.Gold = item.Gold;
-            old.Mushroom = item.Mushroom;
             context.SaveChanges();
         }
         public void Delete(string id)

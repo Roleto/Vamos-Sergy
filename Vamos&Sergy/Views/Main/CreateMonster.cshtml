@@ -8,7 +8,7 @@
 
 <h4>Monster</h4>
 <hr />
-<form asp-action="CreateMonster">
+<form asp-action="CreateMonster" method="post" enctype="multipart/form-data">
     <input type="hidden" asp-for="Id" value="" />
     <input type="hidden" asp-for="Data" value="asd" />
     <input type="hidden" asp-for="ContentType" value="asd" />
@@ -27,7 +27,11 @@
             </div>
             <div class="form-group">
                 <label asp-for="Kast" class="control-label"></label>
-                <select asp-for="Kast" class="form-control"></select>
+                <select asp-for="Kast" class="form-control">
+                    <option value="0">Mage</option>
+                    <option value="1">Warrior</option>
+                    <option value="2">Ranger</option>
+                </select>
                 <span asp-validation-for="Kast" class="text-danger"></span>
             </div>
             <div class="form-group">

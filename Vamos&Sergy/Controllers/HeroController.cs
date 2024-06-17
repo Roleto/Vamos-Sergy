@@ -11,13 +11,11 @@ namespace Vamos_Sergy.Controllers
     public class HeroController
     {
         private readonly IRepository<Hero> _heroRepo;
-        private readonly IRepository<Equipment> _equipmentRepo;
 
 
-        public HeroController(IRepository<Hero> heroRepo, IRepository<Equipment> equipmentRepo)
+        public HeroController(IRepository<Hero> heroRepo)
         {
             _heroRepo = heroRepo;
-            _equipmentRepo = equipmentRepo;
         }
 
         [HttpGet]
@@ -37,10 +35,11 @@ namespace Vamos_Sergy.Controllers
         {
             _heroRepo.Create(item);
         }
-        [HttpPut]
+        [HttpPut("")]
         public void Update([FromBody] Hero item)
         {
-            _heroRepo.Update(item);
+            ;
+            //_heroRepo.Update(item);
         }
 
         [HttpDelete("id")]

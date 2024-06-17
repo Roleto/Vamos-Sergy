@@ -5,7 +5,12 @@ namespace Vamos_Sergy.Models
 {
     public class Monster : ICharacter
     {
+        private Random _random;
 
+        public Monster()
+        {
+            _random = new Random();
+        }
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public string Id { get; set; }
@@ -21,28 +26,51 @@ namespace Vamos_Sergy.Models
         public int Str { get; set; }
 
         [NotMapped]
-        public int Defence => throw new NotImplementedException();
+        public int Defence => Str / 2;
 
         public int Dex { get; set; }
 
         [NotMapped]
-        public int Evasion => throw new NotImplementedException();
+        public int Evasion => Dex / 2;
 
         public int Inte { get; set; }
 
         [NotMapped]
-        public int Resistance => throw new NotImplementedException();
+        public int Resistance => Inte / 2;
 
         public int Vit { get; set; }
 
         [NotMapped]
-        public int Hp => throw new NotImplementedException();
+        public int Hp => Vit * 2 * (this.Level + 1);
 
         public double Luck { get; set; }
 
 
         [NotMapped]
-        public int Damage => throw new NotImplementedException();
+        public int Damage
+        {
+            get
+            {
+                int minDamage = 0;
+                int maxDamage = 0;
+                switch (Kast)
+                {
+                    default:
+                    case ClassEnum.Mage:
+                        minDamage = (Level * 50) * (1 + Inte / 10);
+                        maxDamage = (Level * 100) * (1 + Inte / 10);
+                        return _random.Next(minDamage, maxDamage); 
+                    case ClassEnum.Warrior:
+                        minDamage = (Level * 50) * (1 + Str / 10);
+                        maxDamage = (Level * 100) * (1 + Str / 10);
+                        return _random.Next(minDamage, maxDamage);
+                    case ClassEnum.Ranger:
+                        minDamage = (Level * 50) * (1 + Dex / 10);
+                        maxDamage = (Level * 100) * (1 + Dex / 10);
+                        return _random.Next(minDamage, maxDamage);
+                }
+            }
+        }
 
         public string ContentType { get; set; }
         public byte[] Data { get; set; }

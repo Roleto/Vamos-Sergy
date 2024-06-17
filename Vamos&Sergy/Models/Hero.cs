@@ -15,7 +15,6 @@ namespace Vamos_Sergy.Models
         [Key]
         public string Id { get; set; }
 
-        [Required]
         [StringLength(24)]
         [ShowTable]
         public string Name { get; set; }
@@ -25,7 +24,6 @@ namespace Vamos_Sergy.Models
         [ShowTable]
         public int Exp { get; set; }
 
-        [Required]
         [ShowTable]
 
         public int Level { get; set; }
@@ -55,7 +53,6 @@ namespace Vamos_Sergy.Models
         [JsonIgnore]
         public ClassEnum Kast { get; set; }
 
-        [Required]
         [ShowTable]
         [JsonIgnore]
         public RaceEnum Race { get; set; }
@@ -74,8 +71,16 @@ namespace Vamos_Sergy.Models
         public string MagicShop { get; set; }
         public string QuestIds{ get; set; }
 
+        [AllowNull]
         [NotMapped]
+        [JsonIgnore]
         public List<Quest> Quest { get; set; }
+
+        [AllowNull]
+        public int? SelectedQuest { get; set; }
+
+        [AllowNull]
+        public DateTime? QuestStarted { get; set; }
 
         #endregion
         #region stat props
@@ -267,13 +272,19 @@ namespace Vamos_Sergy.Models
         public string OwnerId { get; set; }
 
         [NotMapped]
+        [AllowNull]
         [JsonIgnore]
         public virtual SiteUser Owner { get; set; }
 
+        [AllowNull]
+        [JsonIgnore]
         public string ContentType { get; set; }
+        [AllowNull]
+        [JsonIgnore]
         public byte[] Data { get; set; }
 
         [NotMapped]
+        [JsonIgnore]
         public int InvIndex
         {
             get
@@ -289,6 +300,7 @@ namespace Vamos_Sergy.Models
                 return output;
             }
         }
+        [JsonIgnore]
         public int GetFirsNull
         {
             get

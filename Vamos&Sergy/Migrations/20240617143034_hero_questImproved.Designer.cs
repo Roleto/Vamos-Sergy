@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Vamos_Sergy.Data;
 
@@ -11,9 +12,10 @@ using Vamos_Sergy.Data;
 namespace Vamos_Sergy.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240617143034_hero_questImproved")]
+    partial class hero_questImproved
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -336,7 +338,7 @@ namespace Vamos_Sergy.Migrations
 
                     b.HasIndex("OwnerId");
 
-                    b.ToTable("Heroes", (string)null);
+                    b.ToTable("Heroes");
                 });
 
             modelBuilder.Entity("Vamos_Sergy.Models.Items.Equipment", b =>
@@ -369,7 +371,7 @@ namespace Vamos_Sergy.Migrations
 
                     b.HasIndex("OwherId");
 
-                    b.ToTable("Equipments", (string)null);
+                    b.ToTable("Equipments");
                 });
 
             modelBuilder.Entity("Vamos_Sergy.Models.Items.Item", b =>
@@ -415,7 +417,7 @@ namespace Vamos_Sergy.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Items", (string)null);
+                    b.ToTable("Items");
                 });
 
             modelBuilder.Entity("Vamos_Sergy.Models.Monster", b =>
@@ -459,7 +461,7 @@ namespace Vamos_Sergy.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Monsters", (string)null);
+                    b.ToTable("Monsters");
                 });
 
             modelBuilder.Entity("Vamos_Sergy.Models.Quest", b =>
@@ -476,7 +478,7 @@ namespace Vamos_Sergy.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Quests", (string)null);
+                    b.ToTable("Quests");
                 });
 
             modelBuilder.Entity("Vamos_Sergy.Models.SiteUser", b =>

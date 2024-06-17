@@ -1,9 +1,48 @@
 ﻿@using Vamos_Sergy.ViewModels
-@model TavernViewModel
+@model Hero
 
 <script type="text/javascript">
-    function Clicked(id) {
-        alert('siker');
+    let countdownDate;
+    document.addEventListener('DOMContentLoaded', function () {
+        startCountdown();
+    });
+    function startCountdown() {
+        countdownDate = new Date(document.getElementById("startQuest").value).getTime();
+        const progressBar = document.getElementById("progressBar");
+        let end = Number(document.getElementById("endQuest").value);
+        let progressCount = Math.floor(end / 100);
+        let maxProgress = progressCount;
+        let width = 0;
+        progressBar.style.width = '0%';
+        let x = setInterval(function () {
+            // Get the current date and time
+            let now = new Date().getTime();
+
+            // Calculate the distance between now and the countdown date
+            let distance = now - countdownDate;
+
+            // Calculate days, hours, minutes and seconds
+            let minutes = 0 + Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            let seconds = 0 + Math.floor((distance % (1000 * 60)) / 1000);
+
+            // Display the result
+            document.getElementById("minutes").value = minutes.toString().padStart(2, '0');
+            document.getElementById("seconds").value = seconds.toString().padStart(2, '0');
+            progressCount -= 1;
+            if (progressCount <= 0) {
+                width += 1;
+                let text = width + '%'
+                progressBar.style.width = text;
+                progressCount = maxProgress;
+            }
+
+            // alert('yay7')
+
+            // If the countdown is over, display a message
+            if ((minutes * 60) + seconds > end) {
+                //Done
+            }
+        }, 1000);
     }
     function validateForm() {
         var x = document.getElementById("questdiv1");
@@ -37,7 +76,7 @@
         }
     }
     function drink() {
-        let beerCount = Number(document.getElementById("beerInput").value);
+        let beerCount = Number(document.getElementById("beerCount").value);
         let currentAdv = Number(document.getElementById("advInput").value);
         var qeustion = document.getElementById("question");
         if (currentAdv >= 80 && beerCount < 9) {
@@ -56,7 +95,7 @@
             mushroom -= 1;
             document.getElementById("currentMushroom").textContent = mushroom;
             document.getElementById("mushroomInput").value = mushroom;
-            document.getElementById("beerInput").value = beerCount;
+            document.getElementById("beerCount").value = beerCount;
             if (mushroom == 0) {
                 document.getElementById("drinkButton").disabled = true;
             }
@@ -66,7 +105,7 @@
             return;
         }
         if (beerCount == 10) {
-            document.getElementById("beerInput").value = beerCount;
+            document.getElementById("beerCount").value = beerCount;
             qeustion.innerHTML = "<h5>You've had enough mate, come back tomorrow</h5>";
             document.getElementById("drinkButton").disabled = true;
         }
@@ -130,14 +169,19 @@
                 // alert('id:' + id);
                 let goldWin = Number(currentGold.innerText) + gold;
                 currentGold.innerText = goldWin;
+                document.getElementById("goldInput").value = goldWin;
                 let mushWin = Number(currentMush.innerText) + mushroom;
                 currentMush.innerText = mushWin;
+                document.getElementById("mushroomInput").value = mushWin;
                 gambleText.innerHTML = "<h4>Congratulations</h4><p>Wow you are realy good at this game. give it another try?</p>";
+                // need update on gold with api call
             } else {
                 let goldLoose = Number(currentGold.innerText) - gold;
                 currentGold.innerText = goldLoose;
+                document.getElementById("goldInput").value = goldLoose;
                 let mushLoose = Number(currentMush.innerText) - mushroom;
                 currentMush.innerText = mushLoose;
+                document.getElementById("mushroomInput").value = mushLoose;
                 gambleText.innerHTML = "<h4>What a pity</h4><p>Oh bad luck, what a pity. Another game another chance, you'll win for sure</p>";
             }
             document.getElementById("winnerCup").value = "0";
@@ -161,15 +205,12 @@
             if (random < 33) {
                 document.getElementById("ball1").style.display = "block";
                 document.getElementById("winnerCup").value = "1";
-                alert(1);
                 // document.getElementById("cup1").style.display = "block";
             } else if (random < 66) {
-                alert(3);
                 document.getElementById("ball2").style.display = "block";
                 // document.getElementById("cup3").style.display = "none";
                 document.getElementById("winnerCup").value = "3";
             } else {
-                alert(2);
                 document.getElementById("ball3").style.display = "block";
                 // document.getElementById("cup2").style.display = "none";
                 document.getElementById("winnerCup").value = "2";
@@ -197,7 +238,7 @@
     }
 </script>
 
-@if (Model.Hero.HeroState == HeroStateEnum.Free)
+@if (Model.HeroState == HeroStateEnum.Free)
 {
     <div class="tavern">
         <div class="innkeeper" data-bs-toggle="modal" data-bs-target="#inkeeperModal">
@@ -207,16 +248,18 @@
         <div class="gambler" onclick="setGambleronClick()" data-bs-toggle="modal" data-bs-target="#gamblerModal">
         </div>
         <form onsubmit="return validateForm()" enctype="application/x-www-form-urlencoded" method="post" action="/Main/Tavern">
-            <input name="heroId" type="hidden" value="@Model.Hero.Id" />
-            <input id="goldInput" name="gold" type="hidden" value="@Model.Hero.Gold" />
-            <input id="mushroomInput" name="mushroom" type="hidden" value="@Model.Hero.Mushroom" />
-            <input name="beer" type="hidden" id="beerInput" value="@Model.Hero.BeerCount" />
-            <input name="adv" type="hidden" id="advInput" value="@Model.Hero.Adventure" />
-            <input name="mushroom" type="hidden" id="advInput" value="@Model.Hero.Mushroom" />
+            <input id="heroId" name="heroId" type="hidden" value="@Model.Id" />
+            <input id="selectedQuest" name="selectedQuest" type="hidden" value=0 />
+            <input id="questEnded" name="questEnded" type="hidden" value="False" />
+            <input id="goldInput" name="goldInput" type="hidden" value="@Model.Gold" />
+            <input id="mushroomInput" name="mushroomInput" type="hidden" value="@Model.Mushroom" />
+            <input name="beerCount" type="hidden" id="beerCount" value="@Model.BeerCount" />
+            <input name="adv" type="hidden" id="advInput" value="@Model.Adventure" />
+            @* <input name="mushroom" type="hidden" id="advInput" value="@Model.Mushroom" /> *@
             <input type="hidden" id="winnerCup" value="0" />
             <div class="progress adventureBar" role="progressbar" aria-label="Basic example" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100">
-                <div id="advProgress" class="progress-bar " style="width: @Model.Hero.Adventure%;background-color:gold"></div>
-                <h3 id="advProgressVal" class="progresstext justify-content-center d-flex position-absolute w-100">Thirst for adventure: @Model.Hero.Adventure</h3>
+                <div id="advProgress" class="progress-bar " style="width: @Model.Adventure%;background-color:gold"></div>
+                <h3 id="advProgressVal" class="progresstext justify-content-center d-flex position-absolute w-100">Thirst for adventure: @Model.Adventure</h3>
             </div>
             <div class="modal fade" id="questModal" tabindex="-1" aria-labelledby="questModalLabel" aria-hidden="true">
                 <div class="modal-dialog modal-dialog-centered tavernModal">
@@ -226,11 +269,11 @@
                             @* <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button> *@
                         </div>
                         <div class="modal-body">
-                            <partial name="_QuestLayout" model="@Model.Hero" view-data="@ViewData" />
+                            <partial name="_QuestLayout" model="@Model" view-data="@ViewData" />
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                            @if (Model.Hero.Adventure == 0)
+                            @if (Model.Adventure == 0)
                             {
                                 <button type="submit" disabled class="btn btn-primary">Dring some Beer</button>
                             }
@@ -251,7 +294,7 @@
                         </div>
                         <div class="modal-body" style="display:flex">
                             <img style="width:30%" src="/Images/Backgrounds/bartender.png" />
-                            @if (Model.Hero.BeerCount < 10 && Model.Hero.Adventure <= 80)
+                            @if (Model.BeerCount < 10 && Model.Adventure <= 80)
                             {
                                 <span id="question"><h3>You look thirsty, would you like a beer ? </h3></span>
                             }
@@ -261,7 +304,7 @@
                             }
                         </div>
                         <div class="modal-footer" style="display:flex; flex-direction:column">
-                            <span id="beerText"><h4>Drank today: @Model.Hero.BeerCount/10</h4></span>
+                            <span id="beerText"><h4>Drank today: @Model.BeerCount/10</h4></span>
                             <button type="button" onclick="drink()" id="drinkButton" class="btn btn-primary">Drink</button>
                         </div>
                     </div>
@@ -320,12 +363,14 @@
         </form>
     </div>
 }
-else if (Model.Hero.HeroState == HeroStateEnum.OnAdvanture)
+else if (Model.HeroState == HeroStateEnum.OnAdvanture)
 {
+    <input id="startQuest" type="hidden" value="@Model.QuestStarted" />
+    <input id="endQuest" type="hidden" value="@Model.Quest[Model.SelectedQuest.Value].Time" />
     <div class="adventure">
-        <div class="progress workProgress" role="progressbar" aria-label="Basic example" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100">
-            <div class="progress-bar text-center" style="width: 75%;"></div>
-            <h3 class="progresstext justify-content-center d-flex position-absolute w-100">7:25 (Finished 16:25)</h3>
+        <div class="progress workProgress" role="progressbar" aria-label="Basic example" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100" style="height:45px;">
+            <div id="progressBar" class="progress-bar text-center" style="width: 75%;"></div>
+            <h3 class="progresstext justify-content-center d-flex position-absolute w-100"><output id="minutes">7</output>:<output id="seconds">25</output> <output id="Finished">(Finished 16:25)</output></h3>
         </div>
     </div>
 }

@@ -1,6 +1,6 @@
 ﻿@using Vamos_Sergy.ViewModels
 @model ArenaViewModel
-<script>
+<script type="text/javascript">
     let countdownDate;
     document.addEventListener('DOMContentLoaded', function () {
         startCountdown();
@@ -52,7 +52,7 @@
         <div id="timer" style="display:none">
             <input id="countdownDate" type="hidden" value="@Model.LastFight" />
             <input id="canfight" name="fight" type="hidden" value="@Model.canFight.ToString()" />
-            <span id="hours">1M or</span>
+            <span>1M or</span>
             <span id="minutes">00</span>:<span id="seconds">00</span>
         </div>
     </div>
