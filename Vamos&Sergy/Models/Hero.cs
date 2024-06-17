@@ -19,7 +19,8 @@ namespace Vamos_Sergy.Models
         [StringLength(24)]
         [ShowTable]
         public string Name { get; set; }
-
+        public string GuildId { get; set; }
+        public string GuildName { get; set; }
 
         [ShowTable]
         public int Exp { get; set; }

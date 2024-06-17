@@ -1,9 +1,14 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
-
-namespace Vamos_Sergy.Models
+﻿namespace Vamos_Sergy.Models
 {
     public interface ICharacter
     {
+        public string Id { get; set; }
+        public string Name { get; set; }
+        public string GuildId { get; set; }
+        public string GuildName { get; set; }
+        public int Level { get; set; }
+
+        public ClassEnum Kast { get; set; }
         public int Str { get; set; }
         public int Defence { get; }
         public int Dex { get; set; }

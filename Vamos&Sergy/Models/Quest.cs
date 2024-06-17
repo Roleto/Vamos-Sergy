@@ -7,6 +7,7 @@ namespace Vamos_Sergy.Models
     public class Quest
     {
         [Required]
+        [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
 

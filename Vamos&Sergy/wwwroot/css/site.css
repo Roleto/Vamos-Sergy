@@ -389,3 +389,58 @@ span.mountText {
     left: 22.5rem;
     top: 2rem;
 }
+
+.preStat {
+    font-size: 14px;
+    font-weight: bold;
+    color: gold;
+}
+
+.center {
+    margin: auto;
+    margin-top: 5rem;
+    border: 3px solid green;
+    padding: 10px;
+}
+
+.eneemies {
+    display: flex;
+}
+
+.enemy {
+    padding: 1rem;
+    border: 2px solid gold;
+    margin-left: 3rem;
+    margin-right:2rem;
+    background-color: cadetblue;
+}
+
+.arenaText {
+    display: flex;
+}
+
+.heroimageText {
+    display: flex;
+    flex-direction:column;
+    text-align: center;
+    position: relative;
+    bottom:15.5rem;
+    font:bolder;
+    color:gold;
+}
+.arenaButton {
+    margin-bottom: 1rem;
+    margin-left: 22rem;
+    width: 6.5rem;
+}
+.arenaTitle {
+    margin-right: 12rem;
+    margin-left:12rem;
+    color:gold
+}
+.arenaModalText {
+    color: gold;
+    margin-top:1rem;
+    margin-left: 20rem;
+    margin-right:19.75rem;
+}

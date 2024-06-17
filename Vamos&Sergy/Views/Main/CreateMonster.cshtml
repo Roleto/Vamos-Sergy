@@ -1,0 +1,86 @@
+﻿@model Vamos_Sergy.Models.Monster
+
+@{
+    ViewData["Title"] = "CreateMonster";
+}
+
+<h1>CreateMonster</h1>
+
+<h4>Monster</h4>
+<hr />
+<form asp-action="CreateMonster">
+    <input type="hidden" asp-for="Id" value="" />
+    <input type="hidden" asp-for="Data" value="asd" />
+    <input type="hidden" asp-for="ContentType" value="asd" />
+    <div class="row ms-3">
+        <div class="col-md-4">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Name" class="control-label"></label>
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Level" class="control-label"></label>
+                <input asp-for="Level" class="form-control" />
+                <span asp-validation-for="Level" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Kast" class="control-label"></label>
+                <select asp-for="Kast" class="form-control"></select>
+                <span asp-validation-for="Kast" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Str" class="control-label"></label>
+                <input asp-for="Str" class="form-control" />
+                <span asp-validation-for="Str" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Dex" class="control-label"></label>
+                <input asp-for="Dex" class="form-control" />
+                <span asp-validation-for="Dex" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Inte" class="control-label"></label>
+                <input asp-for="Inte" class="form-control" />
+                <span asp-validation-for="Inte" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Vit" class="control-label"></label>
+                <input asp-for="Vit" class="form-control" />
+                <span asp-validation-for="Vit" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Luck" class="control-label"></label>
+                <input asp-for="Luck" class="form-control" />
+                <span asp-validation-for="Luck" class="text-danger"></span>
+            </div>
+
+            
+        </div>
+        <div class="col-md-4">          
+            <div class="form-group">
+                <label asp-for="Data" class="form-label">Chose image for an item</label>
+                <input asp-for="Data" class="form-control" type="file" name="picturedata" id="data">
+                <span asp-validation-for="Data" class="text-danger"></span>
+            </div>
+        </div>
+    </div>
+    <div class="row w-100 ms-2 mt-2">
+        <div class="col">
+            <div class="form-group">
+                <input type="submit"  value="Create" class="btn btn-primary" />
+            </div>
+        </div>
+    </div>
+</form>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

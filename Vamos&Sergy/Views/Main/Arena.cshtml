@@ -1,6 +1,71 @@
-﻿@model Hero
-<div>
-    <partial name="_arenaPartial" model="@Model" view-data="ViewData" />
-    <partial name="_arenaPartial" model="@Model" view-data="ViewData" />
-    <partial name="_arenaPartial" model="@Model" view-data="ViewData" />
+﻿@using Vamos_Sergy.ViewModels
+@model ArenaViewModel
+<script>
+    let countdownDate;
+    document.addEventListener('DOMContentLoaded', function () {
+        startCountdown();
+    });
+    function startCountdown() {
+        // Get the date and time set by the user
+        const canfight = document.getElementById("canfight").value;
+        // alert(canfight);
+        if (canfight == "False") {
+            document.getElementById("timer").style.display = "block";
+            document.getElementById("canFightText").style.display = "none";
+            document.getElementById("noFightText").style.display = "block";
+        }
+        countdownDate = new Date(document.getElementById("countdownDate")
+            .value).getTime();
+
+        // Update the countdown every 1 second
+        let x = setInterval(function () {
+            // Get the current date and time
+            let now = new Date().getTime();
+
+            // Calculate the distance between now and the countdown date
+            let distance = now - countdownDate;
+
+            // Calculate days, hours, minutes and seconds
+            let minutes = 9 - Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            let seconds = 60 - Math.floor((distance % (1000 * 60)) / 1000);
+
+            // Display the result
+            document.getElementById("minutes").innerHTML = minutes.
+                toString().padStart(2, '0');
+            document.getElementById("seconds").innerHTML = seconds.
+                toString().padStart(2, '0');
+
+            // If the countdown is over, display a message
+            if (minutes < 0) {
+                clearInterval(x);
+                document.getElementById("timer").style.display = "none";
+                document.getElementById("canFightText").style.display = "block";
+                document.getElementById("noFightText").style.display = "none";
+            }
+        }, 1000);
+    }
+</script>
+<div class="center">
+    <div class="arenaText">
+        <p>Fight for xp today:0/10</p>
+        <h4 class="arenaTitle">Choose an opponent:</h4>
+        <div id="timer" style="display:none">
+            <input id="countdownDate" type="hidden" value="@Model.LastFight" />
+            <input id="canfight" name="fight" type="hidden" value="@Model.canFight.ToString()" />
+            <span id="hours">1M or</span>
+            <span id="minutes">00</span>:<span id="seconds">00</span>
+        </div>
+    </div>
+    <div class="eneemies">
+        <div class="enemy">
+            <partial name="_HeroCardLayout" model="@Model.Heroes[0]" view-data="ViewData" />
+        </div>
+        <div class="enemy">
+            <partial name="_HeroCardLayout" model="@Model.Heroes[1]" view-data="ViewData" />
+        </div>
+        <div class="enemy">
+            <partial name="_HeroCardLayout" model="@Model.Heroes[2]" view-data="ViewData" />
+        </div>
+    </div>
+
 </div>

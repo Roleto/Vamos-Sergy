@@ -34,6 +34,7 @@ builder.Services.AddTransient<IRepository<Hero>, HeroRepository>();
 builder.Services.AddTransient<IRepository<Item>, ItemRepository>();
 builder.Services.AddTransient<IRepository<Equipment>, EquipmentRepository>();
 builder.Services.AddTransient<IRepository<Quest>, QuestRepository>();
+builder.Services.AddTransient<IRepository<Monster>, MonsterRepository>();
 builder.Services.AddTransient<TableBuilder>();
 builder.Services.AddSwaggerGen();
 

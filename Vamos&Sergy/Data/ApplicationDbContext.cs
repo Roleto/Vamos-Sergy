@@ -12,6 +12,7 @@ namespace Vamos_Sergy.Data
         public DbSet<Equipment> Equipments { get; set; }
         public DbSet<Item> Items { get; set; }
         public DbSet<Quest> Quests { get; set; }
+        public DbSet<Monster> Monsters { get; set; }
 
         DbSet<SiteUser> Users { get; set; }
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
@@ -35,6 +36,8 @@ namespace Vamos_Sergy.Data
                 .OnDelete(DeleteBehavior.Cascade);
 
             builder.Entity<Quest>();
+
+            builder.Entity<Monster>();
 
             base.OnModelCreating(builder);
         }
