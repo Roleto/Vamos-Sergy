@@ -22,22 +22,14 @@ namespace Vamos_Sergy.Controllers
     {
         private readonly IRepository<Item> _itemRepo;
         private readonly IRepository<Hero> _heroRepo;
-        private readonly IRepository<Equipment> _equipmentRepo;
         private readonly IRepository<Quest> _questRepo;
         private readonly IRepository<Monster> _monsterRepo;
         private readonly UserManager<SiteUser> _userManager;
         private static ShopViewModel _weaponshop;
         private static ArenaViewModel _arena;
+        private static TavernViewModel _tavern;
         private static Hero _hero;
         private static string baseUri = "https://localhost:7284";
-        private async Task<Hero> GetHero()
-        {
-            var principal = this.User;
-            var user = await _userManager.GetUserAsync(principal);
-            var hero = _heroRepo.ReadFromOwner(user.Id);
-            return SetHero(hero);
-
-        }
         private Hero SetHero(Hero hero)
         {
             var eq = _equipmentRepo.Read().Where(x => x.OwherId == hero.Id);
@@ -63,10 +55,11 @@ namespace Vamos_Sergy.Controllers
             hero.SetQuest(questList);
             return hero;
         }
-        private void RefreshMoney()
+        private void RefreshHero(Hero hero)
         {
-            ViewData["gold"] = _hero.Gold;
-            ViewData["mushroom"] = _hero.Mushroom;
+
+            ViewData["gold"] = hero.Gold;
+            ViewData["mushroom"] = hero.Mushroom;
         }
         private byte[] imageToByteArray(System.Drawing.Image imageIn, ImageFormat format)
         {
@@ -89,13 +82,14 @@ namespace Vamos_Sergy.Controllers
         public async Task<IActionResult> Index()
         {
             var principal = this.User;
-            var user = await _userManager.GetUserAsync(principal);
-            _hero = await GetHero();
-            if (_hero == null)
+            var _siteUser = await _userManager.GetUserAsync(principal);
+            var hero = _heroRepo.ReadFromOwner(_siteUser.Id);
+            if (hero == null)
                 return RedirectToAction(nameof(CreateHero));
-            _weaponshop = new ShopViewModel(_hero, _itemRepo.Read().ToList(), "D:\\Egyetem\\prog5\\FF\\Vamos&Sergy\\Vamos&Sergy\\wwwroot\\Images\\Backgrounds\\weaponshop.jpg");
-            _arena = new ArenaViewModel(_heroRepo.Read().ToList(), _hero);
-            this.RefreshMoney();
+            _weaponshop = new ShopViewModel(hero, _itemRepo.Read().ToList(), "D:\\Egyetem\\prog5\\FF\\Vamos&Sergy\\Vamos&Sergy\\wwwroot\\Images\\Backgrounds\\weaponshop.jpg");
+            _arena = new ArenaViewModel(_heroRepo.Read().ToList(), hero);
+            _tavern = new TavernViewModel(hero);
+            this.RefreshHero(hero);
             return RedirectToAction(nameof(ViewHero));
         }
         #region ApiCalls
@@ -103,8 +97,9 @@ namespace Vamos_Sergy.Controllers
         [HttpGet]
         public async Task<IActionResult> ViewHero()
         {
-            this.RefreshMoney();
-            return View(_hero);
+            var hero = _heroRepo.Read(_hero.Id);
+            this.RefreshHero(hero);
+            return View(hero);
         }
 
         [HttpGet]
@@ -241,8 +236,9 @@ namespace Vamos_Sergy.Controllers
         [HttpGet]
         public IActionResult Tavern()
         {
-            this.RefreshMoney();
-            return View(_hero);
+            var hero = _heroRepo.ReadFromOwner(_hero.Id);
+            this.RefreshHero(hero);
+            return View(_tavern);
         }
 
         [HttpPost]
@@ -267,13 +263,14 @@ namespace Vamos_Sergy.Controllers
                 _hero.Adventure -= q.Time / 60;
             }
             _heroRepo.Update(_hero);
+            // kell egy void majd a viewmodelleket is frissiteni
             return RedirectToAction(nameof(Tavern));
         }
 
         [HttpGet]
         public IActionResult Arena()
         {
-            this.RefreshMoney();
+            this.RefreshHero();
             _arena.ChangeFight();
             return View(_arena);
         }
@@ -287,8 +284,9 @@ namespace Vamos_Sergy.Controllers
         [HttpGet]
         public IActionResult Stable()
         {
-            this.RefreshMoney();
-            return View(_hero);
+            var hero = _heroRepo.Read(_hero.Id);
+            this.RefreshHero(hero);
+            return View(hero);
         }
 
         [HttpPost]
@@ -301,16 +299,16 @@ namespace Vamos_Sergy.Controllers
         [HttpGet]
         public async Task<IActionResult> WeaponShop()
         {
-
-            this.RefreshMoney();
-            _weaponshop.Hero = _hero;
+            var hero = _heroRepo.Read(_hero.Id);
+            this.RefreshHero(hero);
+            _weaponshop.Hero = hero;
             return View(_weaponshop);
         }
 
         [HttpGet]
         public async Task<IActionResult> BuyWeapon(int index)
         {
-            var hero = GetHero().Result;
+            var hero = _heroRepo.Read(_hero.Id);
 
             if (hero.InvIndex > 0)
             {
@@ -322,9 +320,9 @@ namespace Vamos_Sergy.Controllers
                     hero.Inventory[e.InventorySlot] = e;
                     _equipmentRepo.Create(e);
                     _heroRepo.Update(hero);
-                    _hero = await GetHero();
-                    this.RefreshMoney();
-                    RedirectToAction(nameof(BuyWeapon));
+                    _hero = hero;
+                    this.RefreshHero(hero);
+                    RedirectToAction(nameof(WeaponShop));
                 }
                 ViewData["error"] = "Don't have enough money";
                 return View("WeaponShop", _weaponshop);

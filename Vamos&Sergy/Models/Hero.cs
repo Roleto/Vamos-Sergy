@@ -162,6 +162,10 @@ namespace Vamos_Sergy.Models
         [NotMapped]
         public int Hp { get => Vit * 2 * (this.Level + 1); }
 
+        [NotMapped]
+        public int CurrentHp { get; set; }
+
+
         private double luck;
 
         public double Luck
@@ -326,6 +330,7 @@ namespace Vamos_Sergy.Models
             Adventure = 100;
             Honor= 100;
             HeroState = HeroStateEnum.Free;
+
         }
         public void GenerateStats(RaceEnum race)
         {

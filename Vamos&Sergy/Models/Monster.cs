@@ -11,6 +11,7 @@ namespace Vamos_Sergy.Models
         {
             _random = new Random();
         }
+
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public string Id { get; set; }
@@ -42,6 +43,10 @@ namespace Vamos_Sergy.Models
 
         [NotMapped]
         public int Hp => Vit * 2 * (this.Level + 1);
+        
+        [NotMapped]
+        public int CurrentHp { get; set; }
+
 
         public double Luck { get; set; }
 

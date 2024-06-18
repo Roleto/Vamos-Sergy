@@ -8,7 +8,7 @@ namespace Vamos_Sergy.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    public class HeroController
+    public class HeroController : ControllerBase
     {
         private readonly IRepository<Hero> _heroRepo;
 

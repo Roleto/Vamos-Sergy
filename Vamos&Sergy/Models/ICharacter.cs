@@ -17,6 +17,7 @@
         public int Resistance { get; }
         public int Vit { get; set; }
         public int Hp { get; }
+        public int CurrentHp { get; set; }
         public double Luck { get; set; }
         public int Damage { get; }
         public string ContentType { get; set; }
