@@ -77,15 +77,15 @@
         xhttpr.open('POST', 'https://localhost:7284/Gama', true);
         xhttpr.setRequestHeader('Content-type', 'application/json');
 
-        // xhttpr.onreadystatechange = function () => {
-        //     if (xhttpr.status === 200) {
-        //         alert('yay');
-        //         const response = JSON.parse(xhttpr.response);
-        //         alert(response);
-        //     } else {
-        //         alert('Hiba');
-        //     }
-        // };
+        xhttpr.onreadystatechange = function () => {
+            if (xhttpr.status === 200) {
+                alert('yay');
+                const response = JSON.parse(xhttpr.response);
+                alert(response);
+            } else {
+                alert('Hiba');
+            }
+        };
         xhttpr.send(json);
     }
 </script>
