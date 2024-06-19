@@ -89,6 +89,16 @@ namespace Vamos_Sergy.Models.Items
             Stats = "";
             GenerateStat();
         }
+        public Equipment(Item item, string stats)
+        {
+            _random = new Random();
+            Id = Guid.NewGuid().ToString();
+            ItemId = item.Id;
+            SimpleItemId = item.SimpleId;
+            IsEqueped = false;
+            Stats = stats;
+            SetStat(item);
+        }
         public bool CanBuy(double price, int mushroom)
         {
             return true;
@@ -135,6 +145,11 @@ namespace Vamos_Sergy.Models.Items
                     case "block":
                         Block = int.Parse(statArray[1]);
                         break;
+                    case "dmg":
+                        string[] damages = statArray[1].Split("-");
+                        MinDamage = int.Parse(damages[0]);
+                        MaxDamage = int.Parse(damages[1]);
+                        break;
                     default:
                         break;
                 }
@@ -172,14 +187,13 @@ namespace Vamos_Sergy.Models.Items
             if (Type == EquipmentEnum.Weapon)
             {
                 MinDamage = _random.Next(2, 5);
-                Stats += "min:" + Dex.ToString() + ";";
-                MaxDamage = _random.Next(5, 11);
-                Stats += "max:" + Dex.ToString();
+                MaxDamage = _random.Next(5, 10);
+                Stats += $"dmg:{MinDamage}-{MaxDamage};";
             }
             else if (Type == EquipmentEnum.Shield)
             {
-                Stats += "block:" + Dex.ToString();
                 Block = _random.Next(26);
+                Stats += "block:" + Block.ToString();
             }
             price = Math.Round((_random.NextDouble() + 0.1) * 10, 2);
             int mush = _random.Next(0, 101);
@@ -295,7 +309,7 @@ namespace Vamos_Sergy.Models.Items
             }
             if (Price != 0)
             {
-                output += $"<br>Price : {this.getPrice}";
+                output += $"<br>Price : {this.getPrice}<br>";
             }
             return output;
         }

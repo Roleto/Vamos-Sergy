@@ -2,7 +2,9 @@
 {
     public class ShopItem
     {
+        public string HeroId { get; set; }
+        public string ItemId { get; set; }
         public string Name { get; set; }
-        public int Id { get; set; }
+        public string Stats { get; set; }
     }
 }

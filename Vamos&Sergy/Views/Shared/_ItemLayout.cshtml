@@ -1,10 +1,12 @@
 ﻿@using Vamos_Sergy.Models.Items
 @model Equipment
-<a tabindex="0"
+<a id="@ViewData["index"]"
+   tabindex="0"
    role="button"
    data-bs-toggle="popover"
    title="@Model.Name"
    data-bs-content="@Model.ToString()"
    href="#">
-        <img class="InventoryImage" src="@Url.Action("GetInventoryImage", "Main", new { id = Model.ItemId})" />
+    <img id="@ViewData["imgIndex"]" class="InventoryImage" src="@Url.Action("GetInventoryImage", "Main", new { id = Model.ItemId})" />
 </a>
+

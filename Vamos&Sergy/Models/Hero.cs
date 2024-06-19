@@ -79,6 +79,11 @@ namespace Vamos_Sergy.Models
         [AllowNull]
         public int? SelectedQuest { get; set; }
 
+        [JsonIgnore]
+        [NotMapped]
+        public Quest? GetSelectedQuest { get => SelectedQuest != null ? Quest[SelectedQuest.Value] : null; }
+
+
         [AllowNull]
         public DateTime? QuestStarted { get; set; }
 

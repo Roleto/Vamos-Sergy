@@ -1,35 +1,99 @@
-﻿@using Vamos_Sergy.ViewModels
+﻿@using Vamos_Sergy.Models.Items
+@using Vamos_Sergy.ViewModels
 @using Vamos_Sergy.Models
 @model ShopViewModel
 @{
     ViewData["name"] = "WeaponShop";
 }
-<script type="text/javascript"> 
+<script type="text/javascript">
 
-    function NotImplemented(){
+    function NotImplemented() {
         alert("Nincs implementálva");
     }
+
     function GetWeapons(id) {
-        alert('siker');
-        const xhttpr = new XMLHttpRequest();
-        xhttpr.open('GET', 'https://localhost:7284/Quest', true);
+        var maxInv = document.getElementById("maxInv").value;
+        var inventorySlot = document.getElementById("invIndex").value;
+        if (maxInv == inventorySlot) {
+            return;
+        }
+        var ShopSlot = document.getElementById(id);
+        let invId = "inv" + inventorySlot;
+        let imgId = "img" + inventorySlot;
+        var imgContainer = document.getElementById(imgId);
+        const valami = imgContainer.src.split('/');
+        // alert(document.getElementById(invId).innerHTML);
+        // alert(ShopSlot.innerHTML);
+        document.getElementById(invId).innerHTML = "";
+        document.getElementById(invId).appendChild(ShopSlot);
+        var ShopSlot2 = document.getElementById(id).parentElement;
 
-        xhttpr.send();
-
-        xhttpr.onload = () => {
-            if (xhttpr.status === 200) {
-                const response = JSON.parse(xhttpr.response);
-                let realId = "item" + id;
-                alert(realId);
-                const element = document.getElementById(realId);
-                alert(element);
-            } else {
+        const words = ShopSlot.parentElement.innerHTML.split('<br>');
+        const stringSplit = words[0].split('=');
+        let desc = stringSplit[stringSplit.length - 1].replace('"', '');
+        let title = "";
+        let stats = "";
+        18
+        for (word of words) {
+            if (word.length < 20) {
+                stats += word + ';';
             }
+        }
+        title = desc + '<br>' + title;
+        stats = stats.replace(/\s/g, '');
+        stats = stats.replace("Damage", "dmg");
+        stats = stats.replace("Stenght", "str");
+        stats = stats.replace("Dexterity", "dex");
+        stats = stats.replace("Inteligence", "int");
+        stats = stats.replace("Vitality", "vit");
+        stats = stats.replace("Luck", "luck");
+        stats = stats.replace("Block", "block");
+        stats = stats.replace("%", "");
+
+        while (inventorySlot <= maxInv) {
+            inventorySlot++;
+            invId = "inv" + inventorySlot;
+            const valami = document.getElementById(invId);
+            // alert(valami);
+            if (valami == null) {
+                document.getElementById("invIndex").value = inventorySlot;
+                break;
+            }
+            let result = valami.innerHTML.includes("blank");
+            if (result == true) {
+                document.getElementById("invIndex").value = inventorySlot;
+                break;
+            }
+        }
+        var data = {
+            HeroId: document.getElementById("heroId").value,
+            ItemId: valami[valami.length - 1],
+            Name: "weapon",
+            Stats: stats,
         };
+        var json = JSON.stringify(data);
+        // alert(json);
+        var xhttpr = new XMLHttpRequest();
+        xhttpr.open('POST', 'https://localhost:7284/Gama', true);
+        xhttpr.setRequestHeader('Content-type', 'application/json');
+
+        // xhttpr.onreadystatechange = function () => {
+        //     if (xhttpr.status === 200) {
+        //         alert('yay');
+        //         const response = JSON.parse(xhttpr.response);
+        //         alert(response);
+        //     } else {
+        //         alert('Hiba');
+        //     }
+        // };
+        xhttpr.send(json);
     }
 </script>
 
 <div class="container-fluid">
+    <input type="hidden" id="invIndex" value="@Model.Hero.GetFirsNull" />
+    <input type="hidden" id="maxInv" value="@Model.Hero.MaxInvetory" />
+    <input type="hidden" id="heroId" value="@Model.Hero.Id" />
     <div class="row">
         <div class="col p-0">
             <partial name="_ViewHeroPartial" model="@Model.Hero" view-data="ViewData" />
@@ -39,11 +103,12 @@
                 <div class="row p-0">
                     <div class="row row-cols-5 ps-0 pe-1 " id="inventorySlot">
                         <partial name="_InventoryLayout" model="@Model.Hero" view-data="ViewData" />
+
                     </div>
                 </div>
                 <div class="row">
                     <div class="col gy-0">
-                        <button class="bg-primary" onclick="GetWeapons()">New Wares</button>
+                        <button class="bg-primary" onclick="GetWeapons(0,'id')">New Wares</button>
                     </div>
 
                 </div>
@@ -52,17 +117,21 @@
                     </div>
                     @for (int i = 0; i < 3; i++)
                     {
-                        <div class="col col-3 ShopSlot gy-0" oncontextmenu="NotImplemented()" ondblclick="location.href='@Url.Action("BuyWeapon", "Main" , new { index=i, Model})'">
-                            <a
-                               tabindex="0"
-                               role="button"
-                               data-bs-toggle="popover"
-                               title="@Model.GetEquipment(i).Name"
-                               data-bs-content="@Model.GetEquipment(i).ToString()"
-                               href="#">
-                                <img class="InventoryImage" src="@Url.Action("GetInventoryImage", "Main", new { id = Model.GetEquipment(i).ItemId})" />
-                            </a>
+                        ViewData["index"] = i;
+                        ViewData["imgIndex"] = $"img{i}";
+                        @* <div class="col col-3 ShopSlot gy-0" oncontextmenu="NotImplemented()" ondblclick="location.href='@Url.Action("BuyWeapon", "Main" , new { index=i, Model})'"> *@
+                        <div class="col col-3 ShopSlot gy-0" oncontextmenu="NotImplemented()" ondblclick="GetWeapons(@i)">
+                            <partial name="_ItemLayout" model="@Model.GetEquipment(i)" view-data="@ViewData" />
                         </div>
+                        @*  <a
+                    tabindex="0"
+                    role="button"
+                    data-bs-toggle="popover"
+                    title="@Model.GetEquipment(i).Name"
+                    data-bs-content="@Model.GetEquipment(i).ToString()"
+                    href="#">
+                    <img class="InventoryImage"  src="@Url.Action("GetInventoryImage", "Main", new { id = Model.GetEquipment(i).ItemId})" />
+                    </a> *@
                     }
                     <div class="col col-2 gy-0">
                     </div>
@@ -72,10 +141,11 @@
 
                         @for (int i = 3; i < 6; i++)
                         {
-                            <div class="col col-3 ShopSlot gy-0" ondblclick="location.href='@Url.Action("BuyWeapon", "Main" , new { index=i})'">
-                                <partial name="_ItemLayout" model="@Model.GetEquipment(i)" />
+                            ViewData["index"] = i;
+                            <div id="@ViewData["index"]" class="col col-3 ShopSlot gy-0" ondblclick="location.href='@Url.Action("BuyWeapon", "Main" , new { index=i})'">
+                                <partial name="_ItemLayout" model="@Model.GetEquipment(i)" view-data="@ViewData" />
                             </div>
-                        }                        
+                        }
                         <div class="col col-2">
                         </div>
                     </div>

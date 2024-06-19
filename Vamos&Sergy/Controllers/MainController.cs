@@ -21,9 +21,11 @@ namespace Vamos_Sergy.Controllers
     public class MainController : Controller
     {
         private readonly IRepository<Item> _itemRepo;
+        private readonly IRepository<Equipment> _equipmentRepo;
         private readonly IRepository<Hero> _heroRepo;
         private readonly IRepository<Quest> _questRepo;
         private readonly IRepository<Monster> _monsterRepo;
+
         private readonly UserManager<SiteUser> _userManager;
         private static ShopViewModel _weaponshop;
         private static ArenaViewModel _arena;
@@ -71,8 +73,8 @@ namespace Vamos_Sergy.Controllers
         public MainController(IRepository<Item> itemRepo, IRepository<Hero> heroRepo, IRepository<Equipment> equipmentRepo, IRepository<Quest> questRepo, IRepository<Monster> monsterRepo, UserManager<SiteUser> userManager)
         {
             _itemRepo = itemRepo;
-            _heroRepo = heroRepo;
             _equipmentRepo = equipmentRepo;
+            _heroRepo = heroRepo;
             _questRepo = questRepo;
             _monsterRepo = monsterRepo;
             _userManager = userManager;
@@ -83,13 +85,13 @@ namespace Vamos_Sergy.Controllers
         {
             var principal = this.User;
             var _siteUser = await _userManager.GetUserAsync(principal);
-            var hero = _heroRepo.ReadFromOwner(_siteUser.Id);
-            if (hero == null)
+            _hero = _heroRepo.ReadFromOwner(_siteUser.Id);
+            if (_hero == null)
                 return RedirectToAction(nameof(CreateHero));
-            _weaponshop = new ShopViewModel(hero, _itemRepo.Read().ToList(), "D:\\Egyetem\\prog5\\FF\\Vamos&Sergy\\Vamos&Sergy\\wwwroot\\Images\\Backgrounds\\weaponshop.jpg");
-            _arena = new ArenaViewModel(_heroRepo.Read().ToList(), hero);
-            _tavern = new TavernViewModel(hero);
-            this.RefreshHero(hero);
+            _weaponshop = new ShopViewModel(_hero, _itemRepo.Read().ToList(), "D:\\Egyetem\\prog5\\FF\\Vamos&Sergy\\Vamos&Sergy\\wwwroot\\Images\\Backgrounds\\weaponshop.jpg");
+            _arena = new ArenaViewModel(_heroRepo.Read().ToList(), _hero);
+            _tavern = new TavernViewModel(_hero);
+            this.RefreshHero(_hero);
             return RedirectToAction(nameof(ViewHero));
         }
         #region ApiCalls
@@ -139,7 +141,7 @@ namespace Vamos_Sergy.Controllers
             hero.Data = bytes;
             hero.ContentType = "image/jpeg";
             _heroRepo.Create(hero);
-            return RedirectToAction(nameof(ViewHero));
+            return RedirectToAction(nameof(Index));
         }
 
         [HttpGet]
@@ -236,13 +238,14 @@ namespace Vamos_Sergy.Controllers
         [HttpGet]
         public IActionResult Tavern()
         {
-            var hero = _heroRepo.ReadFromOwner(_hero.Id);
+            var hero = _heroRepo.Read(_hero.Id);
             this.RefreshHero(hero);
+            _tavern.Hero = hero;
             return View(_tavern);
         }
 
         [HttpPost]
-        public IActionResult Tavern(int selectedQuest,bool questEnded,int beerCount,int goldInput, int mushroomInput)
+        public IActionResult Tavern(int selectedQuest, bool questEnded, int beerCount, int goldInput, int mushroomInput)
         {
             if (questEnded)
             {
@@ -270,7 +273,8 @@ namespace Vamos_Sergy.Controllers
         [HttpGet]
         public IActionResult Arena()
         {
-            this.RefreshHero();
+            var hero = _heroRepo.Read(_hero.Id);
+            this.RefreshHero(hero);
             _arena.ChangeFight();
             return View(_arena);
         }
@@ -299,7 +303,7 @@ namespace Vamos_Sergy.Controllers
         [HttpGet]
         public async Task<IActionResult> WeaponShop()
         {
-            var hero = _heroRepo.Read(_hero.Id);
+            var hero = SetHero(_heroRepo.Read(_hero.Id));
             this.RefreshHero(hero);
             _weaponshop.Hero = hero;
             return View(_weaponshop);
@@ -310,34 +314,34 @@ namespace Vamos_Sergy.Controllers
         {
             var hero = _heroRepo.Read(_hero.Id);
 
-            if (hero.InvIndex > 0)
-            {
-                Equipment? e = _weaponshop.Buy(index, hero);
-                if (e != null)
-                {
-                    e.OwherId = hero.Id;
-                    e.InventorySlot = hero.GetFirsNull;
-                    hero.Inventory[e.InventorySlot] = e;
-                    _equipmentRepo.Create(e);
-                    _heroRepo.Update(hero);
-                    _hero = hero;
-                    this.RefreshHero(hero);
-                    RedirectToAction(nameof(WeaponShop));
-                }
-                ViewData["error"] = "Don't have enough money";
-                return View("WeaponShop", _weaponshop);
-            }
-            ViewData["error"] = "Inventury is full";
+            //if (hero.InvIndex > 0)
+            //{
+            //    Equipment? e = _weaponshop.Buy(index, hero);
+            //    if (e != null)
+            //    {
+            //        e.OwherId = hero.Id;
+            //        e.InventorySlot = hero.GetFirsNull;
+            //        hero.Inventory[e.InventorySlot] = e;
+            //        _equipmentRepo.Create(e);
+            //        _heroRepo.Update(hero);
+            //        _hero = hero;
+            //        this.RefreshHero(hero);
+            //        RedirectToAction(nameof(WeaponShop));
+            //    }
+            //    ViewData["error"] = "Don't have enough money";
+            //    return View("WeaponShop", _weaponshop);
+            //}
+            //ViewData["error"] = "Inventury is full";
             return View("WeaponShop", _weaponshop);
 
         }
 
-        public async Task<IActionResult> GetImage(bool isUserImage = true,string id ="")
+        public async Task<IActionResult> GetImage(bool isUserImage = true, string id = "")
         {
             if (id != "")
             {
                 var hero = _heroRepo.Read(id);
-                if(hero == null)
+                if (hero == null)
                 {
                     //var monster =_mosterRepo.Read(id);
                     //if (monster.ContentType?.Length > 3)
@@ -373,7 +377,7 @@ namespace Vamos_Sergy.Controllers
             }
             else
             {
-                
+
                 var hero = _heroRepo.ReadFromOwner(user.Id);
                 if (hero.ContentType?.Length > 3)
                 {
