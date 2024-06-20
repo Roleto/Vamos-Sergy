@@ -13,11 +13,15 @@ namespace Vamos_Sergy.Controllers
     {
         private readonly IRepository<Hero> _heroRepo;
         private readonly IRepository<Item> _itemRepo;
+        private readonly IRepository<Equipment> _equipmentRepo;
+        private Random _rnd;
 
-        public GamaController(IRepository<Hero> heroRepo, IRepository<Equipment> equipmentRepo, IRepository<Item> itemRepo)
+        public GamaController(IRepository<Hero> heroRepo, IRepository<Item> itemRepo, IRepository<Equipment> equipmentRepo)
         {
             _heroRepo = heroRepo;
             _itemRepo = itemRepo;
+            _equipmentRepo = equipmentRepo;
+            _rnd = new Random();
         }
 
         [HttpPost]
@@ -28,20 +32,18 @@ namespace Vamos_Sergy.Controllers
             //"f48378fc-0d28-4f9f-b37a-615a3cae98c8"
             //"d0370360-bc48-47b5-8409-4e932ce30eba"
             string[] stats = item.Stats.Split(';');
-            string rawprices = stats[stats.Length - 2];
-            rawprices = rawprices.Remove(rawprices.Length - 1, 1);
-            char[] delimiterChars = { ':', 'g' };
-            string[] prices = rawprices.Split(delimiterChars);
-            //rawprices = rawprices.Remove(6, rawprices.Length - 6);
-            double gold = double.Parse(prices[1]);
-            int mushroom = int.Parse(prices[2]);
             var hero = _heroRepo.Read(item.HeroId);
-            if (hero.Gold >= gold && hero.Mushroom >= mushroom)
+            Equipment equipment = new Equipment(i, item.Stats);
+            if (hero.CanBuy(equipment))
             {
-                hero.Gold -= gold;
-                hero.Mushroom -= mushroom;
+                var items = _itemRepo.Read().ToArray();
+                equipment.Owner = hero;
+                equipment.OwherId = hero.Id;
+                equipment.InventorySlot = hero.GetFirsNull;
+                hero.Inventory[equipment.InventorySlot] = equipment;
                 //_heroRepo.Update(hero);
-                return new Equipment(i, item.Stats);
+                //_equipmentRepo.Create(equipment);
+                return new Equipment(items[_rnd.Next(items.Length)]); 
             }
             return null;
             //if (hero.InvIndex > 0)

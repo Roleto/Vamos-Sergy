@@ -7,6 +7,45 @@ namespace Vamos_Sergy.Models.Items
     public class Equipment
     {
         private string getPrice { get => $"{Price} g {Mushroom} m"; }
+
+        private string GetStatsHtml()
+        {
+            string output = $"{Description}";
+            if (Type == EquipmentEnum.Weapon)
+            {
+                output += $"<br>Damage: {MinDamage} - {MaxDamage}";
+            }
+            if (Str > 0)
+            {
+                output += $"<br>Stenght : {Str}";
+            }
+            if (Dex > 0)
+            {
+                output += $"<br>Dexterity : {Dex}";
+            }
+            if (Inte > 0)
+            {
+                output += $"<br>Inteligence : {Inte}";
+            }
+            if (Vit > 0)
+            {
+                output += $"<br>Vitality: {Vit}";
+            }
+            if (Luck > 0)
+            {
+                output += $"<br>Luck: {Luck}";
+            }
+            if (Type == EquipmentEnum.Shield)
+            {
+                output += $"<br>Block : {Block}%";
+            }
+            if (Price != 0)
+            {
+                output += $"<br>Price : {this.getPrice}<br>";
+            }
+            return output;
+        }
+
         [Key]
         public string Id { get; set; }
 
@@ -68,6 +107,9 @@ namespace Vamos_Sergy.Models.Items
 
         public int Block { get; set; }
 
+        [NotMapped]
+        public string StatForDisplay { get; set; }
+
         protected Random _random;
 
         public Equipment()
@@ -98,10 +140,10 @@ namespace Vamos_Sergy.Models.Items
             IsEqueped = false;
             Stats = stats;
             SetStat(item);
+            StatForDisplay = GetStatsHtml();
         }
         public bool CanBuy(double price, int mushroom)
         {
-            return true;
             if (Price <= price && Mushroom <= mushroom)
             {
                 price = 0;
@@ -150,6 +192,13 @@ namespace Vamos_Sergy.Models.Items
                         MinDamage = int.Parse(damages[0]);
                         MaxDamage = int.Parse(damages[1]);
                         break;
+                    case "Price":
+                        string rawprices = statArray[1].Remove(statArray[1].Length - 1, 1);
+                        char[] delimiterChars = { ':', 'g' };
+                        string[] prices = rawprices.Split(delimiterChars);
+                        price = double.Parse(prices[0]);
+                        mushroom = int.Parse(prices[1]);
+                        break;
                     default:
                         break;
                 }
@@ -197,10 +246,13 @@ namespace Vamos_Sergy.Models.Items
             }
             price = Math.Round((_random.NextDouble() + 0.1) * 10, 2);
             int mush = _random.Next(0, 101);
-            if (mush <= 10)
-                mushroom = 1;
+            if (mush <= 5)
+                mushroom = 15;
             else if (mush <= 20)
+                mushroom = 1;
+            else if (mush <= 25)
                 mushroom = 2;
+            StatForDisplay = GetStatsHtml();
         }
 
         protected void GenerateRandomStat()
@@ -275,43 +327,40 @@ namespace Vamos_Sergy.Models.Items
                     Stats += ";";
                     break;
             }
+        }        
+        public int Attack(ClassEnum kast)
+        {
+            if(Type != EquipmentEnum.Weapon) 
+                return 0;
+
+            int damage = 0;
+            double crit = 0;
+
+            switch (RequiredClass)
+            {
+                default:
+                case ClassEnum.Mage:
+                    damage = _random.Next(MinDamage + (Inte * 4), MaxDamage + 1 + (Inte * 4));
+                    crit = damage * 0.4;
+                    break;
+                case ClassEnum.Warrior:
+                    damage = _random.Next(MinDamage + Str, MaxDamage + 1 + Str);
+                    crit = damage * 0.3;
+                    break;
+                case ClassEnum.Ranger:
+                    damage = _random.Next(MinDamage + (Dex * 2), MaxDamage + 1 + (Dex * 2));
+                    crit = damage * 0.2;
+                    break;
+            }
+            if (Owner.Crit > _random.Next(0, 101))
+                damage += (int)crit;
+
+            return damage;
         }
         public override string ToString()
         {
-            string output = $"{Description}";
-            if (Type == EquipmentEnum.Weapon)
-            {
-                output += $"<br>Damage: {MinDamage} - {MaxDamage}";
-            }
-            if (Str > 0)
-            {
-                output += $"<br>Stenght : {Str}";
-            }
-            if (Dex > 0)
-            {
-                output += $"<br>Dexterity : {Dex}";
-            }
-            if (Inte > 0)
-            {
-                output += $"<br>Inteligence : {Inte}";
-            }
-            if (Vit > 0)
-            {
-                output += $"<br>Vitality: {Vit}";
-            }
-            if (Luck > 0)
-            {
-                output += $"<br>Luck: {Luck}";
-            }
-            if (Type == EquipmentEnum.Shield)
-            {
-                output += $"<br>Block : {Block}%";
-            }
-            if (Price != 0)
-            {
-                output += $"<br>Price : {this.getPrice}<br>";
-            }
-            return output;
+           
+            return GetStatsHtml();
         }
     }
 }

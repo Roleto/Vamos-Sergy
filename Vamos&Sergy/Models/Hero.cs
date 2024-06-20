@@ -5,6 +5,7 @@ using System.Diagnostics.CodeAnalysis;
 using Vamos_Sergy.Models.Items;
 using System.Collections.Generic;
 using System.Text.Json.Serialization;
+using Vamos_Sergy.Migrations;
 
 namespace Vamos_Sergy.Models
 {
@@ -81,7 +82,7 @@ namespace Vamos_Sergy.Models
 
         [JsonIgnore]
         [NotMapped]
-        public Quest? GetSelectedQuest { get => SelectedQuest != null ? Quest[SelectedQuest.Value] : null; }
+        public Quest? GetSelectedQuest { get => (Quest != null && SelectedQuest != null) ? Quest[SelectedQuest.Value] : null; }
 
 
         [AllowNull]
@@ -370,6 +371,16 @@ namespace Vamos_Sergy.Models
             ;
         }
 
+        public bool CanBuy(Equipment e)
+        {
+            if(e.Price <= Gold && e.Mushroom <= Mushroom)
+            {
+                Gold -= e.Price;
+                Mushroom -= e.Mushroom;
+                return true;
+            }
+            return false;
+        }
         public Equipment Equip(Equipment item)
         {
             if (Equipments.ContainsKey(item.Type) && Equipments[item.Type] != null)

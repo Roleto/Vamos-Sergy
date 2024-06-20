@@ -12,15 +12,16 @@
                 @if (Model.Inventory.ContainsKey(i) && Model.Inventory[i] != null)
                 {
                     ViewData["index"] = $"inv{i}";
+                    ViewData["invIndex"] = $"invSlot{i}";
                     ViewData["imgIndex"] = $"img{i}";
-                    <div id="@ViewData["index"]" ondblclick="location.href='@Url.Action("EquipItem", "Main" , new { index=i, name=ViewData["name"]})'">
+                    <div id="@ViewData["invIndex"]" ondblclick="location.href='@Url.Action("EquipItem", "Main" , new { index=i, name=ViewData["name"]})'">
                         <partial name="_ItemLayout" model="@Model.Inventory[i]" view-data="@ViewData" />
                     </div>
                 }
                 else
                 {
-                    ViewData["index"] = $"inv{i}";
-                    <div id="@ViewData["index"]" class="col">
+                    ViewData["invIndex"] = $"invSlot{i}";
+                    <div id="@ViewData["invIndex"]" class="col">
                         <img class="InventoryImg" style="visibility:hidden" src="/Images/NullImages/blank.png" />
                     </div>
                 }
