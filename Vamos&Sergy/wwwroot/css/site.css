@@ -209,12 +209,9 @@ span.mountText {
 }
 
 .ShopSlot {
-    /*
-    margin-right: 0rem;
-*/
+    margin-bottom: 0rem;
     padding-left: .75rem;
     padding-top: 1.25rem;
-    padding-bottom: .75rem;
     background-size: cover;
     background-image: url('../Images/NullImages/blank.png');
 }

@@ -153,6 +153,7 @@ namespace Vamos_Sergy.Controllers
         [HttpPost]
         public IActionResult CreateItem(Item newItem, IFormFile picturedata, IFormFile secondaryPicturedata)
         {
+            //nedd updtate
             newItem.Id = Guid.NewGuid().ToString();
             using (var stream = picturedata.OpenReadStream())
             {

@@ -110,6 +110,9 @@ namespace Vamos_Sergy.Models.Items
         [NotMapped]
         public string StatForDisplay { get; set; }
 
+        public string Url { get; set; }
+
+
         protected Random _random;
 
         public Equipment()
@@ -125,6 +128,7 @@ namespace Vamos_Sergy.Models.Items
             Name = item.Name;
             Description = item.Description;
             Type = item.Type;
+            Url = item.Url;
 
             RequiredClass = item.RequiredClass;
             IsEqueped = false;
@@ -139,6 +143,7 @@ namespace Vamos_Sergy.Models.Items
             SimpleItemId = item.SimpleId;
             IsEqueped = false;
             Stats = stats;
+            Url = item.Url;
             SetStat(item);
             StatForDisplay = GetStatsHtml();
         }

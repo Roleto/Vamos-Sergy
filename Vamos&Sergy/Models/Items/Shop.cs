@@ -1,13 +1,14 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.ComponentModel.DataAnnotations.Schema;
+using System.ComponentModel.DataAnnotations;
 using System.Diagnostics.CodeAnalysis;
 using Vamos_Sergy.Helpers;
 
 namespace Vamos_Sergy.Models.Items
 {
-    public class Item
+    public class Shop
     {
         [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public string Id { get; set; }
 
         [Required]
@@ -27,25 +28,17 @@ namespace Vamos_Sergy.Models.Items
         [Required]
         public EquipmentEnum Type { get; set; }
 
-        [Required]
-        public ClassEnum RequiredClass { get; set; }
-        [Required]
-        public string ContentType { get; set; }
-
-        [Required]
-        public byte[] Data { get; set; }
-
-        [AllowNull]
-        public string? SecondaryContentType { get; set; }
-
-        [AllowNull]
-        public byte[]? SecondaryData { get; set; }
-
         public string Url { get; set; }
-
-        public Item()
+        public Shop()
         {
-            Id = Guid.NewGuid().ToString();
+
         }
+        public Shop(string shopName)
+        {
+            ShopType = shopName;
+        }
+        public string OwnerId { get; set; }
+
+        public string ShopType { get; set; }
     }
 }

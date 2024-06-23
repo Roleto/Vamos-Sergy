@@ -11,6 +11,7 @@ namespace Vamos_Sergy.Data
         public DbSet<Hero> Heroes { get; set; }
         public DbSet<Equipment> Equipments { get; set; }
         public DbSet<Item> Items { get; set; }
+        public DbSet<Shop> Shop { get; set; }
         public DbSet<Quest> Quests { get; set; }
         public DbSet<Monster> Monsters { get; set; }
 
@@ -28,6 +29,8 @@ namespace Vamos_Sergy.Data
                 .HasForeignKey(x => x.OwnerId)
                 .OnDelete(DeleteBehavior.Cascade);
             builder.Entity<Item>();
+
+            builder.Entity<Shop>();
 
             builder.Entity<Equipment>()
                 .HasOne(x => x.Owner)

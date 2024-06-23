@@ -21,7 +21,6 @@
         let invSlotId = "invSlot" + inventorySlot;
         let imgId = "img" + id;
         let shopId = "shop" + id;
-        alert(shopId);
 
         var imgContainer = document.getElementById(imgId);
         const itemId = imgContainer.src.split('/');
@@ -47,7 +46,9 @@
         stats = stats.replace("Luck", "luck");
         stats = stats.replace("Block", "block");
         stats = stats.replace("%", "");
-       
+        const rawPrices = stats.split(':');
+        const prices = rawPrices[rawPrices.length - 1].split('g');
+        const shroom = prices[1].split('m');
         var data = {
             HeroId: document.getElementById("heroId").value,
             ItemId: itemId[itemId.length - 1],
@@ -55,16 +56,13 @@
             Stats: stats,
         };
 
-
         var json = JSON.stringify(data);
-        // alert(json);
         var xhttpr = new XMLHttpRequest();
         xhttpr.open('POST', 'https://localhost:7284/Gama', true);
         xhttpr.setRequestHeader('Content-type', 'application/json');
 
-        xhttpr.onreadystatechange = function () {//Call a function when the state changes.
+        xhttpr.onreadystatechange = function () {
             if (xhttpr.readyState == 4 && xhttpr.status == 200) {
-                alert(xhttpr.response);
                 const response = JSON.parse(xhttpr.response);
                 var ShopItem = document.getElementById(id);
                 var InvSlot = document.getElementById(invSlotId);
@@ -74,35 +72,36 @@
                 ShopItem.id = invId;
                 document.getElementById(invSlotId).appendChild(ShopItem);
 
-
-                // while (inventorySlot <= maxInv) {
-                //     inventorySlot++;
-                //     invId = "inv" + inventorySlot;
-                //     const nextInv = document.getElementById(invId);
-                //     // alert(valami);
-                //     if (nextInv == null) {
-                //         document.getElementById("invIndex").value = inventorySlot;
-                //         break;
-                //     }
-                //     let result = nextInv.innerHTML.includes("blank");
-                //     if (result == true) {
-                //         document.getElementById("invIndex").value = inventorySlot;
-                //         break;
-                //     }
-                // }
                 let newWeapon = `
-                <a id="${id}"
-                    tabindex="0"
-                    role="button"
-                    data-bs-toggle="popover"
-                    title="${response.name}"
-                    data-bs-content="${response.statForDisplay}"
-                    href="#"><img id="img${id}" class="InventoryImage" src="/Images/ItemImages/Chest/h_chest_01.jpg" />
-                </a>`
+                                <a id="${id}"
+                                    tabindex="0"
+                                    role="button"
+                                    data-bs-toggle="popover"
+                                    title="${response.name}"
+                                    data-bs-content="${response.statForDisplay}"
+                                    href="#"><img id="img${id}" class="InventoryImage" src="/Images/ItemImages/${response.url}" />
+                                </a>`
                 document.getElementById(shopId).innerHTML = "";
                 document.getElementById(shopId).innerHTML = newWeapon;
                 const exampleEl = document.getElementById(id);
                 const popover = new bootstrap.Popover(exampleEl, { html: true, trigger: "hover" });
+
+                while (inventorySlot <= maxInv) {
+                    inventorySlot++;
+                    invId = "inv" + inventorySlot;
+                    const nextInv = document.getElementById(invId);
+                    if (nextInv == null) {
+                        document.getElementById("invIndex").value = inventorySlot;
+                        break;
+                    }
+                    let result = nextInv.innerHTML.includes("blank");
+                    if (result == true) {
+                        document.getElementById("invIndex").value = inventorySlot;
+                        break;
+                    }
+                }
+
+                updateMoney(prices[0], shroom[0]);
 
             }
         }
@@ -132,8 +131,8 @@
                     </div>
 
                 </div>
-                <div class="row">
-                    <div class="col col-1 gy-0 ">
+                <div class="row ">
+                    <div class="col col-1 ">
                     </div>
                     @for (int i = 0; i < 3; i++)
                     {
@@ -143,28 +142,20 @@
                         <div id="@ViewData["shopIndex"]" class="col col-3 ShopSlot gy-0" oncontextmenu="NotImplemented()" ondblclick="GetWeapons(@i)">
                             <partial name="_ItemLayout" model="@Model.GetEquipment(i)" view-data="@ViewData" />
                         </div>
-                        @*  <a
-                    tabindex="0"
-                    role="button"
-                    data-bs-toggle="popover"
-                    title="@Model.GetEquipment(i).Name"
-                    data-bs-content="@Model.GetEquipment(i).ToString()"
-                    href="#">
-                    <img class="InventoryImage"  src="@Url.Action("GetInventoryImage", "Main", new { id = Model.GetEquipment(i).ItemId})" />
-                    </a> *@
                     }
-                    <div class="col col-2 gy-0">
+                    <div class="col col-2">
                     </div>
-                    <div class="row" style="padding-bottom:1rem;">
-                        <div class="col col-1 gy-0">
+                    <div class="row">
+                        <div class="col col-1">
                         </div>
 
                         @for (int i = 3; i < 6; i++)
                         {
                             ViewData["index"] = i;
-                            <div id="@ViewData["index"]" class="col col-3 ShopSlot gy-0" ondblclick="location.href='@Url.Action("BuyWeapon", "Main" , new { index=i})'">
+                            ViewData["imgIndex"] = $"img{i}";
+                            ViewData["shopIndex"] = $"shop{i}";
+                            <div id="@ViewData["shopIndex"]" class="col col-3 ShopSlot gy-0" oncontextmenu="NotImplemented()" ondblclick="GetWeapons(@i)">
                                 <partial name="_ItemLayout" model="@Model.GetEquipment(i)" view-data="@ViewData" />
-                                <img src="/Images/ItemImages/Chest/h_chest_01.jpg" />
                             </div>
                         }
                         <div class="col col-2">

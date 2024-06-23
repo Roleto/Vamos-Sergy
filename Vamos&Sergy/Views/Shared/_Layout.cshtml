@@ -98,3 +98,14 @@
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>
+
+<script type="text/javascript">
+    function updateMoney(gold, mushroom) {
+        const GoldCounter = document.getElementById("currentGold");
+        const MushCounter = document.getElementById("currentMushroom");
+        const newGold = Number(GoldCounter.textContent) - gold;
+        const newMush = Number(MushCounter.textContent) - mushroom;
+        GoldCounter.textContent = newGold.toFixed(2);
+        MushCounter.textContent = newMush;
+    }
+</script>
