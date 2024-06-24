@@ -12,13 +12,15 @@ namespace Vamos_Sergy.Controllers
     public class GamaController : ControllerBase
     {
         private readonly IRepository<Hero> _heroRepo;
+        private readonly IRepository<Shop> _shopRepo;
         private readonly IRepository<Item> _itemRepo;
         private readonly IRepository<Equipment> _equipmentRepo;
         private Random _rnd;
 
-        public GamaController(IRepository<Hero> heroRepo, IRepository<Item> itemRepo, IRepository<Equipment> equipmentRepo)
+        public GamaController(IRepository<Hero> heroRepo, IRepository<Shop> shopRepo, IRepository<Item> itemRepo, IRepository<Equipment> equipmentRepo)
         {
             _heroRepo = heroRepo;
+            _shopRepo = shopRepo;
             _itemRepo = itemRepo;
             _equipmentRepo = equipmentRepo;
             _rnd = new Random();
@@ -28,22 +30,34 @@ namespace Vamos_Sergy.Controllers
         public Equipment? BuyWeapon([FromBody] ShopItem item)
         {
 
-            var i = _itemRepo.Read(item.ItemId);
-            //"f48378fc-0d28-4f9f-b37a-615a3cae98c8"
-            //"d0370360-bc48-47b5-8409-4e932ce30eba"
+            var oldItem = _itemRepo.Read(item.ItemId);
             string[] stats = item.Stats.Split(';');
             var hero = _heroRepo.Read(item.HeroId);
-            Equipment equipment = new Equipment(i, item.Stats);
+            Equipment equipment = new Equipment(oldItem, item.Stats);
             if (hero.CanBuy(equipment))
             {
                 var items = _itemRepo.Read().ToArray();
                 equipment.Owner = hero;
                 equipment.OwherId = hero.Id;
-                equipment.InventorySlot = hero.GetFirsNull;
+                equipment.InventorySlot = item.InvSlot;
                 hero.Inventory[equipment.InventorySlot] = equipment;
-                //_heroRepo.Update(hero);
-                //_equipmentRepo.Create(equipment);
-                return new Equipment(items[_rnd.Next(items.Length)]); 
+                _heroRepo.Update(hero);
+                _equipmentRepo.Create(equipment);
+                Item newItem = null;
+                do
+                {
+                    var i = items[_rnd.Next(items.Length)];
+                    if(i.RequiredClass == hero.Kast)
+                    {
+                        newItem = i;
+                    }
+                } while (newItem == null);
+                Shop s = new Shop(newItem, hero, item.Name, item.ShopSlot);
+                var updateShop = _shopRepo.Read().FirstOrDefault(x => x.ShopType == item.Name && x.ShopSlot == item.ShopSlot);
+                s.Id = updateShop.Id;
+                _shopRepo.Update(s);
+                var eq = new Equipment(s);
+                return eq; 
             }
             return null;
             //if (hero.InvIndex > 0)
@@ -80,9 +94,11 @@ namespace Vamos_Sergy.Controllers
             }
         }
         //Get
-        public void RefreshItem()
+        [HttpGet("{id}")]
+        public Equipment EqupItem(string id)
         {
             //return PartialViewResul
+            return  _equipmentRepo.Read(id);
         }
 
         protected Equipment GenerateOne(string id)

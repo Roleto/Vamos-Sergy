@@ -33,21 +33,25 @@ namespace Vamos_Sergy.Data.Classes
 
         public Shop? ReadFromOwner(string id)
         {
-            return context.Shop.FirstOrDefault(t => t.OwnerId == id);
+            throw new NotImplementedException();
         }
 
         public void Update(Shop item)
         {
             var old = Read(item.Id);
+            old.ItemId = item.ItemId;
             old.Name = item.Name;
             old.Description = item.Description;
             old.Type = item.Type;
+            old.RequiredClass = item.RequiredClass;
+            old.Url = item.Url;
+            old.Stats = item.Stats;
             context.SaveChanges();
         }
         public void Delete(string id)
         {
             var item = Read(id);
-            context.Items.Remove(item);
+            context.Shop.Remove(item);
             context.SaveChanges();
         }
     }

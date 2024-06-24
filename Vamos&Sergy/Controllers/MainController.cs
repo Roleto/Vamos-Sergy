@@ -23,30 +23,21 @@ namespace Vamos_Sergy.Controllers
         private readonly IRepository<Item> _itemRepo;
         private readonly IRepository<Equipment> _equipmentRepo;
         private readonly IRepository<Hero> _heroRepo;
+        private readonly IRepository<Shop> _shopRepo;
         private readonly IRepository<Quest> _questRepo;
         private readonly IRepository<Monster> _monsterRepo;
 
         private readonly UserManager<SiteUser> _userManager;
-        private static ShopViewModel _weaponshop;
+        //private static ShopViewModel _weaponshop;
         private static ArenaViewModel _arena;
         private static TavernViewModel _tavern;
         private static Hero _hero;
         private static string baseUri = "https://localhost:7284";
         private Hero SetHero(Hero hero)
         {
-            var eq = _equipmentRepo.Read().Where(x => x.OwherId == hero.Id);
-            List<Equipment> equipmentList = new List<Equipment>();
-            foreach (var item in eq)
-            {
-                //itt kell megadni a többit
-                Item i = _itemRepo.Read(item.ItemId);
-                item.SetStat(i);
-
-                equipmentList.Add(item);
-            }
+            setEqupment(hero);
             var quests = _questRepo.Read().ToArray();
             List<Quest> questList = new List<Quest>();
-            hero.SetEquipment(equipmentList);
             string[] valami = hero.QuestIds.Split(';');
             foreach (var item in hero.QuestIds.Split(';'))
             {
@@ -70,11 +61,68 @@ namespace Vamos_Sergy.Controllers
             return ms.ToArray();
         }
 
-        public MainController(IRepository<Item> itemRepo, IRepository<Hero> heroRepo, IRepository<Equipment> equipmentRepo, IRepository<Quest> questRepo, IRepository<Monster> monsterRepo, UserManager<SiteUser> userManager)
+        private void SetShop(Hero hero)
+        {
+            Random r = new Random();
+            var items = _itemRepo.Read().ToArray();
+            int weaponCounter = 0;
+            int magicCounter = 0;
+            do
+            {
+                var item = items[r.Next(items.Length)];
+                if (magicCounter < 6 && (item.Type == EquipmentEnum.Necklace || item.Type == EquipmentEnum.Ring || item.Type == EquipmentEnum.Misc))
+                {
+                    Shop shop = new Shop(item, hero, "magic", magicCounter);
+                    //var e = hero.Shops.FirstOrDefault(x => x.Name == shop.Name);
+                    //if (e == null)
+                    //{
+                    //}
+                    hero.Shops.Add(shop);
+                    _shopRepo.Create(shop);
+                    magicCounter++;
+                }
+                else if (weaponCounter < 6 && item.RequiredClass == hero.Kast)
+                {
+                    Shop shop = new Shop(item, hero, "weapon", weaponCounter);
+                    //var e = hero.Shops.FirstOrDefault(x => x.Name == shop.Name);
+                    //if (e == null)
+                    //{
+                    //}
+                    hero.Shops.Add(shop);
+                    _shopRepo.Create(shop);
+                    weaponCounter++;
+
+                }
+            } while (weaponCounter + magicCounter < 12);
+        }
+        private void setEqupment(Hero hero)
+        {
+            foreach (Equipment item in hero.Equipments)
+            {
+                if(item.Item == null)
+                {
+                    item.Item = _itemRepo.Read(item.ItemId);
+                }
+                Equipment eq = new Equipment(item.Item, item.Stats);
+                eq.Id = item.Id;
+                eq.IsEqueped = item.IsEqueped;
+                eq.InventorySlot = item.InventorySlot;
+                if (eq.IsEqueped)
+                {
+                    hero.Equipment[eq.Type] = eq;
+                }
+                else
+                {
+                    hero.Inventory[eq.InventorySlot] = eq;
+                }
+            }
+        }
+        public MainController(IRepository<Item> itemRepo, IRepository<Equipment> equipmentRepo, IRepository<Hero> heroRepo, IRepository<Shop> shopRepo, IRepository<Quest> questRepo, IRepository<Monster> monsterRepo, UserManager<SiteUser> userManager)
         {
             _itemRepo = itemRepo;
             _equipmentRepo = equipmentRepo;
             _heroRepo = heroRepo;
+            _shopRepo = shopRepo;
             _questRepo = questRepo;
             _monsterRepo = monsterRepo;
             _userManager = userManager;
@@ -88,7 +136,12 @@ namespace Vamos_Sergy.Controllers
             _hero = _heroRepo.ReadFromOwner(_siteUser.Id);
             if (_hero == null)
                 return RedirectToAction(nameof(CreateHero));
-            _weaponshop = new ShopViewModel(_hero, _itemRepo.Read().ToList(), "D:\\Egyetem\\prog5\\FF\\Vamos&Sergy\\Vamos&Sergy\\wwwroot\\Images\\Backgrounds\\weaponshop.jpg");
+            if (_hero.Shops.Count == 0)
+            {
+                SetShop(_hero);
+            }
+            //_weaponshop = new ShopViewModel(_hero, "D:\\Egyetem\\prog5\\FF\\Vamos&Sergy\\Vamos&Sergy\\wwwroot\\Images\\Backgrounds\\weaponshop.jpg");
+            setEqupment(_hero);
             _arena = new ArenaViewModel(_heroRepo.Read().ToList(), _hero);
             _tavern = new TavernViewModel(_hero);
             this.RefreshHero(_hero);
@@ -101,6 +154,7 @@ namespace Vamos_Sergy.Controllers
         {
             var hero = _heroRepo.Read(_hero.Id);
             this.RefreshHero(hero);
+            setEqupment(hero);
             return View(hero);
         }
 
@@ -306,8 +360,8 @@ namespace Vamos_Sergy.Controllers
         {
             var hero = SetHero(_heroRepo.Read(_hero.Id));
             this.RefreshHero(hero);
-            _weaponshop.Hero = hero;
-            return View(_weaponshop);
+            ShopViewModel shop_vm = new ShopViewModel(hero, "weapon");
+            return View(shop_vm);
         }
 
         [HttpGet]
@@ -333,7 +387,7 @@ namespace Vamos_Sergy.Controllers
             //    return View("WeaponShop", _weaponshop);
             //}
             //ViewData["error"] = "Inventury is full";
-            return View("WeaponShop", _weaponshop);
+            return View("WeaponShop");
 
         }
 

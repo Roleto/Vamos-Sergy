@@ -10,9 +10,6 @@ namespace Vamos_Sergy.Models.Items
         [Key]
         public string Id { get; set; }
 
-        [Required]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int SimpleId { get; set; }
 
         [Required]
         [StringLength(24)]
@@ -42,6 +39,9 @@ namespace Vamos_Sergy.Models.Items
         public byte[]? SecondaryData { get; set; }
 
         public string Url { get; set; }
+
+        [NotMapped]
+        public virtual Equipment Equipment { get; set; }
 
         public Item()
         {

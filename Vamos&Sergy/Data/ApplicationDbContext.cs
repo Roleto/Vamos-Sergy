@@ -23,20 +23,27 @@ namespace Vamos_Sergy.Data
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
-            builder.Entity<Hero>()
-                .HasOne(x => x.Owner)
-                .WithMany()
+            builder.Entity<Hero>(hero => hero
+                .HasOne(hero => hero.Owner)
+                .WithMany(user => user.Heroes)
                 .HasForeignKey(x => x.OwnerId)
-                .OnDelete(DeleteBehavior.Cascade);
-            builder.Entity<Item>();
+                .OnDelete(DeleteBehavior.Cascade));
 
-            builder.Entity<Shop>();
+            builder.Entity<Item>(item => item
+            .HasOne(item => item.Equipment)
+            .WithOne(eq => eq.Item));
 
-            builder.Entity<Equipment>()
-                .HasOne(x => x.Owner)
-                .WithMany()
-                .HasForeignKey(x => x.OwherId)
-                .OnDelete(DeleteBehavior.Cascade);
+            builder.Entity<Equipment>(eq => eq
+                .HasOne(eq => eq.Owner)
+                .WithMany(hero => hero.Equipments)
+                .HasForeignKey(eq => eq.OwherId)
+                .OnDelete(DeleteBehavior.Cascade));
+
+            builder.Entity<Shop>(shop => shop
+               .HasOne(shop => shop.Owner)
+               .WithMany(hero => hero.Shops)
+               .HasForeignKey(shop => shop.OwnerId)
+               .OnDelete(DeleteBehavior.Cascade));
 
             builder.Entity<Quest>();
 

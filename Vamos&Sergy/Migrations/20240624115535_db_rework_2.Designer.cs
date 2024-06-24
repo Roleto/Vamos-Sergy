@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Vamos_Sergy.Data;
 
@@ -11,9 +12,10 @@ using Vamos_Sergy.Data;
 namespace Vamos_Sergy.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240624115535_db_rework_2")]
+    partial class db_rework_2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -442,9 +444,6 @@ namespace Vamos_Sergy.Migrations
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<int>("RequiredClass")
-                        .HasColumnType("int");
-
-                    b.Property<int>("ShopSlot")
                         .HasColumnType("int");
 
                     b.Property<string>("ShopType")

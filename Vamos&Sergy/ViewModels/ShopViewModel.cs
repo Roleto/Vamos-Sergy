@@ -1,50 +1,28 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Xml.Linq;
 using Vamos_Sergy.Data.Interfaces;
 using Vamos_Sergy.Models;
 using Vamos_Sergy.Models.Items;
 
 namespace Vamos_Sergy.ViewModels
 {
-    public class ShopViewModel : ViewModel
+    public class ShopViewModel
     {
+        public Hero Hero { get; set; }
+
         public string BackgroundUrl { get; set; }
 
-        public ShopViewModel(Hero hero, List<Item> itemList,string url) : base(hero)
+        public ShopViewModel(Hero hero,string name)
         {
-            ItemList = itemList;
-            BackgroundUrl = url;
-            EquipmentList = new Dictionary<string, Equipment>();
-            GenerateAll(hero);
+            Hero = hero;
         }
 
-        public virtual Equipment? Buy(int index,Hero hero)
+        public Equipment GetShopItem(int i, string name)
         {
-            Equipment e = GetEquipment(index);
-            if (e.CanBuy(hero.Gold, hero.Mushroom))
-            {
-                GenerateOne(e.ItemId);
-                hero.Gold -= e.Price;
-                hero.Mushroom -= e.Mushroom;
-                return e;
-            }
-            return null;
+            var shopItem = Hero.Shops.Where(shop => shop.ShopType == name).FirstOrDefault(x => x.ShopSlot == i);
+            Equipment eq = new Equipment(shopItem);
+            return eq;
         }
-
-
-        public void GenerateAll(Hero hero)
-        {
-            for (int i = 0; i < 6; i++)
-            {
-                int n = _random.Next(0, ItemList.Count());
-                Equipment e = new Equipment(ItemList.ElementAt(n));
-                if ((e.RequiredClass == hero.Kast || e.RequiredClass == ClassEnum.All) && !EquipmentList.ContainsKey(e.ItemId))
-                    EquipmentList[e.ItemId] = e;
-                else
-                    i--;
-            }
-        }
-
-
     }
 }

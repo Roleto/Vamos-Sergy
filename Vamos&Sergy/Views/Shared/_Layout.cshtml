@@ -108,4 +108,22 @@
         GoldCounter.textContent = newGold.toFixed(2);
         MushCounter.textContent = newMush;
     }
+
+    function equip(id) {
+        if (id == null) {
+            return;
+        }
+        const xhr = new XMLHttpRequest();
+        const url = "https://localhost:7284/Gama/" + id; 
+        xhr.open("GET", url);
+        xhr.send();
+        xhr.responseType = "json";
+        xhr.onload = () => {
+            if (xhr.readyState == 4 && xhr.status == 200) {
+                console.log(xhr.response);
+            } else {
+                console.log(`Error: ${xhr.status}`);
+            }
+        };
+    }
 </script>

@@ -2,10 +2,10 @@
 <table class="table table-borderless m-0 ms-1 p-0 overflow-hidden w-50">
     <tbody>
         <tr>
-            @if (Model.Equipments.ContainsKey(EquipmentEnum.Helmet) && Model.Equipments[EquipmentEnum.Helmet] != null)
+            @if (Model.Equipment.ContainsKey(EquipmentEnum.Helmet) && Model.Equipment[EquipmentEnum.Helmet] != null)
             {
                 <td ondblclick="location.href='@Url.Action("UnEquipItem", "Main" , new { equipment=EquipmentEnum.Helmet, name = ViewData["name"]})'">
-                    <partial name="_EquipmentLayout" model="@Model.Equipments[EquipmentEnum.Helmet]" />
+                    <partial name="_EquipmentLayout" model="@Model.Equipment[EquipmentEnum.Helmet]" />
                 </td>
             }
             else
@@ -23,10 +23,10 @@
                     </div>
                 </div>
             </td>
-            @if (Model.Equipments.ContainsKey(EquipmentEnum.Necklace) && Model.Equipments[EquipmentEnum.Necklace] != null)
+            @if (Model.Equipment.ContainsKey(EquipmentEnum.Necklace) && Model.Equipment[EquipmentEnum.Necklace] != null)
             {
                 <td ondblclick="location.href='@Url.Action("UnEquipItem", "Main" , new { equipment=EquipmentEnum.Necklace, name = ViewData["name"]})'">
-                    <partial name="_EquipmentLayout" model="@Model.Equipments[EquipmentEnum.Necklace]" />
+                    <partial name="_EquipmentLayout" model="@Model.Equipment[EquipmentEnum.Necklace]" />
                 </td>
             }
             else
@@ -35,20 +35,20 @@
             }
         </tr>
         <tr>
-            @if (Model.Equipments.ContainsKey(EquipmentEnum.Armor) && Model.Equipments[EquipmentEnum.Armor] != null)
+            @if (Model.Equipment.ContainsKey(EquipmentEnum.Armor) && Model.Equipment[EquipmentEnum.Armor] != null)
             {
                 <td ondblclick="location.href='@Url.Action("UnEquipItem", "Main" , new { equipment=EquipmentEnum.Armor, name = ViewData["name"]})'">
-                    <partial name="_EquipmentLayout" model="@Model.Equipments[EquipmentEnum.Armor]" />
+                    <partial name="_EquipmentLayout" model="@Model.Equipment[EquipmentEnum.Armor]" />
                 </td>
             }
             else
             {
                 <td><img class="icon" src="/Images\NullImages\armor.png" /></td>
             }
-            @if (Model.Equipments.ContainsKey(EquipmentEnum.Belt) && Model.Equipments[EquipmentEnum.Belt] != null)
+            @if (Model.Equipment.ContainsKey(EquipmentEnum.Belt) && Model.Equipment[EquipmentEnum.Belt] != null)
             {
                 <td ondblclick="location.href='@Url.Action("UnEquipItem", "Main" , new { equipment=EquipmentEnum.Belt, name = ViewData["name"]})'">
-                    <partial name="_EquipmentLayout" model="@Model.Equipments[EquipmentEnum.Belt]" />
+                    <partial name="_EquipmentLayout" model="@Model.Equipment[EquipmentEnum.Belt]" />
                 </td>
             }
             else
@@ -57,20 +57,20 @@
             }
         </tr>
         <tr>
-            @if (Model.Equipments.ContainsKey(EquipmentEnum.Hand) && Model.Equipments[EquipmentEnum.Hand] != null)
+            @if (Model.Equipment.ContainsKey(EquipmentEnum.Hand) && Model.Equipment[EquipmentEnum.Hand] != null)
             {
                 <td ondblclick="location.href='@Url.Action("UnEquipItem", "Main" , new { equipment=EquipmentEnum.Hand, name = ViewData["name"]})'">
-                    <partial name="_EquipmentLayout" model="@Model.Equipments[EquipmentEnum.Hand]" />
+                    <partial name="_EquipmentLayout" model="@Model.Equipment[EquipmentEnum.Hand]" />
                 </td>
             }
             else
             {
                 <td><img class="icon" src="/Images\NullImages\hand.png" /></td>
             }
-            @if (Model.Equipments.ContainsKey(EquipmentEnum.Ring) && Model.Equipments[EquipmentEnum.Ring] != null)
+            @if (Model.Equipment.ContainsKey(EquipmentEnum.Ring) && Model.Equipment[EquipmentEnum.Ring] != null)
             {
                 <td ondblclick="location.href='@Url.Action("UnEquipItem", "Main" , new { equipment=EquipmentEnum.Ring, name = ViewData["name"]})'">
-                    <partial name="_EquipmentLayout" model="@Model.Equipments[EquipmentEnum.Ring]" />
+                    <partial name="_EquipmentLayout" model="@Model.Equipment[EquipmentEnum.Ring]" />
                 </td>
             }
             else
@@ -79,20 +79,20 @@
             }
         </tr>
         <tr>
-            @if (Model.Equipments.ContainsKey(EquipmentEnum.Leg) && Model.Equipments[EquipmentEnum.Leg] != null)
+            @if (Model.Equipment.ContainsKey(EquipmentEnum.Leg) && Model.Equipment[EquipmentEnum.Leg] != null)
             {
                 <td ondblclick="location.href='@Url.Action("UnEquipItem", "Main" , new { equipment=EquipmentEnum.Leg, name = ViewData["name"]})'">
-                    <partial name="_EquipmentLayout" model="@Model.Equipments[EquipmentEnum.Leg]" />
+                    <partial name="_EquipmentLayout" model="@Model.Equipment[EquipmentEnum.Leg]" />
                 </td>
             }
             else
             {
                 <td><img class="icon" src="/Images\NullImages\leg.png" /></td>
             }
-            @if (Model.Equipments.ContainsKey(EquipmentEnum.Weapon) && Model.Equipments[EquipmentEnum.Weapon] != null)
+            @if (Model.Equipment.ContainsKey(EquipmentEnum.Weapon) && Model.Equipment[EquipmentEnum.Weapon] != null)
             {
                 <td ondblclick="location.href='@Url.Action("UnEquipItem", "Main" , new { equipment=EquipmentEnum.Weapon, name = ViewData["name"]})'">
-                    <partial name="_EquipmentLayout" model="@Model.Equipments[EquipmentEnum.Weapon]" />
+                    <partial name="_EquipmentLayout" model="@Model.Equipment[EquipmentEnum.Weapon]" />
                 </td>
             }
             else
@@ -101,10 +101,10 @@
             }
             @if (Model.Kast == ClassEnum.Warrior)
             {
-                @if (Model.Equipments.ContainsKey(EquipmentEnum.Shield) && Model.Equipments[EquipmentEnum.Shield] != null)
+                @if (Model.Equipment.ContainsKey(EquipmentEnum.Shield) && Model.Equipment[EquipmentEnum.Shield] != null)
                 {
                     <td ondblclick="location.href='@Url.Action("UnEquipItem", "Main" , new { equipment=EquipmentEnum.Shield, name = ViewData["name"]})'">
-                        <partial name="_EquipmentLayout" model="@Model.Equipments[EquipmentEnum.Shield]" />
+                        <partial name="_EquipmentLayout" model="@Model.Equipment[EquipmentEnum.Shield]" />
                     </td>
                 }
                 else
@@ -114,11 +114,11 @@
             }
             else
             {
-                @if (Model.Equipments.ContainsKey(EquipmentEnum.Weapon) && Model.Equipments[EquipmentEnum.Weapon] != null)
+                @if (Model.Equipment.ContainsKey(EquipmentEnum.Weapon) && Model.Equipment[EquipmentEnum.Weapon] != null)
                 {
                     <td ondblclick="location.href='@Url.Action("UnEquipItem", "Main" , new { equipment=EquipmentEnum.Weapon, name = ViewData["name"]})'">
                         <img class="icon" src="@Url.Action("GetInventoryImage", "Main",
-                        new { id = Model.Equipments[EquipmentEnum.Weapon].ItemId, secondary=true})" />
+                        new { id = Model.Equipment[EquipmentEnum.Weapon].ItemId, secondary=true})" />
                     </td>
                 }
                 else
@@ -126,10 +126,10 @@
                     <td><img class="icon" src="/Images\NullImages\blank.png" /></td>
                 }
             }
-            @if (Model.Equipments.ContainsKey(EquipmentEnum.Misc) && Model.Equipments[EquipmentEnum.Misc] != null)
+            @if (Model.Equipment.ContainsKey(EquipmentEnum.Misc) && Model.Equipment[EquipmentEnum.Misc] != null)
             {
                 <td ondblclick="location.href='@Url.Action("UnEquipItem", "Main" , new { equipment=EquipmentEnum.Misc, name = ViewData["name"]})'">
-                    <partial name="_EquipmentLayout" model="@Model.Equipments[EquipmentEnum.Misc]" />
+                    <partial name="_EquipmentLayout" model="@Model.Equipment[EquipmentEnum.Misc]" />
                 </td>
             }
             else

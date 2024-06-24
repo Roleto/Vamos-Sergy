@@ -50,7 +50,6 @@ namespace Vamos_Sergy.Models.Items
         public string Id { get; set; }
 
         public string ItemId { get; set; }
-        public int SimpleItemId { get; set; }
 
         [NotMapped]
         [ShowTable]
@@ -71,10 +70,13 @@ namespace Vamos_Sergy.Models.Items
         public bool IsEqueped { get; set; }
 
         [Required]
+        [ForeignKey(nameof(Hero))]
         public string OwherId { get; set; }
 
         [NotMapped]
         public virtual Hero Owner { get; set; }
+        [NotMapped]
+        public virtual Item Item { get; set; }
 
         [Required]
         public string Stats { get; set; }
@@ -124,7 +126,6 @@ namespace Vamos_Sergy.Models.Items
             _random = new Random();
             Id = Guid.NewGuid().ToString();
             ItemId = item.Id;
-            SimpleItemId = item.SimpleId;
             Name = item.Name;
             Description = item.Description;
             Type = item.Type;
@@ -139,13 +140,34 @@ namespace Vamos_Sergy.Models.Items
         {
             _random = new Random();
             Id = Guid.NewGuid().ToString();
+            Item = item;
             ItemId = item.Id;
-            SimpleItemId = item.SimpleId;
+            Name = item.Name;
+            Description = item.Description;
+            Type = item.Type;
+            Url = item.Url;
+            RequiredClass = item.RequiredClass;
             IsEqueped = false;
             Stats = stats;
             Url = item.Url;
             SetStat(item);
             StatForDisplay = GetStatsHtml();
+        }
+
+        public Equipment(Shop item)
+        {
+            _random = new Random();
+            Id = Guid.NewGuid().ToString();
+            ItemId = item.ItemId;
+            Name = item.Name;
+            Description = item.Description;
+            Type = item.Type;
+            Url = item.Url;
+            RequiredClass = item.RequiredClass;
+            IsEqueped = false;
+            Stats = item.Stats;
+            SetStat();
+
         }
         public bool CanBuy(double price, int mushroom)
         {
@@ -156,12 +178,15 @@ namespace Vamos_Sergy.Models.Items
             }
             return false;
         }
-        public void SetStat(Item item)
+        public void SetStat(Item item = null)
         {
-            Name = item.Name;
-            Description = item.Description;
-            Type = item.Type;
-            RequiredClass = item.RequiredClass;
+            if (item != null)
+            {
+                Name = item.Name;
+                Description = item.Description;
+                Type = item.Type;
+                RequiredClass = item.RequiredClass;
+            }
             string[] statsArray = Stats.Split(';');
             foreach (string stat in statsArray)
             {
@@ -202,7 +227,10 @@ namespace Vamos_Sergy.Models.Items
                         char[] delimiterChars = { ':', 'g' };
                         string[] prices = rawprices.Split(delimiterChars);
                         price = double.Parse(prices[0]);
-                        mushroom = int.Parse(prices[1]);
+                        if (prices.Length > 1)
+                        {
+                            mushroom = int.Parse(prices[1]);
+                        }
                         break;
                     default:
                         break;
@@ -332,10 +360,10 @@ namespace Vamos_Sergy.Models.Items
                     Stats += ";";
                     break;
             }
-        }        
+        }
         public int Attack(ClassEnum kast)
         {
-            if(Type != EquipmentEnum.Weapon) 
+            if (Type != EquipmentEnum.Weapon)
                 return 0;
 
             int damage = 0;
@@ -364,7 +392,7 @@ namespace Vamos_Sergy.Models.Items
         }
         public override string ToString()
         {
-           
+
             return GetStatsHtml();
         }
     }

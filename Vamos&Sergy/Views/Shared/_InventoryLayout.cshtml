@@ -14,6 +14,7 @@
                     ViewData["index"] = $"inv{i}";
                     ViewData["invIndex"] = $"invSlot{i}";
                     ViewData["imgIndex"] = $"img{i}";
+                    @* <div id="@ViewData["invIndex"]" ondblclick="location.href='@Url.Action("EquipItem", "Main" , new { index=i, name=ViewData["name"]})'"> *@
                     <div id="@ViewData["invIndex"]" ondblclick="location.href='@Url.Action("EquipItem", "Main" , new { index=i, name=ViewData["name"]})'">
                         <partial name="_ItemLayout" model="@Model.Inventory[i]" view-data="@ViewData" />
                     </div>
