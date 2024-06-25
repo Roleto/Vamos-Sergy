@@ -109,7 +109,7 @@ namespace Vamos_Sergy.Controllers
                 eq.InventorySlot = item.InventorySlot;
                 if (eq.IsEqueped)
                 {
-                    hero.Equipment[eq.Type] = eq;
+                    hero.Equipment[eq.Item.Type] = eq;
                 }
                 else
                 {
@@ -265,7 +265,11 @@ namespace Vamos_Sergy.Controllers
         public IActionResult UnEquipItem(EquipmentEnum equipment, string name)
         {
 
-            _hero.UnEquip(equipment);
+            var e = _hero.UnEquip(equipment);
+            if(e != null)
+            {
+                _equipmentRepo.Update(e);
+            }
             return RedirectToAction(name);
         }
 
@@ -360,7 +364,7 @@ namespace Vamos_Sergy.Controllers
         {
             var hero = SetHero(_heroRepo.Read(_hero.Id));
             this.RefreshHero(hero);
-            ShopViewModel shop_vm = new ShopViewModel(hero, "weapon");
+            ShopViewModel shop_vm = new ShopViewModel(hero,_itemRepo.Read().ToList(), "weapon");
             return View(shop_vm);
         }
 

@@ -442,3 +442,13 @@ span.mountText {
     margin-left: 20rem;
     margin-right:19.75rem;
 }
+
+.equpipped {
+    height: 6rem;
+    background-size: cover;
+    background-image: url('../Images/NullImages/blank.png');
+}
+
+.deletePopover{
+
+}

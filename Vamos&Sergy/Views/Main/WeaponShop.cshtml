@@ -4,6 +4,7 @@
 @model ShopViewModel
 @{
     ViewData["name"] = "WeaponShop";
+    ViewData["shopIndex"] = "";
 }
 <script type="text/javascript">
     let newWeaponCount = 0;
@@ -21,11 +22,14 @@
         let invSlotId = "invSlot" + inventorySlot;
         let imgId = "img" + id;
         let shopId = "shop" + id;
-
+        // alert(imgId);
         var imgContainer = document.getElementById(imgId);
+        // alert(imgContainer.src);
+        // const valami = document.getElementById('invImg0');
+        // alert(valami.src);
+
         const itemId = imgContainer.src.split('/');
         var ShopSlot = document.getElementById(shopId);
-
         const words = ShopSlot.innerHTML.split('<br>');
         const stringSplit = words[0].split('=');
         let desc = stringSplit[stringSplit.length - 1].replace('"', '');
@@ -59,6 +63,7 @@
         };
 
         var json = JSON.stringify(data);
+        // alert(json);
         var xhttpr = new XMLHttpRequest();
         xhttpr.open('POST', 'https://localhost:7284/Gama', true);
         xhttpr.setRequestHeader('Content-type', 'application/json');
@@ -66,28 +71,26 @@
         xhttpr.onreadystatechange = function () {
             if (xhttpr.readyState == 4 && xhttpr.status == 200) {
                 const response = JSON.parse(xhttpr.response);
-                var ShopItem = document.getElementById(id);
+                const ShopItem = document.getElementById(id);
                 var InvSlot = document.getElementById(invSlotId);
                 var InvItem = document.getElementById(invId);
 
                 document.getElementById(invSlotId).innerHTML = "";
-                ShopItem.id = invId;
+                ShopItem.id = 'invImg'+id;
                 document.getElementById(invSlotId).appendChild(ShopItem);
 
                 let newWeapon = `
-                                <a id="${id}"
-                                    tabindex="0"
-                                    role="button"
-                                    data-bs-toggle="popover"
-                                    title="${response.name}"
-                                    data-bs-content="${response.statForDisplay}"
-                                    href="#"><img id="img${id}" class="InventoryImage" src="/Images/ItemImages/${response.url}" />
-                                </a>`
-                document.getElementById(shopId).innerHTML = "";
-                document.getElementById(shopId).innerHTML = newWeapon;
-                const exampleEl = document.getElementById(id);
-                const popover = new bootstrap.Popover(exampleEl, { html: true, trigger: "hover" });
-
+                                    <a id="${id}"
+                                        tabindex="0"
+                                        role="button"
+                                        data-bs-toggle="popover"
+                                        title="${response.name}"
+                                        data-bs-content="${response.statForDisplay}"
+                                        href="#"><img id="${id}" class="InventoryImage" src="/Images/ItemImages/${response.url}" />
+                                    </a>`;
+                // alert(newWeapon);
+                ShopSlot.innerHTML = "";
+                ShopSlot.innerHTML = newWeapon;
                 while (inventorySlot <= maxInv) {
                     inventorySlot++;
                     invId = "inv" + inventorySlot;
@@ -102,8 +105,10 @@
                         break;
                     }
                 }
-
                 updateMoney(prices[0], shroom[0]);
+                const exampleEl = document.getElementById(id);
+                const popover = new bootstrap.Popover(exampleEl, { html: true, trigger: "hover" });
+
 
             }
         }

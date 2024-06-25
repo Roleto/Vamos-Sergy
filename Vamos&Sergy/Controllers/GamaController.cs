@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using NuGet.Configuration;
 using Vamos_Sergy.Data.Classes;
 using Vamos_Sergy.Data.Interfaces;
 using Vamos_Sergy.Models;
@@ -25,9 +26,47 @@ namespace Vamos_Sergy.Controllers
             _equipmentRepo = equipmentRepo;
             _rnd = new Random();
         }
+        [HttpGet("{id}")]
+        public IEnumerable<Equipment> EqupItem(string id)
+        {
+            //return PartialViewResul
+            List<Equipment> output = new List<Equipment>();
+            var newEq = _equipmentRepo.Read(id);
+            var item = _itemRepo.Read(newEq.ItemId);
+            output.Add(new Equipment(item, newEq.Stats));
+            Equipment equipment = null;
+            var hero = _heroRepo.Read(newEq.Owner.Id);
+            var eqItems = hero.Equipments.Where(x => x.IsEqueped == true);
+            //var oldEq = hero.Equipments.FirstOrDefault(x => x.IsEqueped == true && x.Item.Type == newEq.Item.Type);
+            foreach (var eq in hero.Equipments)
+            {
+                if (eq.IsEqueped == true)
+                {
+                    item = _itemRepo.Read(eq.ItemId);
+                    if (item.Type == output[0].Item.Type)
+                    {
+                        equipment = new Equipment(item, eq.Stats);
+                        equipment.Id = eq.Id;
+                        break;
+                    }
+                }
+
+            }
+            if (equipment != null)
+            {
+                equipment.IsEqueped = false;
+                equipment.InventorySlot = newEq.InventorySlot;
+                //_equipmentRepo.Update(equipment);
+                output.Add(equipment);
+            }
+            newEq.IsEqueped = true;
+            //_equipmentRepo.Update(newEq);
+
+            return output;
+        }
 
         [HttpPost]
-        public Equipment? BuyWeapon([FromBody] ShopItem item)
+        public Equipment BuyWeapon([FromBody] ShopItem item)
         {
 
             var oldItem = _itemRepo.Read(item.ItemId);
@@ -47,7 +86,7 @@ namespace Vamos_Sergy.Controllers
                 do
                 {
                     var i = items[_rnd.Next(items.Length)];
-                    if(i.RequiredClass == hero.Kast)
+                    if (i.RequiredClass == hero.Kast)
                     {
                         newItem = i;
                     }
@@ -57,7 +96,7 @@ namespace Vamos_Sergy.Controllers
                 s.Id = updateShop.Id;
                 _shopRepo.Update(s);
                 var eq = new Equipment(s);
-                return eq; 
+                return eq;
             }
             return null;
             //if (hero.InvIndex > 0)
@@ -94,12 +133,7 @@ namespace Vamos_Sergy.Controllers
             }
         }
         //Get
-        [HttpGet("{id}")]
-        public Equipment EqupItem(string id)
-        {
-            //return PartialViewResul
-            return  _equipmentRepo.Read(id);
-        }
+
 
         protected Equipment GenerateOne(string id)
         {

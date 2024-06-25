@@ -361,7 +361,7 @@ namespace Vamos_Sergy.Models
                 eq.InventorySlot = item.InventorySlot;
                 if (eq.IsEqueped)
                 {
-                    Equipment[eq.Type] = eq;
+                    Equipment[eq.Item.Type] = eq;
                 }
                 else
                 {
@@ -394,10 +394,10 @@ namespace Vamos_Sergy.Models
         }
         public Equipment Equip(Equipment item)
         {
-            if (Equipment.ContainsKey(item.Type) && Equipment[item.Type] != null)
+            if (Equipment.ContainsKey(item.Item.Type) && Equipment[item.Item.Type] != null)
             {
-                var old = Equipment[item.Type];
-                Equipment[item.Type] = item;
+                var old = Equipment[item.Item.Type];
+                Equipment[item.Item.Type] = item;
                 old.IsEqueped = false;
                 old.InventorySlot = item.InventorySlot;
                 Inventory[old.InventorySlot] = old;
@@ -405,20 +405,23 @@ namespace Vamos_Sergy.Models
             }
             else
             {
-                Equipment[item.Type] = item;
+                Equipment[item.Item.Type] = item;
                 Inventory[item.InventorySlot] = null;
                 return null;
             }
         }
-        public void UnEquip(EquipmentEnum equipment)
+        public Equipment? UnEquip(EquipmentEnum equipment)
         {
             if (Equipment.ContainsKey(equipment) && InvIndex <= MaxInvetory)
             {
                 var e = Equipment[equipment];
                 e.InventorySlot = GetFirsNull;
+                e.IsEqueped = false;
                 Inventory[e.InventorySlot] = e;
                 Equipment[equipment] = null;
+                return e;
             }
+            return null;
         }
 
        

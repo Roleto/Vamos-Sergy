@@ -6,16 +6,18 @@
 {
     if (i < @Model.MaxInvetory)
     {
-        <div class="col ItemSlot" ondblclick="location.href='@Url.Action("EquipItem", "Main" , new { index=i, name = ViewData["name"]})'">
+        <div class="col ItemSlot" >
+
+        @* <div class="col ItemSlot" ondblclick="location.href='@Url.Action("EquipItem", "Main" , new { index=i, name = ViewData["name"]})'"> *@
             <div class="ItemFrame">
 
                 @if (Model.Inventory.ContainsKey(i) && Model.Inventory[i] != null)
                 {
                     ViewData["index"] = $"inv{i}";
                     ViewData["invIndex"] = $"invSlot{i}";
-                    ViewData["imgIndex"] = $"img{i}";
-                    @* <div id="@ViewData["invIndex"]" ondblclick="location.href='@Url.Action("EquipItem", "Main" , new { index=i, name=ViewData["name"]})'"> *@
+                    ViewData["imgIndex"] = $"invImg{i}";
                     <div id="@ViewData["invIndex"]" ondblclick="location.href='@Url.Action("EquipItem", "Main" , new { index=i, name=ViewData["name"]})'">
+                    @* <div id="@ViewData["invIndex"]" ondblclick="equip('@Model.Inventory[i].Id','@i')"> *@
                         <partial name="_ItemLayout" model="@Model.Inventory[i]" view-data="@ViewData" />
                     </div>
                 }

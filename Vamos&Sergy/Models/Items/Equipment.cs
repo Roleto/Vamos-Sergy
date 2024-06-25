@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 using Vamos_Sergy.Helpers;
 
 namespace Vamos_Sergy.Models.Items
@@ -10,8 +11,8 @@ namespace Vamos_Sergy.Models.Items
 
         private string GetStatsHtml()
         {
-            string output = $"{Description}";
-            if (Type == EquipmentEnum.Weapon)
+            string output = $"{Item.Description}";
+            if (Item.Type == EquipmentEnum.Weapon)
             {
                 output += $"<br>Damage: {MinDamage} - {MaxDamage}";
             }
@@ -35,7 +36,7 @@ namespace Vamos_Sergy.Models.Items
             {
                 output += $"<br>Luck: {Luck}";
             }
-            if (Type == EquipmentEnum.Shield)
+            if (Item.Type == EquipmentEnum.Shield)
             {
                 output += $"<br>Block : {Block}%";
             }
@@ -50,21 +51,12 @@ namespace Vamos_Sergy.Models.Items
         public string Id { get; set; }
 
         public string ItemId { get; set; }
-
         [NotMapped]
-        [ShowTable]
         public string Name { get; set; }
 
-        [NotMapped]
-        [ShowTable]
-        public string Description { get; set; }
+
         public int InventorySlot { get; set; }
 
-        [NotMapped]
-        public EquipmentEnum Type { get; set; }
-
-        [NotMapped]
-        public ClassEnum RequiredClass { get; set; }
 
         [Required]
         public bool IsEqueped { get; set; }
@@ -74,8 +66,10 @@ namespace Vamos_Sergy.Models.Items
         public string OwherId { get; set; }
 
         [NotMapped]
+        [JsonIgnore]
         public virtual Hero Owner { get; set; }
         [NotMapped]
+        [JsonIgnore]
         public virtual Item Item { get; set; }
 
         [Required]
@@ -114,6 +108,9 @@ namespace Vamos_Sergy.Models.Items
 
         public string Url { get; set; }
 
+        [NotMapped]
+        public string Type { get => Item.Type.ToString();  }
+
 
         protected Random _random;
 
@@ -127,11 +124,8 @@ namespace Vamos_Sergy.Models.Items
             Id = Guid.NewGuid().ToString();
             ItemId = item.Id;
             Name = item.Name;
-            Description = item.Description;
-            Type = item.Type;
             Url = item.Url;
-
-            RequiredClass = item.RequiredClass;
+            Item = item;
             IsEqueped = false;
             Stats = "";
             GenerateStat();
@@ -141,34 +135,30 @@ namespace Vamos_Sergy.Models.Items
             _random = new Random();
             Id = Guid.NewGuid().ToString();
             Item = item;
-            ItemId = item.Id;
             Name = item.Name;
-            Description = item.Description;
-            Type = item.Type;
+            ItemId = item.Id;
             Url = item.Url;
-            RequiredClass = item.RequiredClass;
             IsEqueped = false;
             Stats = stats;
             Url = item.Url;
-            SetStat(item);
+            SetStat();
             StatForDisplay = GetStatsHtml();
         }
 
-        public Equipment(Shop item)
+        public Equipment(Shop shopItem)
         {
             _random = new Random();
             Id = Guid.NewGuid().ToString();
-            ItemId = item.ItemId;
-            Name = item.Name;
-            Description = item.Description;
-            Type = item.Type;
-            Url = item.Url;
-            RequiredClass = item.RequiredClass;
+            Item = shopItem.Item;
+            ItemId = shopItem.ItemId;
+            Url = shopItem.Url;
             IsEqueped = false;
-            Stats = item.Stats;
+            Stats = shopItem.Stats;
             SetStat();
+            Name = shopItem.Item.Name;
+            StatForDisplay = GetStatsHtml();
 
-        }
+        }       
         public bool CanBuy(double price, int mushroom)
         {
             if (Price <= price && Mushroom <= mushroom)
@@ -178,15 +168,8 @@ namespace Vamos_Sergy.Models.Items
             }
             return false;
         }
-        public void SetStat(Item item = null)
+        public void SetStat()
         {
-            if (item != null)
-            {
-                Name = item.Name;
-                Description = item.Description;
-                Type = item.Type;
-                RequiredClass = item.RequiredClass;
-            }
             string[] statsArray = Stats.Split(';');
             foreach (string stat in statsArray)
             {
@@ -239,7 +222,7 @@ namespace Vamos_Sergy.Models.Items
         }
         protected virtual void GenerateStat()
         {
-            switch (RequiredClass)
+            switch (Item.RequiredClass)
             {
                 default:
                 case ClassEnum.Mage:
@@ -266,13 +249,13 @@ namespace Vamos_Sergy.Models.Items
                     break;
             }
 
-            if (Type == EquipmentEnum.Weapon)
+            if (Item.Type == EquipmentEnum.Weapon)
             {
                 MinDamage = _random.Next(2, 5);
                 MaxDamage = _random.Next(5, 10);
                 Stats += $"dmg:{MinDamage}-{MaxDamage};";
             }
-            else if (Type == EquipmentEnum.Shield)
+            else if (Item.Type == EquipmentEnum.Shield)
             {
                 Block = _random.Next(26);
                 Stats += "block:" + Block.ToString();
@@ -293,7 +276,7 @@ namespace Vamos_Sergy.Models.Items
             // 0 = int 1 = str 2 = dex
             int[] ramdumValues = new int[5];
             int maxRandom = 0;
-            switch (RequiredClass)
+            switch (Item.RequiredClass)
             {
                 default:
                 case ClassEnum.Mage:
@@ -363,13 +346,13 @@ namespace Vamos_Sergy.Models.Items
         }
         public int Attack(ClassEnum kast)
         {
-            if (Type != EquipmentEnum.Weapon)
+            if (Item.Type != EquipmentEnum.Weapon)
                 return 0;
 
             int damage = 0;
             double crit = 0;
 
-            switch (RequiredClass)
+            switch (Item.RequiredClass)
             {
                 default:
                 case ClassEnum.Mage:

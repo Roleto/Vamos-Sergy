@@ -3,6 +3,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Diagnostics.CodeAnalysis;
 using Vamos_Sergy.Helpers;
 using System;
+using System.Text.Json.Serialization;
 
 namespace Vamos_Sergy.Models.Items
 {
@@ -19,6 +20,9 @@ namespace Vamos_Sergy.Models.Items
         [ForeignKey(nameof(Hero))]
         public string OwnerId { get; set; }
         public string ItemId { get; set; }
+        [NotMapped]
+        [JsonIgnore]
+        public Item Item { get; set; }
         [NotMapped]
         public virtual Hero Owner { get; set; }
 
@@ -54,6 +58,7 @@ namespace Vamos_Sergy.Models.Items
             Id = Guid.NewGuid().ToString();
             Owner = hero;
             OwnerId = hero.Id;
+            Item = item;
             ItemId = item.Id;
             Name = item.Name;
             Description = item.Description;

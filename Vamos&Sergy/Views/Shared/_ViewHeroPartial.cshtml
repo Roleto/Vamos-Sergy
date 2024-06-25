@@ -4,13 +4,14 @@
         <tr>
             @if (Model.Equipment.ContainsKey(EquipmentEnum.Helmet) && Model.Equipment[EquipmentEnum.Helmet] != null)
             {
-                <td ondblclick="location.href='@Url.Action("UnEquipItem", "Main" , new { equipment=EquipmentEnum.Helmet, name = ViewData["name"]})'">
-                    <partial name="_EquipmentLayout" model="@Model.Equipment[EquipmentEnum.Helmet]" />
+                ViewData["eq"] = $"{EquipmentEnum.Helmet.ToString()}Link";
+                <td id="@EquipmentEnum.Helmet.ToString()" ondblclick="location.href='@Url.Action("UnEquipItem", "Main" , new { equipment=EquipmentEnum.Helmet, name = ViewData["name"]})'">
+                    <partial name="_EquipmentLayout" model="@Model.Equipment[EquipmentEnum.Helmet]" view-data="@ViewData" />
                 </td>
             }
             else
             {
-                <td><img class="icon" src="/Images/NullImages\helmet.png" /></td>
+                <td id="@EquipmentEnum.Helmet.ToString()"><img class="icon" src="/Images/NullImages\helmet.png" /></td>
             }
             <td rowspan="3" colspan="2">
                 <div class="card cardom">
@@ -25,116 +26,126 @@
             </td>
             @if (Model.Equipment.ContainsKey(EquipmentEnum.Necklace) && Model.Equipment[EquipmentEnum.Necklace] != null)
             {
-                <td ondblclick="location.href='@Url.Action("UnEquipItem", "Main" , new { equipment=EquipmentEnum.Necklace, name = ViewData["name"]})'">
-                    <partial name="_EquipmentLayout" model="@Model.Equipment[EquipmentEnum.Necklace]" />
+                ViewData["eq"] = $"{EquipmentEnum.Necklace.ToString()}Link";
+                <td id="@EquipmentEnum.Necklace.ToString()" ondblclick="location.href='@Url.Action("UnEquipItem", "Main" , new { equipment=EquipmentEnum.Necklace, name = ViewData["name"]})'">
+                    <partial name="_EquipmentLayout" model="@Model.Equipment[EquipmentEnum.Necklace]" view-data="@ViewData" />
                 </td>
             }
             else
             {
-                <td><img class="icon" src="/Images\NullImages\necklace.png" /></td>
+                <td id="@EquipmentEnum.Necklace.ToString()"><img class="icon" src="/Images\NullImages\necklace.png" /></td>
             }
         </tr>
         <tr>
             @if (Model.Equipment.ContainsKey(EquipmentEnum.Armor) && Model.Equipment[EquipmentEnum.Armor] != null)
             {
-                <td ondblclick="location.href='@Url.Action("UnEquipItem", "Main" , new { equipment=EquipmentEnum.Armor, name = ViewData["name"]})'">
-                    <partial name="_EquipmentLayout" model="@Model.Equipment[EquipmentEnum.Armor]" />
+                ViewData["eq"] = $"{EquipmentEnum.Armor.ToString()}Link";
+                <td id="@EquipmentEnum.Armor.ToString()" ondblclick="location.href='@Url.Action("UnEquipItem", "Main" , new { equipment=EquipmentEnum.Armor, name = ViewData["name"]})'">
+                    <partial name="_EquipmentLayout" model="@Model.Equipment[EquipmentEnum.Armor]" view-data="@ViewData" />
                 </td>
             }
             else
             {
-                <td><img class="icon" src="/Images\NullImages\armor.png" /></td>
+                <td id="@EquipmentEnum.Armor.ToString()"><img class="icon" src="/Images\NullImages\armor.png" /></td>
             }
             @if (Model.Equipment.ContainsKey(EquipmentEnum.Belt) && Model.Equipment[EquipmentEnum.Belt] != null)
             {
-                <td ondblclick="location.href='@Url.Action("UnEquipItem", "Main" , new { equipment=EquipmentEnum.Belt, name = ViewData["name"]})'">
-                    <partial name="_EquipmentLayout" model="@Model.Equipment[EquipmentEnum.Belt]" />
+                ViewData["eq"] = $"{EquipmentEnum.Belt.ToString()}Link";
+                <td id="@EquipmentEnum.Belt.ToString()" ondblclick="location.href='@Url.Action("UnEquipItem", "Main" , new { equipment=EquipmentEnum.Belt, name = ViewData["name"]})'">
+                    <partial name="_EquipmentLayout" model="@Model.Equipment[EquipmentEnum.Belt]" view-data="@ViewData" />
                 </td>
             }
             else
             {
-                <td><img class="icon" src="/Images\NullImages\belt.png" /></td>
+                <td id="@EquipmentEnum.Belt.ToString()"><img class="icon" src="/Images\NullImages\belt.png" /></td>
             }
         </tr>
         <tr>
             @if (Model.Equipment.ContainsKey(EquipmentEnum.Hand) && Model.Equipment[EquipmentEnum.Hand] != null)
             {
-                <td ondblclick="location.href='@Url.Action("UnEquipItem", "Main" , new { equipment=EquipmentEnum.Hand, name = ViewData["name"]})'">
-                    <partial name="_EquipmentLayout" model="@Model.Equipment[EquipmentEnum.Hand]" />
+                ViewData["eq"] = $"{EquipmentEnum.Hand.ToString()}Link";
+                <td id="@EquipmentEnum.Hand.ToString()" ondblclick="location.href='@Url.Action("UnEquipItem", "Main" , new { equipment=EquipmentEnum.Hand, name = ViewData["name"]})'">
+                    <partial name="_EquipmentLayout" model="@Model.Equipment[EquipmentEnum.Hand]" view-data="@ViewData" />
                 </td>
             }
             else
             {
-                <td><img class="icon" src="/Images\NullImages\hand.png" /></td>
+                <td id="@EquipmentEnum.Hand.ToString()"><img class="icon" src="/Images\NullImages\hand.png" /></td>
             }
             @if (Model.Equipment.ContainsKey(EquipmentEnum.Ring) && Model.Equipment[EquipmentEnum.Ring] != null)
             {
-                <td ondblclick="location.href='@Url.Action("UnEquipItem", "Main" , new { equipment=EquipmentEnum.Ring, name = ViewData["name"]})'">
-                    <partial name="_EquipmentLayout" model="@Model.Equipment[EquipmentEnum.Ring]" />
+                ViewData["eq"] = $"{EquipmentEnum.Ring.ToString()}Link";
+                <td id="@EquipmentEnum.Ring.ToString()" ondblclick="location.href='@Url.Action("UnEquipItem", "Main" , new { equipment=EquipmentEnum.Ring, name = ViewData["name"]})'">
+                    <partial name="_EquipmentLayout" model="@Model.Equipment[EquipmentEnum.Ring]" view-data="@ViewData" />
                 </td>
             }
             else
             {
-                <td><img class="icon" src="/Images\NullImages\ring.png" /></td>
+                <td id="@EquipmentEnum.Ring.ToString()"><img class="icon" src="/Images\NullImages\ring.png" /></td>
             }
         </tr>
         <tr>
             @if (Model.Equipment.ContainsKey(EquipmentEnum.Leg) && Model.Equipment[EquipmentEnum.Leg] != null)
             {
-                <td ondblclick="location.href='@Url.Action("UnEquipItem", "Main" , new { equipment=EquipmentEnum.Leg, name = ViewData["name"]})'">
-                    <partial name="_EquipmentLayout" model="@Model.Equipment[EquipmentEnum.Leg]" />
+                ViewData["eq"] = $"{EquipmentEnum.Leg.ToString()}Link";
+                <td id="@EquipmentEnum.Leg.ToString()" ondblclick="location.href='@Url.Action("UnEquipItem", "Main" , new { equipment=EquipmentEnum.Leg, name = ViewData["name"]})'">
+                    <partial name="_EquipmentLayout" model="@Model.Equipment[EquipmentEnum.Leg]" view-data="@ViewData" />
                 </td>
             }
             else
             {
-                <td><img class="icon" src="/Images\NullImages\leg.png" /></td>
+                <td id="@EquipmentEnum.Leg.ToString()"><img class="icon" src="/Images\NullImages\leg.png" /></td>
             }
             @if (Model.Equipment.ContainsKey(EquipmentEnum.Weapon) && Model.Equipment[EquipmentEnum.Weapon] != null)
             {
-                <td ondblclick="location.href='@Url.Action("UnEquipItem", "Main" , new { equipment=EquipmentEnum.Weapon, name = ViewData["name"]})'">
-                    <partial name="_EquipmentLayout" model="@Model.Equipment[EquipmentEnum.Weapon]" />
+                ViewData["eq"] = $"{EquipmentEnum.Weapon.ToString()}Link";
+                <td id="@EquipmentEnum.Weapon.ToString()" ondblclick="location.href='@Url.Action("UnEquipItem", "Main" , new { equipment=EquipmentEnum.Weapon, name = ViewData["name"]})'">
+                    <partial name="_EquipmentLayout" model="@Model.Equipment[EquipmentEnum.Weapon]" view-data="@ViewData" />
                 </td>
             }
             else
             {
-                <td><img class="icon" src="/Images\NullImages\weapon.png" /></td>
+                <td id="@EquipmentEnum.Weapon.ToString()"><img class="icon" src="/Images\NullImages\weapon.png" /></td>
             }
             @if (Model.Kast == ClassEnum.Warrior)
             {
                 @if (Model.Equipment.ContainsKey(EquipmentEnum.Shield) && Model.Equipment[EquipmentEnum.Shield] != null)
                 {
-                    <td ondblclick="location.href='@Url.Action("UnEquipItem", "Main" , new { equipment=EquipmentEnum.Shield, name = ViewData["name"]})'">
-                        <partial name="_EquipmentLayout" model="@Model.Equipment[EquipmentEnum.Shield]" />
+                    ViewData["eq"] = $"{EquipmentEnum.Shield.ToString()}Link";
+                    <td id="@EquipmentEnum.Shield.ToString()" ondblclick="location.href='@Url.Action("UnEquipItem", "Main" , new { equipment=EquipmentEnum.Shield, name = ViewData["name"]})'">
+                        <partial name="_EquipmentLayout" model="@Model.Equipment[EquipmentEnum.Shield]" view-data="@ViewData" />
                     </td>
                 }
                 else
                 {
-                    <td><img class="icon" src="/Images\NullImages\shield.png" /></td>
+                    <td id="@EquipmentEnum.Shield.ToString()"><img class="icon" src="/Images\NullImages\shield.png" /></td>
                 }
             }
             else
             {
                 @if (Model.Equipment.ContainsKey(EquipmentEnum.Weapon) && Model.Equipment[EquipmentEnum.Weapon] != null)
                 {
-                    <td ondblclick="location.href='@Url.Action("UnEquipItem", "Main" , new { equipment=EquipmentEnum.Weapon, name = ViewData["name"]})'">
+                    ViewData["eq"] = $"{EquipmentEnum.Weapon.ToString()}2Link";
+                    <td id="@EquipmentEnum.Weapon.ToString()2" ondblclick="location.href='@Url.Action("UnEquipItem", "Main" , new { equipment=EquipmentEnum.Weapon, name = ViewData["name"]})'">
                         <img class="icon" src="@Url.Action("GetInventoryImage", "Main",
                         new { id = Model.Equipment[EquipmentEnum.Weapon].ItemId, secondary=true})" />
                     </td>
                 }
                 else
                 {
-                    <td><img class="icon" src="/Images\NullImages\blank.png" /></td>
+                    <td id="@EquipmentEnum.Weapon.ToString()"><img class="icon" src="/Images\NullImages\blank.png" /></td>
                 }
             }
             @if (Model.Equipment.ContainsKey(EquipmentEnum.Misc) && Model.Equipment[EquipmentEnum.Misc] != null)
             {
-                <td ondblclick="location.href='@Url.Action("UnEquipItem", "Main" , new { equipment=EquipmentEnum.Misc, name = ViewData["name"]})'">
-                    <partial name="_EquipmentLayout" model="@Model.Equipment[EquipmentEnum.Misc]" />
+                ViewData["eq"] = $"{EquipmentEnum.Misc.ToString()}Link";
+                <td id="@EquipmentEnum.Misc.ToString()" ondblclick="location.href='@Url.Action("UnEquipItem", "Main" , new { equipment=EquipmentEnum.Misc, name = ViewData["name"]})'">
+                    <partial name="_EquipmentLayout" model="@Model.Equipment[EquipmentEnum.Misc]" view-data="@ViewData" />
                 </td>
             }
             else
             {
-                <td><img class="icon" src="/Images\NullImages\blank.png" /></td>
+                <td id="@EquipmentEnum.Misc.ToString()"><img class="icon" src="/Images\NullImages\blank.png" /></td>
             }
         </tr>
         <tr>

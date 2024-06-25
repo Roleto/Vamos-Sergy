@@ -93,12 +93,13 @@
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     @* <script src="~/lib/jquery-ajax-unobtrusive/jquery.unobtrusive-ajax.js"></script> *@
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
     <script src="https://kit.fontawesome.com/a0addb9504.js" crossorigin="anonymous"></script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>
-
+<script type="text/javascript" src="lib.js"></script>
 <script type="text/javascript">
     function updateMoney(gold, mushroom) {
         const GoldCounter = document.getElementById("currentGold");
@@ -109,21 +110,87 @@
         MushCounter.textContent = newMush;
     }
 
-    function equip(id) {
-        if (id == null) {
-            return;
-        }
+    function equip(id, index) {
+        let invSlotId = 'invSlot' + index;
+        let invId = 'inv' + index;
+        let invImgId = 'invImg' + index;
+        const url = "https://localhost:7284/Gama/" + id;
+
         const xhr = new XMLHttpRequest();
-        const url = "https://localhost:7284/Gama/" + id; 
         xhr.open("GET", url);
         xhr.send();
         xhr.responseType = "json";
+
+
         xhr.onload = () => {
             if (xhr.readyState == 4 && xhr.status == 200) {
-                console.log(xhr.response);
+                const data = xhr.response;
+                // alert(data.length);
+                if (data.length > 1) {
+                    let type = data[0].type;
+                    var equipSlot = document.getElementById(type);
+                    var invSlot = document.getElementById(invSlotId);
+                    let title = data[0].name;
+                    let stats = data[0].statForDisplay;
+                    let url = data[0].url;
+                    type += 'Link';
+
+                    // equipSlot.replaceChild(invSlot, equipSlot.firstChild);
+                    let invItem = `<a id="${type}"
+                                                tabindex="0"
+                                                role="button"
+                                                data-bs-toggle="popover"
+                                                title="${title}"
+                                                data-bs-content="${stats}"
+                                                href="#"><img class="InventoryImage" src="/Images/ItemImages/${url}" />
+                                           </a>`;
+                    title = data[1].name;
+                    //popover367073
+                    stats = data[1].statForDisplay;
+                    url = data[1].url;
+                    let eqItem = `<a id="${invId}"
+                                                    tabindex="0"
+                                                    role="button"
+                                                    data-bs-toggle="popover"
+                                                    title="${title}"
+                                                    data-bs-content="${stats}"
+                                                    href="#"><img id="invImg${id}" class="InventoryImage" src="/Images/ItemImages/${url}" />
+                                               </a>`;
+                    equipSlot.innerHTML = invItem;
+                    invSlot.innerHTML = eqItem;
+                    const inv = document.getElementById(type);
+                    const popoverInv = new bootstrap.Popover(inv, { html: true, trigger: "hover" });
+                    const eq = document.getElementById(invId);
+                    const popoverEq = new bootstrap.Popover(eq, { html: true, trigger: "hover" });
+                } else {
+                    let type = data[0].type;
+                    var equipSlot = document.getElementById(type);
+                    equipSlot.innerHTML = "";
+                    var invSlot = document.getElementById(invSlotId);
+                    let title = data[0].name;
+                    let stats = data[0].statForDisplay;
+                    let url = data[0].url;
+                    type += 'Link';
+
+                    let invItem = `<a id="${type}"
+                                                    tabindex="0"
+                                                    role="button"
+                                                    data-bs-toggle="popover"
+                                                    title="${title}"
+                                                    data-bs-content="${stats}"
+                                                    href="#"><img class="InventoryImage" src="/Images/ItemImages/${url}" />
+                                               </a>`;
+                    let blank = '<img class="InventoryImg" style="visibility:hidden" src=" / Images / NullImages / blank.png" />';
+                    invSlot.innerHTML = blank;
+                    equipSlot.innerHTML = invItem;
+                    equipSlot.className = "equpipped";
+                    const inv = document.getElementById(type);
+                    const popoverInv = new bootstrap.Popover(inv, { html: true, trigger: "hover" });
+                }
             } else {
                 console.log(`Error: ${xhr.status}`);
             }
         };
     }
 </script>
+
