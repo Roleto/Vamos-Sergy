@@ -18,7 +18,7 @@ namespace Vamos_Sergy.ViewModels
             _random = new Random();
         }
 
-        public List<int> Fight()
+        public string Fight()
         {
             List<int> list = new List<int>();
             string output = "";
@@ -49,7 +49,7 @@ namespace Vamos_Sergy.ViewModels
                 }
             }
 
-            return list;
+            return output;
         }
     }
 }

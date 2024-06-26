@@ -58,27 +58,28 @@ namespace Vamos_Sergy.Models
             {
                 int minDamage = 0;
                 int maxDamage = 0;
-                switch (Kast)
-                {
-                    default:
-                    case ClassEnum.Mage:
-                        minDamage = (Level * 50) * (1 + Inte / 10);
-                        maxDamage = (Level * 100) * (1 + Inte / 10);
-                        return _random.Next(minDamage, maxDamage); 
-                    case ClassEnum.Warrior:
-                        minDamage = (Level * 50) * (1 + Str / 10);
-                        maxDamage = (Level * 100) * (1 + Str / 10);
-                        return _random.Next(minDamage, maxDamage);
-                    case ClassEnum.Ranger:
-                        minDamage = (Level * 50) * (1 + Dex / 10);
-                        maxDamage = (Level * 100) * (1 + Dex / 10);
-                        return _random.Next(minDamage, maxDamage);
-                }
+                //switch (Kast)
+                //{
+                //    default:
+                //    case ClassEnum.Mage:
+                //        minDamage = (Level * 50) * (1 + Inte / 10);
+                //        maxDamage = (Level * 100) * (1 + Inte / 10);
+                //        return _random.Next(minDamage, maxDamage); 
+                //    case ClassEnum.Warrior:
+                //        minDamage = (Level * 50) * (1 + Str / 10);
+                //        maxDamage = (Level * 100) * (1 + Str / 10);
+                //        return _random.Next(minDamage, maxDamage);
+                //    case ClassEnum.Ranger:
+                //        minDamage = (Level * 50) * (1 + Dex / 10);
+                //        maxDamage = (Level * 100) * (1 + Dex / 10);
+                //        return _random.Next(minDamage, maxDamage);
+                //}
+                return _random.Next(25, 50);
             }
         }
 
         public string ContentType { get; set; }
         public byte[] Data { get; set; }
-        public int FightCount { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        public int FightCount { get; set; }
     }
 }

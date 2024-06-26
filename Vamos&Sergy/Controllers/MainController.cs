@@ -46,7 +46,7 @@ namespace Vamos_Sergy.Controllers
                     questList.Add(q);
             }
             hero.SetQuest(questList);
-            if(hero.GetSelectedQuest != null)
+            if (hero.GetSelectedQuest != null)
             {
                 var m = _monsterRepo.Read().ToArray();
                 Random r = new Random();
@@ -105,7 +105,7 @@ namespace Vamos_Sergy.Controllers
         {
             foreach (Equipment item in hero.Equipments)
             {
-                if(item.Item == null)
+                if (item.Item == null)
                 {
                     item.Item = _itemRepo.Read(item.ItemId);
                 }
@@ -272,7 +272,7 @@ namespace Vamos_Sergy.Controllers
         {
 
             var e = _hero.UnEquip(equipment);
-            if(e != null)
+            if (e != null)
             {
                 _equipmentRepo.Update(e);
             }
@@ -312,7 +312,7 @@ namespace Vamos_Sergy.Controllers
         [HttpPost]
         public IActionResult Tavern(int selectedQuest, bool questEnded, int beerCount, int goldInput, int mushroomInput)
         {
-                var hero = SetHero(_heroRepo.Read(_hero.Id));
+            var hero = SetHero(_heroRepo.Read(_hero.Id));
             if (questEnded)
             {
 
@@ -346,7 +346,7 @@ namespace Vamos_Sergy.Controllers
         }
 
         [HttpPost]
-        public IActionResult Arena(string enemyId,bool heroWin)
+        public IActionResult Arena(string enemyId, bool heroWin)
         {
             if (enemyId == null)//generatefighter
             {
@@ -357,6 +357,7 @@ namespace Vamos_Sergy.Controllers
                     if (hero.FightCount < 10)
                     {
                         hero.Exp += 100;
+                        hero.FightCount += 1;
                     }
                     hero.Gold += 2;
                 }
@@ -364,12 +365,13 @@ namespace Vamos_Sergy.Controllers
                 {
                     hero.Gold -= 2;
                     hero.Honor -= 100;
-                    if(hero.Honor < 0)
+                    if (hero.Honor < 0)
                     {
                         hero.Honor = 0;
                     }
                 }
                 _heroRepo.Update(hero);
+                _arena.GenaretFighters();
             }
             else // harc lesz
             {
@@ -400,8 +402,37 @@ namespace Vamos_Sergy.Controllers
         {
             var hero = SetHero(_heroRepo.Read(_hero.Id));
             this.RefreshHero(hero);
-            ShopViewModel shop_vm = new ShopViewModel(hero,_itemRepo.Read().ToList(), "weapon");
+            ShopViewModel shop_vm = new ShopViewModel(hero, _itemRepo.Read().ToList(), "weapon");
             return View(shop_vm);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> SellItem(string id,string name)
+        {
+            var hero = _heroRepo.Read(_hero.Id);
+            _equipmentRepo.Delete(id);
+            hero.Gold += 2;
+            _heroRepo.Update(hero);
+
+            //if (hero.InvIndex > 0)
+            //{
+            //    Equipment? e = _weaponshop.Buy(index, hero);
+            //    if (e != null)
+            //    {
+            //        e.OwherId = hero.Id;
+            //        e.InventorySlot = hero.GetFirsNull;
+            //        hero.Inventory[e.InventorySlot] = e;
+            //        _equipmentRepo.Create(e);
+            //        _heroRepo.Update(hero);
+            //        _hero = hero;
+            //        this.RefreshHero(hero);
+            //        RedirectToAction(nameof(WeaponShop));
+            //    }
+            //    ViewData["error"] = "Don't have enough money";
+            //    return View("WeaponShop", _weaponshop);
+            //}
+            //ViewData["error"] = "Inventury is full";
+         return   RedirectToAction(name);
         }
 
         [HttpGet]
@@ -447,7 +478,8 @@ namespace Vamos_Sergy.Controllers
                     {
                         return BadRequest();
                     }
-                }else if (hero.ContentType?.Length > 3)
+                }
+                else if (hero.ContentType?.Length > 3)
                 {
                     return new FileContentResult(hero.Data, hero.ContentType);
                 }

@@ -5,7 +5,8 @@
 }
 <script type="text/javascript">
     let countdownDate;
-    document.addEventListener('DOMContentLoaded', function () { 
+    let questCounter;
+    document.addEventListener('DOMContentLoaded', function () {
         startCountdown();
     });
     function UpdateHero(data) {
@@ -51,7 +52,7 @@
         hours += 2;
         let finishText = "(Finished " + hours.toString().padStart(2, '0') + ":" + minutes.toString().padStart(2, '0') + ")";
         document.getElementById("Finished").value = finishText;
-        let x = setInterval(function () {
+        questCounter = setInterval(function () {
             // Get the current date and time
             now = new Date().getTime();
 
@@ -74,42 +75,112 @@
             if ((minutes * 60) + seconds > end) {
                 document.getElementById("adventureProgress").style.display = "none";
                 document.getElementById("fight").style.display = "block";
-                document.removeEventListener("DOMContentLoaded", startCountdown, true);
+                clearInterval(questCounter);
+                questCounter = null;
             }
         }, 1000);
     }
 
+    let fight;
     function startFight(data) {
-        alert(data);
-        // let x = setInterval(function () {
-        //     // Get the current date and time
-        //     now = new Date().getTime();
-
-        //     // Calculate the distance between now and the countdown date
-        //     distance = now - countdownDate;
-
-        //     // Calculate days, hours, minutes and seconds
-        //     minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-        //     let seconds = Math.floor((distance % (1000 * 60)) / 1000);
-
-        //     // Display the result
-        //     document.getElementById("minutes").value = minutes.toString().padStart(2, '0');
-        //     document.getElementById("seconds").value = seconds.toString().padStart(2, '0');
-
-        //     allDistance = end * 1000;
-        //     progress = Math.floor(distance / allDistance * 100);
-        //     textprogres = progress + '%';
-        //     progressBar.style.width = textprogres;
-
-        //     if ((minutes * 60) + seconds > end) {
-        //         document.getElementById("adventureProgress").style.display = "none";
-        //         document.getElementById("fight").style.display = "block";
-        //     }
-        // }, 1000);
+        const damages = data.split(';');
+        let i = 0;
+        var enemyH = document.getElementById("enemyHealth");
+        var enemyP = document.getElementById("enemyHealthProgres");
+        var heroH = document.getElementById("heroHealth");
+        var heroP = document.getElementById("heroHealthProgres");
+        const maxHero = Number(heroH.innerHTML);
+        const maxEnemy = Number(enemyH.innerHTML);
+        let curHero = maxHero;
+        let curEnemy = maxEnemy;
+        document.getElementById("StartFight").style.display = "none";
+        document.getElementById("SkipFight").style.display = "block";
+        
+        fight = setInterval(function () {
+            if (i % 2 == 0) {//hero turn
+                curEnemy -= Number(damages[i]);
+                let percentaga = curEnemy / maxEnemy * 100;
+                const p_text = percentaga + "%";
+                enemyH.innerHTML = curEnemy;
+                enemyP.style.width = p_text;
+                if (curEnemy <= 0) {
+                    enemyH.innerHTML = 0;
+                    enemyP.style.width = "0%";
+                    clearInterval(fight);
+                    fight = null;
+                    document.getElementById("SkipFight").style.display = "none";
+                    document.getElementById("okButton").style.display = "block";
+                    document.getElementById("heroWin").value = true;
+                    document.getElementById("enemyId").value = "";
+                    return;
+                }
+            } else {// enemy turn
+                curHero -= Number(damages[i]);
+                let percentaga = curHero / maxHero * 100;
+                const p_text = percentaga + "%";
+                heroH.innerHTML = curHero;
+                heroP.style.width = p_text;
+                if (curHero <= 0) {
+                    enemyH.innerHTML = 0;
+                    enemyP.style.width = "0%";
+                    clearInterval(fight);
+                    fight = null;
+                    document.getElementById("SkipFight").style.display = "none";
+                    document.getElementById("okButton").style.display = "block";
+                    document.getElementById("heroWin").value = false;
+                    document.getElementById("enemyId").value = "";
+                    return;
+                }
+            }
+            i++;
+        }, 1000);
+            alert('yay');
     }
-    function valami(asd) {
-        alert(asd);
+
+    function skipFight(data, maxHero, maxEnemy) {
+        clearInterval(fight);
+        fight = null;
+        const damages = data.split(';');
+        let curHero = Number(maxHero);
+        let curEnemy = Number(maxEnemy);
+        var enemyH = document.getElementById("enemyHealth");
+        var enemyP = document.getElementById("enemyHealthProgres");
+        var heroH = document.getElementById("heroHealth");
+        var heroP = document.getElementById("heroHealthProgres");
+        for (let i = 0; i < damages.length; i++) {
+            if (i % 2 == 0) {//hero turn
+                curEnemy -= Number(damages[i]);
+                let percentaga = curEnemy / Number(maxEnemy) * 100;
+                const p_text = percentaga + "%";
+                enemyH.innerHTML = curEnemy;
+                enemyP.style.width = p_text;
+                if (curEnemy <= 0) {
+                    enemyH.innerHTML = 0;
+                    enemyP.style.width = "0%";
+                    document.getElementById("heroWin").value = true;
+                    break;
+                }
+            } else {// enemy turn
+                curHero -= Number(damages[i]);
+                let percentaga = curHero / Number(maxHero) * 100;
+                const p_text = percentaga + "%";
+                heroH.innerHTML = curHero;
+                heroP.style.width = p_text;
+                if (curHero <= 0) {
+                    enemyH.innerHTML = 0;
+                    enemyP.style.width = "0%";
+                    document.getElementById("heroWin").value = false;
+                    break;
+                }
+            }
+            document.getElementById("SkipFight").style.display = "none";
+            document.getElementById("okButton").style.display = "block";
+            document.getElementById("enemyId").value = "";
+
+        }
+
     }
+
     function validateForm() {
         var x = document.getElementById("questdiv1");
         var y = document.getElementById("questdiv2");
@@ -457,17 +528,32 @@ else if (Model.Hero.HeroState == HeroStateEnum.OnAdvanture)
                 <h3 class="progresstext justify-content-center d-flex position-absolute w-100"><output id="minutes">0</output>:<output id="seconds">00</output> <output id="Finished">(Finished 16:25)</output></h3>
             </div>
             <div id="fight" style="display:none;">
-                <div class="eneemies" >
+                <div class="eneemies">
                     <div class="adventureFight">
+                        @{
+                            ViewData["health"] = "heroHealth";
+                            ViewData["healthP"] = "heroHealthProgres";
+                        }
                         <partial name="_HeroCardLayout" model="@Model.Hero" view-data="ViewData" />
                     </div>
                     <div class="adventureFight">
+                        @{
+                            ViewData["health"] = "enemyHealth";
+                            ViewData["healthP"] = "enemyHealthProgres";
+                        }
                         <partial name="_HeroCardLayout" model="@Model.Hero.GetSelectedQuest.Enemy" view-data="ViewData" />
                     </div>
                 </div>
                 <div class="arenaButton">
-                    <button id="StartFight" onclick="valami(@Model.Fight())" style="width:10rem" class="btn btn-primary">StartFight</button>
-                    <button id="okButton" disabled style="width:10rem;display:none" class="btn btn-primary">Ok</button>
+                    <button id="StartFight" onclick="startFight('@Model.Fight()')" style="width:10rem" class="btn btn-primary">Start Fight</button>
+                    <button id="SkipFight" onclick="skipFight('@Model.Fight()','@Model.Hero.Hp','@Model.Hero.GetSelectedQuest.Enemy.Hp')" style="width:10rem;display:none" class="btn btn-primary">Skip Fight</button>
+                    <form method="post" action="/Main/Tavern">
+                        <input type="hidden" id="heroWin" name="heroWin" value="false" />
+                        <button type="submit" id="okButton" style="width:10rem;display:none" class="btn btn-primary">Ok</button>
+                    </form>
+                    @*   <button id="StartFight" onclick="startFight('@Model.Fight()')" style="width:10rem" class="btn btn-primary">StartFight</button>
+                <button id="okButton" disabled style="width:10rem;display:none" class="btn btn-primary">Ok</button>
+                *@
                 </div>
             </div>
         </form>

@@ -32,7 +32,7 @@ namespace Vamos_Sergy.ViewModels
         {
             if (!first)
                 canFight = false;
-
+            Enemy = null;
             LastFight = DateTime.Now;
             for (int i = 0; i < 3; i++)
             {

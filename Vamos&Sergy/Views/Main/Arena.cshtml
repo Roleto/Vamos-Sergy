@@ -189,7 +189,6 @@
                     @{
                         ViewData["health"] = "enemyHealth";
                         ViewData["healthP"] = "enemyHealthProgres";
-                        ViewData["maxHealt"] = "enemyMax";
                     }
                     <partial name="_HeroCardLayout" model="@Model.Enemy" view-data="ViewData" />
                 </div>
@@ -199,7 +198,7 @@
                 <button id="SkipFight" onclick="skipFight('@Model.Damages','@Model.MyHero.Hp','@Model.Enemy.Hp')" style="width:10rem;display:none" class="btn btn-primary">Skip Fight</button>
                 <form method="post" action="/Main/Arena">
                     <input type="hidden" id="heroWin" name="heroWin" value="false" />
-                    <button id="okButton" style="width:10rem;display:none" class="btn btn-primary">Ok</button>
+                    <button type="submit" id="okButton" style="width:10rem;display:none" class="btn btn-primary">Ok</button>
                 </form>
             </div>
         </div>
