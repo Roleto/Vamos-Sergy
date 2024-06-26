@@ -6,9 +6,12 @@ namespace Vamos_Sergy.ViewModels
     {
         private List<Hero> HeroList;
         public Hero MyHero;
+        public Hero Enemy;
         public Hero[] Heroes;
+        public string Damages;
         public int FignhtNumber;
         public bool canFight;
+        public bool HeroWin;
         public DateTime LastFight;
         Random _rnd;
 
@@ -20,6 +23,8 @@ namespace Vamos_Sergy.ViewModels
             FignhtNumber = 0;
             _rnd = new Random();
             canFight = false;
+            HeroWin = false;
+            Damages = "";
             GenaretFighters(true);
         }
 
@@ -42,6 +47,40 @@ namespace Vamos_Sergy.ViewModels
             TimeSpan dif = DateTime.Now.Subtract(LastFight);
             if (dif.TotalMinutes > 10)
                 canFight = true;
+        }
+
+        public void Fight()
+        {
+            List<int> list = new List<int>();
+            string output = "";
+            MyHero.CurrentHp = MyHero.Hp;
+
+            Enemy.CurrentHp = Enemy.Hp;
+
+            int damage = 0;
+            while (true)
+            {
+                damage = MyHero.Damage;
+                list.Add(damage);
+                output += damage.ToString() + ';';
+                Enemy.CurrentHp -= damage;
+                if (Enemy.CurrentHp <= 0)
+                {
+                    HeroWin = true;
+                    break;
+                }
+                damage = Enemy.Damage;
+                list.Add(damage);
+                output += damage.ToString() + ';';
+                MyHero.CurrentHp -= damage;
+                if (MyHero.CurrentHp <= 0)
+                {
+                    HeroWin = false;
+                    break;
+                }
+            }
+
+            Damages = output;
         }
     }
 }

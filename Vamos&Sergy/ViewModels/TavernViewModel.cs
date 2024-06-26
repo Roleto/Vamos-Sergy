@@ -21,6 +21,7 @@ namespace Vamos_Sergy.ViewModels
         public List<int> Fight()
         {
             List<int> list = new List<int>();
+            string output = "";
             Hero.CurrentHp = Hero.Hp;
             Monster monster = Hero.Quest[Hero.SelectedQuest.Value].Enemy;
             monster.CurrentHp = monster.Hp;
@@ -30,6 +31,7 @@ namespace Vamos_Sergy.ViewModels
             {
                 damage = Hero.Damage;
                 list.Add(damage);
+                output += damage.ToString() + ';';
                 monster.CurrentHp -= damage;
                 if(monster.CurrentHp <= 0)
                 {
@@ -38,6 +40,7 @@ namespace Vamos_Sergy.ViewModels
                 }
                 damage = monster.Damage;
                 list.Add(damage);
+                output += damage.ToString() + ';';
                 Hero.CurrentHp -= damage;
                 if(Hero.CurrentHp <= 0)
                 {

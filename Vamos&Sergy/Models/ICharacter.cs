@@ -7,7 +7,7 @@
         public string GuildId { get; set; }
         public string GuildName { get; set; }
         public int Level { get; set; }
-
+        public int FightCount { get; set; }
         public ClassEnum Kast { get; set; }
         public int Str { get; set; }
         public int Defence { get; }

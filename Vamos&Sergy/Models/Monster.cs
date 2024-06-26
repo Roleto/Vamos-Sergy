@@ -79,5 +79,6 @@ namespace Vamos_Sergy.Models
 
         public string ContentType { get; set; }
         public byte[] Data { get; set; }
+        public int FightCount { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
     }
 }

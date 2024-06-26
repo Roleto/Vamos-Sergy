@@ -57,6 +57,7 @@ namespace Vamos_Sergy.Data.Classes
             old.Adventure = item.Adventure;
             old.HeroState = item.HeroState;
             old.Gold = Math.Round(item.Gold,2);
+            old.FightCount = item.FightCount;
             old.Mushroom = item.Mushroom;
             old.BeerCount = item.BeerCount;
             old.Mount = item.Mount;

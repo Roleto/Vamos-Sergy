@@ -1,5 +1,6 @@
 ﻿@using Vamos_Sergy.ViewModels
 @model ArenaViewModel
+
 <script type="text/javascript">
     let countdownDate;
     document.addEventListener('DOMContentLoaded', function () {
@@ -44,28 +45,164 @@
             }
         }, 1000);
     }
+    let fight;
+    function startFight(data) {
+        const damages = data.split(';');
+        let i = 0;
+        var enemyH = document.getElementById("enemyHealth");
+        var enemyP = document.getElementById("enemyHealthProgres");
+        var heroH = document.getElementById("heroHealth");
+        var heroP = document.getElementById("heroHealthProgres");
+        const maxHero = Number(heroH.innerHTML);
+        const maxEnemy = Number(enemyH.innerHTML);
+        let curHero = maxHero;
+        let curEnemy = maxEnemy;
+        document.getElementById("StartFight").style.display = "none";
+        document.getElementById("SkipFight").style.display = "block";
+
+
+        fight = setInterval(function () {
+            if (i % 2 == 0) {//hero turn
+                curEnemy -= Number(damages[i]);
+                let percentaga = curEnemy / maxEnemy * 100;
+                const p_text = percentaga + "%";
+                enemyH.innerHTML = curEnemy;
+                enemyP.style.width = p_text;
+                if (curEnemy <= 0) {
+                    enemyH.innerHTML = 0;
+                    enemyP.style.width = "0%";
+                    clearInterval(fight);
+                    fight = null;
+                    document.getElementById("SkipFight").style.display = "none";
+                    document.getElementById("okButton").style.display = "block";
+                    document.getElementById("heroWin").value = true;
+                    document.getElementById("enemyId").value = "";
+                    return;
+                }
+            } else {// enemy turn
+                curHero -= Number(damages[i]);
+                let percentaga = curHero / maxHero * 100;
+                const p_text = percentaga + "%";
+                heroH.innerHTML = curHero;
+                heroP.style.width = p_text;
+                if (curHero <= 0) {
+                    enemyH.innerHTML = 0;
+                    enemyP.style.width = "0%";
+                    clearInterval(fight);
+                    fight = null;
+                    document.getElementById("SkipFight").style.display = "none";
+                    document.getElementById("okButton").style.display = "block";
+                    document.getElementById("heroWin").value = false;
+                    document.getElementById("enemyId").value = "";
+                    return;
+                }
+            }
+            i++;
+        }, 1000);
+    }
+
+    function skipFight(data, maxHero, maxEnemy) {
+        clearInterval(fight);
+        fight = null;
+        const damages = data.split(';');
+        let curHero = Number(maxHero);
+        let curEnemy = Number(maxEnemy);
+        var enemyH = document.getElementById("enemyHealth");
+        var enemyP = document.getElementById("enemyHealthProgres");
+        var heroH = document.getElementById("heroHealth");
+        var heroP = document.getElementById("heroHealthProgres");
+        for (let i = 0; i < damages.length; i++) {
+            if (i % 2 == 0) {//hero turn
+                curEnemy -= Number(damages[i]);
+                let percentaga = curEnemy / Number(maxEnemy) * 100;
+                const p_text = percentaga + "%";
+                enemyH.innerHTML = curEnemy;
+                enemyP.style.width = p_text;
+                if (curEnemy <= 0) {
+                    enemyH.innerHTML = 0;
+                    enemyP.style.width = "0%";
+                    document.getElementById("heroWin").value = true;
+                    break;
+                }
+            } else {// enemy turn
+                curHero -= Number(damages[i]);
+                let percentaga = curHero / Number(maxHero) * 100;
+                const p_text = percentaga + "%";
+                heroH.innerHTML = curHero;
+                heroP.style.width = p_text;
+                if (curHero <= 0) {
+                    enemyH.innerHTML = 0;
+                    enemyP.style.width = "0%";
+                    document.getElementById("heroWin").value = false;
+                    break;
+                }
+            }
+            document.getElementById("SkipFight").style.display = "none";
+            document.getElementById("okButton").style.display = "block";
+            document.getElementById("enemyId").value = "";
+
+        }
+
+    }
 </script>
 <div class="center">
-    <div class="arenaText">
-        <p>Fight for xp today:0/10</p>
-        <h4 class="arenaTitle">Choose an opponent:</h4>
-        <div id="timer" style="display:none">
-            <input id="countdownDate" type="hidden" value="@Model.LastFight" />
-            <input id="canfight" name="fight" type="hidden" value="@Model.canFight.ToString()" />
-            <span>1M or</span>
-            <span id="minutes">00</span>:<span id="seconds">00</span>
+    @if (Model.Enemy == null)
+    {
+        <div class="arenaText">
+            <p>Fight for xp today:0/10</p>
+            <h4 class="arenaTitle">Choose an opponent:</h4>
+            <div id="timer" style="display:none">
+                <input id="countdownDate" type="hidden" value="@Model.LastFight" />
+                <input id="canfight" name="fight" type="hidden" value="@Model.canFight.ToString()" />
+                <span>1M or</span>
+                <span id="minutes">00</span>:<span id="seconds">00</span>
+            </div>
         </div>
-    </div>
-    <div class="eneemies">
-        <div class="enemy">
-            <partial name="_HeroCardLayout" model="@Model.Heroes[0]" view-data="ViewData" />
+        ViewData["hero"] = "Arena";
+        ViewData["health"] = "heroHealth";
+        ViewData["healthP"] = "heroHealthProgres";
+        <div class="eneemies">
+            <div class="enemy">
+                <partial name="_HeroCardLayout" model="@Model.Heroes[0]" view-data="ViewData" />
+            </div>
+            <div class="enemy">
+                <partial name="_HeroCardLayout" model="@Model.Heroes[1]" view-data="ViewData" />
+            </div>
+            <div class="enemy">
+                <partial name="_HeroCardLayout" model="@Model.Heroes[2]" view-data="ViewData" />
+            </div>
         </div>
-        <div class="enemy">
-            <partial name="_HeroCardLayout" model="@Model.Heroes[1]" view-data="ViewData" />
+    }
+    else
+    {
+        ViewData["hero"] = "noArena";
+        <div>
+            <div class="eneemies">
+                <div class="arenaFight">
+                    @{
+                        ViewData["health"] = "heroHealth";
+                        ViewData["healthP"] = "heroHealthProgres";
+                    }
+                    <partial name="_HeroCardLayout" model="@Model.MyHero" view-data="ViewData" />
+                </div>
+                <div class="arenaFight">
+                    @{
+                        ViewData["health"] = "enemyHealth";
+                        ViewData["healthP"] = "enemyHealthProgres";
+                        ViewData["maxHealt"] = "enemyMax";
+                    }
+                    <partial name="_HeroCardLayout" model="@Model.Enemy" view-data="ViewData" />
+                </div>
+            </div>
+            <div class="arenaButton">
+                <button id="StartFight" onclick="startFight('@Model.Damages')" style="width:10rem" class="btn btn-primary">Start Fight</button>
+                <button id="SkipFight" onclick="skipFight('@Model.Damages','@Model.MyHero.Hp','@Model.Enemy.Hp')" style="width:10rem;display:none" class="btn btn-primary">Skip Fight</button>
+                <form method="post" action="/Main/Arena">
+                    <input type="hidden" id="heroWin" name="heroWin" value="false" />
+                    <button id="okButton" style="width:10rem;display:none" class="btn btn-primary">Ok</button>
+                </form>
+            </div>
         </div>
-        <div class="enemy">
-            <partial name="_HeroCardLayout" model="@Model.Heroes[2]" view-data="ViewData" />
-        </div>
-    </div>
+    }
 
 </div>

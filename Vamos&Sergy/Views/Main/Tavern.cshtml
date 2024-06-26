@@ -1,9 +1,11 @@
 ﻿@using Vamos_Sergy.ViewModels
 @model TavernViewModel
-
+@{
+    ViewData["hero"] = "Tavern";
+}
 <script type="text/javascript">
     let countdownDate;
-    document.addEventListener('DOMContentLoaded', function () {
+    document.addEventListener('DOMContentLoaded', function () { 
         startCountdown();
     });
     function UpdateHero(data) {
@@ -25,6 +27,14 @@
         xhr.send(json);
     }
     function startCountdown() {
+        // alert('yay');
+        // const end = document.getElementById("questEnded");
+        // alert(end);
+        // if (end == "True") {
+        //     document.getElementById("adventureProgress").style.display = "none";
+        //     document.getElementById("fight").style.display = "block";
+        //     return;
+        // }
         countdownDate = new Date(document.getElementById("startQuest").value).getTime();
         const progressBar = document.getElementById("progressBar");
         let end = Number(document.getElementById("endQuest").value);
@@ -64,8 +74,41 @@
             if ((minutes * 60) + seconds > end) {
                 document.getElementById("adventureProgress").style.display = "none";
                 document.getElementById("fight").style.display = "block";
+                document.removeEventListener("DOMContentLoaded", startCountdown, true);
             }
         }, 1000);
+    }
+
+    function startFight(data) {
+        alert(data);
+        // let x = setInterval(function () {
+        //     // Get the current date and time
+        //     now = new Date().getTime();
+
+        //     // Calculate the distance between now and the countdown date
+        //     distance = now - countdownDate;
+
+        //     // Calculate days, hours, minutes and seconds
+        //     minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+        //     let seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+        //     // Display the result
+        //     document.getElementById("minutes").value = minutes.toString().padStart(2, '0');
+        //     document.getElementById("seconds").value = seconds.toString().padStart(2, '0');
+
+        //     allDistance = end * 1000;
+        //     progress = Math.floor(distance / allDistance * 100);
+        //     textprogres = progress + '%';
+        //     progressBar.style.width = textprogres;
+
+        //     if ((minutes * 60) + seconds > end) {
+        //         document.getElementById("adventureProgress").style.display = "none";
+        //         document.getElementById("fight").style.display = "block";
+        //     }
+        // }, 1000);
+    }
+    function valami(asd) {
+        alert(asd);
     }
     function validateForm() {
         var x = document.getElementById("questdiv1");
@@ -305,7 +348,7 @@
                             @* <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button> *@
                         </div>
                         <div class="modal-body">
-                            <partial name="_QuestLayout" model="@Model" view-data="@ViewData" />
+                            <partial name="_QuestLayout" model="@Model.Hero" view-data="@ViewData" />
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -346,7 +389,7 @@
                     </div>
                 </div>
             </div>
-            <div class="modal fade" id="gamblerModal" tabindex="-1" aria-labelledby="gamblerModalLabel" aria-hidden="true">
+            <div class="modal fade" style="height:45rem;" id="gamblerModal" tabindex="-1" aria-labelledby="gamblerModalLabel" aria-hidden="true">
                 <div class="modal-dialog modal-dialog-centered tavernModal">
                     <div class="modal-content">
                         <div class="modal-header">
@@ -401,23 +444,34 @@
 }
 else if (Model.Hero.HeroState == HeroStateEnum.OnAdvanture)
 {
-    <form onsubmit="return validateForm()" enctype="application/x-www-form-urlencoded" method="post" action="/Main/Tavern">
-        <input id="questEnded" name="questEnded" type="hidden" value="False" />
-        <input id="startQuest" type="hidden" value="@Model.Hero.QuestStarted" />
-        @if(Model.Hero.GetSelectedQuest != null)
-        {
-            <input id="endQuest" type="hidden" value="@Model.Hero.GetSelectedQuest.Time" />
-        }
-        <div class="adventure">
+    <div class="adventure">
+        <form onsubmit="return validateForm()" enctype="application/x-www-form-urlencoded" method="post" action="/Main/Tavern">
+            <input id="questEnded" name="questEnded" type="hidden" value="True" />
+            <input id="startQuest" type="hidden" value="@Model.Hero.QuestStarted" />
+            @if (Model.Hero.GetSelectedQuest != null)
+            {
+                <input id="endQuest" type="hidden" value="@Model.Hero.GetSelectedQuest.Time" />
+            }
             <div id="adventureProgress" class="progress workProgress" role="progressbar" aria-label="Basic example" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100" style="height:45px;">
                 <div id="progressBar" class="progress-bar text-center" style="width: 75%;"></div>
                 <h3 class="progresstext justify-content-center d-flex position-absolute w-100"><output id="minutes">0</output>:<output id="seconds">00</output> <output id="Finished">(Finished 16:25)</output></h3>
             </div>
-            <div id="fight" style="display:none" >
-
+            <div id="fight" style="display:none;">
+                <div class="eneemies" >
+                    <div class="adventureFight">
+                        <partial name="_HeroCardLayout" model="@Model.Hero" view-data="ViewData" />
+                    </div>
+                    <div class="adventureFight">
+                        <partial name="_HeroCardLayout" model="@Model.Hero.GetSelectedQuest.Enemy" view-data="ViewData" />
+                    </div>
+                </div>
+                <div class="arenaButton">
+                    <button id="StartFight" onclick="valami(@Model.Fight())" style="width:10rem" class="btn btn-primary">StartFight</button>
+                    <button id="okButton" disabled style="width:10rem;display:none" class="btn btn-primary">Ok</button>
+                </div>
             </div>
-        </div>
-    </form>
+        </form>
+    </div>
 }
 else
 {

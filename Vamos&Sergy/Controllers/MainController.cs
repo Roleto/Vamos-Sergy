@@ -46,6 +46,12 @@ namespace Vamos_Sergy.Controllers
                     questList.Add(q);
             }
             hero.SetQuest(questList);
+            if(hero.GetSelectedQuest != null)
+            {
+                var m = _monsterRepo.Read().ToArray();
+                Random r = new Random();
+                hero.Quest[hero.SelectedQuest.Value].Enemy = m[r.Next(0, m.Length)];
+            }
             return hero;
         }
         private void RefreshHero(Hero hero)
@@ -297,7 +303,7 @@ namespace Vamos_Sergy.Controllers
         [HttpGet]
         public IActionResult Tavern()
         {
-            var hero = _heroRepo.Read(_hero.Id);
+            var hero = SetHero(_heroRepo.Read(_hero.Id));
             this.RefreshHero(hero);
             _tavern.Hero = hero;
             return View(_tavern);
@@ -306,6 +312,7 @@ namespace Vamos_Sergy.Controllers
         [HttpPost]
         public IActionResult Tavern(int selectedQuest, bool questEnded, int beerCount, int goldInput, int mushroomInput)
         {
+                var hero = SetHero(_heroRepo.Read(_hero.Id));
             if (questEnded)
             {
 
@@ -314,17 +321,17 @@ namespace Vamos_Sergy.Controllers
             {
                 Random r = new Random();
                 var m = _monsterRepo.Read().ToArray();
-                Quest q = _hero.Quest[selectedQuest];
-                _hero.Gold = goldInput;
-                _hero.Mushroom = mushroomInput;
-                _hero.SelectedQuest = selectedQuest;
-                _hero.Quest[selectedQuest].Enemy = m[r.Next(0, m.Length)];
-                _hero.QuestStarted = DateTime.Now;
-                _hero.HeroState = HeroStateEnum.OnAdvanture;
-                _hero.BeerCount = beerCount;
-                _hero.Adventure -= q.Time / 60;
+                Quest q = hero.Quest[selectedQuest];
+                hero.Gold += goldInput;
+                hero.Mushroom += mushroomInput;
+                hero.SelectedQuest = selectedQuest;
+                hero.Quest[selectedQuest].Enemy = m[r.Next(0, m.Length)];
+                hero.QuestStarted = DateTime.Now;
+                hero.HeroState = HeroStateEnum.OnAdvanture;
+                hero.BeerCount = beerCount;
+                hero.Adventure -= q.Time / 60;
             }
-            _heroRepo.Update(_hero);
+            _heroRepo.Update(hero);
             // kell egy void majd a viewmodelleket is frissiteni
             return RedirectToAction(nameof(Tavern));
         }
@@ -339,9 +346,38 @@ namespace Vamos_Sergy.Controllers
         }
 
         [HttpPost]
-        public IActionResult Arena(bool win)
+        public IActionResult Arena(string enemyId,bool heroWin)
         {
-            return View();
+            if (enemyId == null)//generatefighter
+            {
+                var hero = _heroRepo.Read(_hero.Id);
+                if (heroWin)
+                {
+                    hero.Honor += 100;
+                    if (hero.FightCount < 10)
+                    {
+                        hero.Exp += 100;
+                    }
+                    hero.Gold += 2;
+                }
+                else
+                {
+                    hero.Gold -= 2;
+                    hero.Honor -= 100;
+                    if(hero.Honor < 0)
+                    {
+                        hero.Honor = 0;
+                    }
+                }
+                _heroRepo.Update(hero);
+            }
+            else // harc lesz
+            {
+                var enemy = _heroRepo.Read(enemyId);
+                _arena.Enemy = SetHero(enemy);
+                _arena.Fight();
+            }
+            return View(_arena);
         }
 
         [HttpGet]
@@ -402,17 +438,16 @@ namespace Vamos_Sergy.Controllers
                 var hero = _heroRepo.Read(id);
                 if (hero == null)
                 {
-                    //var monster =_mosterRepo.Read(id);
-                    //if (monster.ContentType?.Length > 3)
-                    //{
-                    //    return new FileContentResult(monster.Data, monster.ContentType);
-                    //}
-                    //else
-                    //{
-                    //    return BadRequest();
-                    //}
-                }
-                if (hero.ContentType?.Length > 3)
+                    var monster = _monsterRepo.Read(id);
+                    if (monster.ContentType?.Length > 3)
+                    {
+                        return new FileContentResult(monster.Data, monster.ContentType);
+                    }
+                    else
+                    {
+                        return BadRequest();
+                    }
+                }else if (hero.ContentType?.Length > 3)
                 {
                     return new FileContentResult(hero.Data, hero.ContentType);
                 }

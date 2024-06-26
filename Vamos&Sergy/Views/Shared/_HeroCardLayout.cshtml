@@ -2,17 +2,26 @@
 <div class="container" style="max-height:26.5rem;">
     <div class="row">
         <div class="col">
-            <div data-bs-toggle="modal" data-bs-target="#arenaModal">
-                <img style="height:15rem;" src="@Url.Action("GetImage", "Main", new { isUserImage = false, id =Model.Id})" class="card-img heroImg" alt="...">
-            </div>
+            @if (ViewData["hero"] == "Arena")
+            {
+                <div data-bs-toggle="modal" data-bs-target="#arenaModal">
+                    <img style="height:15rem;" src="@Url.Action("GetImage", "Main", new { isUserImage = false, id =Model.Id})" class="card-img heroImg" alt="...">
+                </div>
+            }
+            else
+            {
+                <div>
+                    <img style="height:15rem;" src="@Url.Action("GetImage", "Main", new { isUserImage = false, id =Model.Id})" class="card-img heroImg" alt="...">
+                </div>
+            }
         </div>
     </div>
     <div class="row">
         <div class="col">
             <div class="progress" role="progressbar" aria-label="Basic example" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">
-                <div class="progress-bar bg-danger text-center" style="width: 100%">
+                <div class="progress-bar bg-danger text-center" id="@ViewData["healthP"]" style="width: 100%">
                 </div>
-                <small class="justify-content-center d-flex position-absolute fw-bold" style="width:12rem">@Model.Hp</small>
+                <small class="justify-content-center d-flex position-absolute fw-bold" id="@ViewData["health"]" style="width:12rem">@Model.Hp</small>
             </div>
         </div>
     </div><div class="row">
@@ -41,8 +50,9 @@
                 <h4 class="arenaModalText">Arena Fight</h4>
                 <button type="button" style="margin-top:.5rem;" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <form>
+            <form method="post" action="/Main/Arena">
                 <input type="hidden" id="id" value="@Model.Id" />
+                <input type="hidden" id="enemyId" name="enemyId" value="@Model.Id" />
                 <div class="modal-body" style="display:flex">
                     <img style="height:9rem; margin-right:1rem; max-width:30%" src="@Url.Action("GetImage", "Main", new { isUserImage = false, id =Model.Id})" class="card-img heroImg" alt="...">
                     <p id="canFightText">
@@ -53,7 +63,7 @@
                     <div id="noFightText" style="display:none">
                         <p>You are exhausted and need some rest.Your next fight is possible at [time].</p>
                         <p>You Can also spend 1 M to immediatle challenge @Model.Name (Level @Model.Level) in the arena </p>
-                        <p>Fights for bunos XP: (2/10 remaining)</p>
+                        <p>Fights for bunos XP: (@Model.FightCount/10 remaining)</p>
                     </div>
                 </div>
                 <button class="btn-primary arenaButton" type="submit">Ok</button>

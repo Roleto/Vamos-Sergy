@@ -10,8 +10,8 @@
     <link rel="stylesheet" href="~/Vamos_Sergy.styles.css" asp-append-version="true" />
 </head>
 <body>
-    <header>
-        @*   <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+   @*  <header>
+          <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
         <div class="container-fluid">
         <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Vamos_Sergy</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
@@ -30,8 +30,8 @@
         <partial name="_LoginPartial" />
         </div>
         </div>
-        </nav>  *@
-    </header>
+        </nav> 
+    </header> *@
     <main role="main" style="background-color:royalblue; margin-left:7rem; margin-right:7rem;">
         <div class="flex-container">
             <div style="width:17%;">
@@ -76,8 +76,8 @@
                     <button type="button" onclick="location.href='@Url.Action("Stable", "Main" )'" class="btn btn-primary mt-2 sideButton">Stable</button>
                     <button type="button" class="btn btn-primary mt-2 sideButton">Dungeons</button>
                     <button type="button" class="btn btn-primary mt-2 sideButton">Guild</button>
-                    <button type="button" class="btn btn-primary mt-2 sideButton">Mail</button>
                     <button type="button" class="btn btn-primary mt-2 sideButton">Hall of Fame</button>
+                    <partial name="_LoginPartial" />
                 </div>
             </div>
             <div style="width:83%; max-height:100%">

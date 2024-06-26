@@ -255,6 +255,7 @@ span.mountText {
     max-height: 100%;
     margin-bottom: 35rem;
     background-image: url('../Images/Backgrounds/tavern.jpg');
+    background-size:cover;
 }
 
 .adventure {
@@ -262,8 +263,9 @@ span.mountText {
     height: 100%;
     max-width: 100%;
     max-height: 100%;
-    margin-bottom: 44rem;
+    /*margin-bottom: 44rem;*/
     background-image: url('../Images/Backgrounds/adventure.jpg');
+    background-size:cover;
 }
 
 .work {
@@ -449,6 +451,25 @@ span.mountText {
     background-image: url('../Images/NullImages/blank.png');
 }
 
-.deletePopover{
+.adventureFight {
+    padding: 1rem;
+    margin-top:5rem;
+    padding-top:5rem;
+    border: 2px solid gold;
+    margin-left: 10rem;
+    margin-right: 5rem;
+    background-color: cadetblue;
+}
+.arenaFight {
+    padding: 1rem;
+    padding-top: 5rem;
+    border: 2px solid gold;
+    margin-left: 10rem;
+    margin-right: 5rem;
+    background-color: cadetblue;
+}
 
+.arenaButton{
+    margin-top:2.5rem;
+    margin-left:27.5rem;
 }

@@ -40,6 +40,7 @@ namespace Vamos_Sergy.Models
         [ShowTable]
         public int Mushroom { get; set; }
         public int BeerCount { get; set; }
+        public int FightCount { get; set; }
 
         [NotMapped]
         [JsonIgnore]
@@ -166,7 +167,7 @@ namespace Vamos_Sergy.Models
         }
 
         [NotMapped]
-        public int Hp { get => Vit * 2 * (this.Level + 1); }
+        public int Hp { get => 250 + (Vit * 2 * (this.Level + 1)); }
 
         [NotMapped]
         public int CurrentHp { get; set; }
@@ -211,9 +212,10 @@ namespace Vamos_Sergy.Models
         {
             if (Equipment.ContainsKey(EquipmentEnum.Weapon))
             {
-                Weapon weapon = Equipment[EquipmentEnum.Weapon] as Weapon;
+                Random r = new Random();
+                Equipment weapon = Equipment[EquipmentEnum.Weapon];
                 if (weapon != null)
-                    return (weapon.MinDamage + weapon.MaxDamage) / 2;
+                    return r.Next(weapon.MinDamage,weapon.MaxDamage+1);
             }
             return 1;
         }
